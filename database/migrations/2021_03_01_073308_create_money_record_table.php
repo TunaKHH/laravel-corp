@@ -16,6 +16,11 @@ class CreateMoneyRecordTable extends Migration
         Schema::create('money_record', function (Blueprint $table) {
 
             $table->id();
+            $table->foreignId('user_id')->constrained();
+
+            $table->integer('amount')->comment('花費金額');
+            $table->string('remark')->comment('備註');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
 
             $table->timestamps();
         });

@@ -1,6 +1,6 @@
 @extends('board.layouts.app')
 
-@section('title','扣款/儲值')
+@section('title','金額紀錄')
 @section('main.body')
 
 
