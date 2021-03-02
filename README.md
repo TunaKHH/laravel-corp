@@ -7,4 +7,6 @@
 - [ ] 紀錄使用datatable
 - [ ] 暫存改用Redis
 ### issue
-- [ ] 修正js錯誤
+- [ ] js引入錯誤
+- [ ] nav的active顯示錯誤
+

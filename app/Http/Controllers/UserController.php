@@ -14,10 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         $users = User::all()->sortBy('deposit')->reverse();
-
-        return view('lunch.leaderboard',[ "users"=>$users ]);
+        return view('lunch.leaderboard', ['users' => $users]);
     }
 
     /**
@@ -27,7 +25,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+//        return view('user.create');
+        return redirect()->route('lunch.index');
     }
 
     /**

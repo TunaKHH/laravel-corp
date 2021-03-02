@@ -33,14 +33,4 @@
     <!-- /.content -->
 
 @endsection
-@section('script')
-    <script>
-
-        function openSave(){
-            $('.user-save').attr('disabled', false);// 開啟儲值
-        }
-    </script>
-
-@endsection
-
 
