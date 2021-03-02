@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class LunchController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +16,8 @@ class LunchController extends Controller
     {
         //
         $users = User::all()->sortBy('deposit')->reverse();
-        return view('lunch.index',['users'=>$users]);
-    }
 
-    public function record()
-    {
-        //
-        $records = Record::all()->sortBy('created_at')->reverse();
-        return view('lunch.record',['records'=>$records]);
+        return view('lunch.leaderboard',[ "users"=>$users ]);
     }
 
     /**
@@ -35,7 +28,6 @@ class LunchController extends Controller
     public function create()
     {
         //
-
     }
 
     /**
@@ -46,37 +38,7 @@ class LunchController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ( $request->user_cost as $key => $cost ){
-            if( is_numeric($cost) && $cost > 0 ){
-                $record = new Record;
-                $record->user_id = $request->user_id[$key];
-                $record->amount = $cost * -1;
-                $record->remark = $request->user_remark[$key];
-                $record->save();
-
-                $user = User::find($record->user_id);
-                $user->deposit = ( $user->deposit - $cost );
-                $user->save();
-            }
-        }
-
-        if( isset($request->user_save) ){
-            foreach ( $request->user_save as $key => $save ){
-                if( is_numeric($save) && $save > 0 ){
-                    $record = new Record;
-                    $record->user_id = $request->user_id[$key];
-                    $record->amount = $save;
-                    $record->remark = $request->user_remark[$key];
-                    $record->save();
-
-                    $user = User::find($record->user_id);
-                    $user->deposit = ( $user->deposit - $save );
-                    $user->save();
-                }
-            }
-        }
-
-        return redirect()->route('record');
+        //
     }
 
     /**

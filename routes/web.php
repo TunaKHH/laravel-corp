@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LunchController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,4 +15,8 @@ use App\Http\Controllers\LunchController;
 */
 
 Route::get('/', [LunchController::class, 'index']);
-Route::get('/record', [LunchController::class, 'record']);
+Route::get('/record', [LunchController::class, 'record'])->name('record');
+
+Route::resource('lunch', LunchController::class);
+
+Route::resource('user', UserController::class);

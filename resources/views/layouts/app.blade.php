@@ -95,9 +95,17 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="{{ route('user.create') }}" class="nav-link" disabled>
+                            <i class="nav-icon fas fa-user-plus"></i>
+                            <p>
+                                增加使用者
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link active ">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <i class="nav-icon fas fa-utensils"></i>
                             <p>
                                 午餐
                                 <i class="right fas fa-angle-left"></i>
@@ -117,7 +125,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./index3.html" class="nav-link">
+                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>餘額排行榜</p>
                                 </a>
@@ -232,5 +240,6 @@
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+@yield('script')
 </body>
 </html>
