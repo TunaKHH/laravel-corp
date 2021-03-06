@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('title','金額紀錄')
+
+@section('css')
+
+    <link rel="stylesheet" type="text/css" href=" {{ url('DataTables/datatables.min.css') }}"/>
+@endsection
+
+
 @section('main.body')
 
 
@@ -37,7 +44,20 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
 @endsection
+@section('script')
+{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--}}
+{{--    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>--}}
+    <script src="{{ url('DataTables/datatables.min.js') }}"></script>
 
+    <script>
+        $(document).ready( function () {
+            $('.table').DataTable({
+                "order": [[ 3, "desc" ]]
+            });
+        } );
+
+
+    </script>
+@endsection
 
