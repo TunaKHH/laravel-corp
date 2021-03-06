@@ -1,26 +1,26 @@
 <div class="row">
-    <form method="post" action="{{ route('lunch.store') }}" >
+{{--    <form method="post" wire:submit.prevent="prevent" >--}}
+
+    <form method="post" action="#" wire:submit="submit" >
+{{--    <form method="post" action="{{ route('lunch.store') }}" >--}}
+        @csrf
 {{--    <form method="post" action="{{ route('lunch.store') }}" >--}}
 
         <button type="button" class="btn btn-success float-right" onclick="openSave()">開啟儲值</button>
 
         <table class="table">
             <thead>
-            <tr>
-                <th scope="col">姓名</th>
-                <th scope="col">目前餘額</th>
-                <th scope="col">扣款</th>
-                <th scope="col">儲值</th>
-                <th scope="col">備註</th>
-            </tr>
+                <tr>
+                    <th scope="col">姓名</th>
+                    <th scope="col">目前餘額</th>
+                    <th scope="col">扣款</th>
+                    <th scope="col">儲值</th>
+                    <th scope="col">備註</th>
+                </tr>
             </thead>
 
             <tbody>
-
-            @csrf
-
             @forelse ($users as $user)
-
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td class="{{ $user->deposit >= 0 ?'bg-success':'bg-danger'}}">{{ $user->deposit }}</td>
@@ -43,7 +43,11 @@
             <tfoot>
             <tr>
                 <td colspan="5">
-                    <button type="submit" class="btn btn-dark float-right">儲存</button>
+{{--                    <button  class="btn btn-dark float-right">儲存</button>--}}
+                    <button type="button" class="btn btn-dark float-right" wire:click="submit">儲存</button>
+
+{{--                    <button class="btn btn-dark float-right" wire:click="$emitTo('lunch', 'submit')">儲存</button>--}}
+
                 </td>
             </tr>
             </tfoot>
@@ -51,3 +55,4 @@
     </form>
 
 </div>
+<livewire:scripts />

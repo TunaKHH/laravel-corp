@@ -22,5 +22,15 @@ class Lunch extends Component
 //        return view('livewire.lunch',['users'=>$users]);
     }
 
+    public function prevent()
+    {
+        $users = User::all()->sortBy('deposit')->reverse();
+        dd($users);
+//        return view('livewire.lunch',['users'=>$users]);
+    }
+
+
+
+
 
 }

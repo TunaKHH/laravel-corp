@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title','扣款/儲值')
+
 @section('main.body')
+
 
 
 <!-- Main content -->
@@ -9,7 +11,7 @@
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
 
-        <livewire:lunch />
+        @livewire('lunch')
 
         <!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -18,13 +20,15 @@
 
 @endsection
 @section('script')
+
+
     <script>
         function openSave(){
             $('.user-save').attr('disabled', false);// 開啟儲值
         }
 
         $(document).on('submit', 'form', function(e) { //TODO 將表單改為即時更新
-            e.preventDefault();
+            // e.preventDefault();
             $(window).keydown(function (event) {
                 if (event.keyCode === 13) { // 防止按到enter送出
                     Swal.fire({
@@ -44,7 +48,8 @@
                 confirmButtonText: '確認'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.emit('submit');
+
+                    // Livewire.emit('submit')
 
                     Swal.fire('送出成功!', '', 'success')
                 }
