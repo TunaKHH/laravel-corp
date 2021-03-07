@@ -8,7 +8,7 @@
 - [ ] 暫存改用Redis
 ### issue
 - [x] js引入錯誤
-- [ ] nav的active顯示錯誤
+- [x] nav的active顯示錯誤
 
 ## v1
 - 正常扣款
@@ -18,5 +18,7 @@
 ## v1.1
 - 修正logo圖片太寬
 - 補上AdminLTE的各種擴充
-- [ ] 加入餘額加總
+- 加入餘額加總
 
+## v1.2
+- [ ] 加入現有line api
