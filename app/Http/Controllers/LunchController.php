@@ -70,7 +70,7 @@ class LunchController extends Controller
                     $record->save();
 
                     $user = User::find($record->user_id);
-                    $user->deposit = ( $user->deposit - $save );
+                    $user->deposit = ( $user->deposit + $save );
                     $user->save();
                 }
             }

@@ -3,19 +3,12 @@
 @section('title','扣款/儲值')
 
 @section('main.body')
-
-
-
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-
         <div class="row">
             <form method="post">
                 @csrf
-                {{--    <form method="post" action="{{ route('lunch.store') }}" >--}}
-
                 <button type="button" class="btn btn-success float-right" onclick="openSave()">開啟儲值</button>
 
                 <table class="table">
@@ -47,12 +40,15 @@
                         </tr>
                     @empty
                         <p>沒有資料</p>
-
                     @endforelse
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="5">
+                        <td></td>
+                        <td>{{ $users->sum('deposit') }}</td>
+                        <td id="sum_deduction">0</td>
+                        <td id="sum_save">0</td>
+                        <td>
                             <button type="submit" class="btn btn-dark float-right">儲存</button>
                         </td>
                     </tr>
@@ -67,15 +63,85 @@
 @endsection
 @section('script')
     <script>
+        var sum_last = 0;
+
+        function openSave() {
+            $('.user-save').prop('disabled', false);
+        }
+
+
+        function totalDedcutionAmount() { // 加總扣款金額
+            let sum = 0;
+            let user_costs = $('.user-cost');
+            for (let i = 0; i < user_costs.length; i++) {
+                const user_cost = user_costs[i];
+                sum += parseInt(user_cost.value);
+            }
+            return sum;
+        }
+
+        function totalSaveAmount() { // 加總儲值金額
+            let sum = 0;
+            let user_saves = $('.user-save');
+            for (let i = 0; i < user_saves.length; i++) {
+                const user_save = user_saves[i];
+                sum += parseInt(user_save.value);
+            }
+            return sum;
+        }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        function openSave(){
-            $('.user-save').attr('disabled', false);// 開啟儲值
-        }
+        $(document).on('keyup', function(e) {
+            $('#sum_deduction').text(totalDedcutionAmount());
+            $('#sum_save').text(totalSaveAmount());
+        });
+
+        $(document).on('submit', 'form', function(e) { //TODO 將表單改為即時更新
+            e.preventDefault();
+            $(window).keydown(function (event) {
+                if (event.keyCode === 13) { // 防止按到enter送出
+                    Swal.fire({
+                        title: '請點擊下方確認按鈕!',
+                        icon: 'error',
+                        confirmButtonText: '好'
+                    })
+                    return false;
+                }
+            });
+
+            Swal.fire({
+                showCloseButton: true,
+                showCancelButton: true,
+                title: '確認要送出嗎!',
+                icon: 'info',
+                confirmButtonText: '確認'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '{{ route('lunch.store') }}',
+                            data:$(this).serialize(),
+                            success: function(code) {
+                                if(code && code === '200'){
+                                    Swal.fire('送出成功!', '', 'success')
+                                        .then(()=>{
+                                            window.location.href = "{{ route('record') }}";
+                                        })
+                                }else{
+                                    Swal.fire('送出失敗!', '', 'error')
+                                }
+                            }
+                        });
+                    }
+                })
+        });
+
 
         $(document).on('submit', 'form', function(e) { //TODO 將表單改為即時更新
             e.preventDefault();
