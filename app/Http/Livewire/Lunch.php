@@ -22,7 +22,7 @@ class Lunch extends Component
 //        return view('livewire.lunch',['users'=>$users]);
     }
 
-    public function prevent()
+    public function presubmit()
     {
         $users = User::all()->sortBy('deposit')->reverse();
         dd($users);

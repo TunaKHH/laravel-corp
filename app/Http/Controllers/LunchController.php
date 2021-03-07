@@ -75,8 +75,9 @@ class LunchController extends Controller
                 }
             }
         }
+        return response('200');
 
-        return redirect()->route('record');
+//        return redirect()->route('record');
     }
 
     /**
