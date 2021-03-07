@@ -5,6 +5,19 @@
 @section('css')
 
     <link rel="stylesheet" type="text/css" href=" {{ url('DataTables/datatables.min.css') }}"/>
+    <style>
+        #DataTables_Table_0_wrapper {
+            width: 100%;
+        }
+        #DataTables_Table_0_wrapper .alert-danger{
+            background-color: #f8d7da;
+        }
+
+        #DataTables_Table_0_wrapper .alert-success{
+            background-color: #d4edda;
+        }
+
+    </style>
 @endsection
 
 
@@ -17,7 +30,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <table class="table">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">姓名</th>
                         <th scope="col">金額</th>
@@ -46,13 +59,13 @@
 <!-- /.content -->
 @endsection
 @section('script')
-{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>--}}
     <script src="{{ url('DataTables/datatables.min.js') }}"></script>
 
     <script>
         $(document).ready( function () {
             $('.table').DataTable({
+                // responsive: true,
+
                 "order": [[ 3, "desc" ]]
             });
         } );

@@ -19,7 +19,7 @@
                 <button type="button" class="btn btn-success float-right" onclick="openSave()">開啟儲值</button>
 
                 <table class="table">
-                    <thead>
+                    <thead class="thead-dark">
                     <tr>
                         <th scope="col">姓名</th>
                         <th scope="col">目前餘額</th>
@@ -53,11 +53,7 @@
                     <tfoot>
                     <tr>
                         <td colspan="5">
-                            {{--                    <button  class="btn btn-dark float-right">儲存</button>--}}
                             <button type="submit" class="btn btn-dark float-right">儲存</button>
-
-                            {{--                    <button class="btn btn-dark float-right" wire:click="$emitTo('lunch', 'submit')">儲存</button>--}}
-
                         </td>
                     </tr>
                     </tfoot>
@@ -65,10 +61,8 @@
             </form>
 
         </div>
-        <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
-<!-- /.content -->
 
 @endsection
 @section('script')
@@ -102,7 +96,8 @@
                 title: '確認要送出嗎!',
                 icon: 'info',
                 confirmButtonText: '確認'
-            }).then((result) => {
+            })
+            .then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'POST',
@@ -111,6 +106,9 @@
                         success: function(code) {
                             if(code && code === '200'){
                                 Swal.fire('送出成功!', '', 'success')
+                                    .then(()=>{
+                                        window.location.href = "{{ route('record') }}";
+                                    })
                             }else{
                                 Swal.fire('送出失敗!', '', 'error')
                             }
