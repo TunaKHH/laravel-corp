@@ -124,6 +124,76 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-utensils"></i>
+                            <p>
+                                訂餐任務
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>任務列表</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/record') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>參加任務</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>任務結算</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-utensils"></i>
+                            <p>
+                                打卡
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>打卡1</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-utensils"></i>
+                            <p>
+                                人員
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>人員資產表</p>
+                                </a>
+                            </li>
+                    </li>
                     <!--
                     <li class="nav-header">EXAMPLES</li>
                     <li class="nav-item">

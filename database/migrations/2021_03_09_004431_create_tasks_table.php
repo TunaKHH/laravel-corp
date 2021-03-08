@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFlightsTable extends Migration
+class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateFlightsTable extends Migration
      */
     public function up()
     {
-        Schema::create('flights', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('restaurant_id')->nullable();// 任務訂的餐廳 外部鍵
+            $table->string('remark')->comment('備註')->nullable();// 任務備註
+            $table->boolean('is_open')->default(true);// 任務是否開啟
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateFlightsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flights');
+        Schema::dropIfExists('tasks');
     }
 }
