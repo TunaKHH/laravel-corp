@@ -20,17 +20,47 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
+                            <label>餐廳名稱</label>
+                            <input type="text" class="form-control" name="restaurant_name" placeholder="備註">
+                        </div>
+                        <div class="form-group">
                             <label>備註</label>
-                            <input type="text" class="form-control" name="remark" placeholder="備註">
+                            <input type="text" class="form-control" name="remark" placeholder="這裏可留空">
                         </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">開團</button>
                     </div>
                 </div>
-
-
             </form>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">餐廳名稱</th>
+                    <th scope="col">備註</th>
+                    <th scope="col">開單時間</th>
+                    <th scope="col">任務狀態</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @forelse ($tasks as $task)
+                    <tr>
+                        <td>還沒寫</td>
+                        <td>{{ $task->remark }}</td>
+                        <td>{{ $task->created_at }}</td>
+                        <td class="{{ $task->is_open? 'bg-success':'bg-danger' }}">{{ $task->is_open ? '開啟':'關閉' }}</td>
+                    </tr>
+                @empty
+                    <p>沒有資料</p>
+                @endforelse
+                </tbody>
+                <tfoot>
+                <tr>
+
+                </tr>
+                </tfoot>
+            </table>
         </div>
 
     </div><!-- /.container-fluid -->

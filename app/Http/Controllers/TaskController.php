@@ -14,7 +14,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('task.index');
+        $tasks = Task::all()->sortBy('created_at')->reverse();
+        return view('task.index', ['tasks'=>$tasks]);
     }
 
     /**
