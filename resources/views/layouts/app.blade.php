@@ -180,6 +180,25 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-utensils"></i>
                             <p>
+                                餐廳
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('restaurant.index') }}" class="nav-link {{ request()->is('restaurant') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>餐廳列表</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-utensils"></i>
+                            <p>
                                 人員
                                 {{--TODO 這裡的active要修--}}
                                 <i class="right fas fa-angle-left"></i>

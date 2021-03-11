@@ -16,7 +16,7 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('名字')->nullable();
-            $table->foreignId('restaurant_photo_id')->nullable()->constrained();
+            $table->string('remark')->comment('備註')->nullable();
             $table->timestamps();
         });
     }

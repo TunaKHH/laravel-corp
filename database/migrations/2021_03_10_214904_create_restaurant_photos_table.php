@@ -16,6 +16,7 @@ class CreateRestaurantPhotosTable extends Migration
         Schema::create('restaurant_photos', function (Blueprint $table) {
             $table->id();
             $table->string('url');
+            $table->foreignId('restaurant_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

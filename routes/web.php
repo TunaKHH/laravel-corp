@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::resource('lunch', LunchController::class);
 Route::resource('user', UserController::class);
 
 Route::resource('task', TaskController::class);
+
+Route::resource('restaurant', RestaurantController::class);
