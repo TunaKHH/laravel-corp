@@ -27,3 +27,5 @@ Route::resource('user', UserController::class);
 Route::resource('task', TaskController::class);
 
 Route::resource('restaurant', RestaurantController::class);
+
+Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');

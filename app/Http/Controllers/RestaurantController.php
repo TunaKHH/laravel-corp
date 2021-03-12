@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 
@@ -36,11 +37,31 @@ class RestaurantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response
     {
         //
         Restaurant::create($request->all());
         return redirect()->route('restaurant.index');
+    }
+
+    public function uploadImage(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time().'.'.$request->image->extension();
+
+//        $request->image->move(public_path('images'), $imageName);
+
+        /* Store $imageName name in DATABASE from HERE */
+        $request->image->storeAs('public/images', $imageName);
+
+        return back()->with('success','You have successfully upload image.')
+                    ->with('image',$imageName);
+
+
+
     }
 
     /**
