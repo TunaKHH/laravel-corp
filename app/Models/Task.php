@@ -10,6 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
+        'restaurant_id',
         'remark',
     ];
 
@@ -17,5 +18,9 @@ class Task extends Model
         '_token',
     ];
 
+    public function restaurant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
 
 }

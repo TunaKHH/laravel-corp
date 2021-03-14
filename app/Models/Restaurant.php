@@ -11,4 +11,9 @@ class Restaurant extends Model
     protected $guarded = [
         '_token',
     ];
+
+    public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(RestaurantPhoto::class);
+    }
 }

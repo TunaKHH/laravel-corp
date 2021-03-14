@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
+
 
 class TaskController extends Controller
 {
@@ -15,7 +17,9 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all()->sortBy('created_at')->reverse();
-        return view('task.index', ['tasks'=>$tasks]);
+//        dd($tasks->restaurants);
+        $restaurants = Restaurant::all();
+        return view('task.index', ['tasks'=>$tasks, 'restaurants'=> $restaurants]);
     }
 
     /**
@@ -38,9 +42,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {;
         Task::create($request->all());
-
         return redirect()->route('task.index');
-
     }
 
     /**
@@ -77,14 +79,27 @@ class TaskController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(int $id)
     {
         //
+        Task::destroy($id);
+        return  redirect()->route('task.index');
+
+    }
+
+    public function lock(int $id)
+    {
+        $task = Task::find($id);
+        $task->is_open = 2;
+        $task->save();
+
+        return  redirect()->route('task.index');
     }
 }

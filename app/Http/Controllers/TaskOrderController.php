@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\TaskOrder;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class TaskOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->sortBy('deposit')->reverse();
-        return view('lunch.leaderboard', ['users' => $users]);
+        //
     }
 
     /**
@@ -25,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return redirect()->route('lunch.index');
+        //
     }
 
     /**
@@ -42,10 +41,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\TaskOrder  $taskOrder
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TaskOrder $taskOrder)
     {
         //
     }
@@ -53,10 +52,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\TaskOrder  $taskOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TaskOrder $taskOrder)
     {
         //
     }
@@ -65,10 +64,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\TaskOrder  $taskOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, TaskOrder $taskOrder)
     {
         //
     }
@@ -76,10 +75,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\TaskOrder  $taskOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TaskOrder $taskOrder)
     {
         //
     }

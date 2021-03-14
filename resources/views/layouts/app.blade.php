@@ -125,7 +125,7 @@
                         </ul>
                     </li>
                     <li class="nav-item menu-open">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link {{ request()->is('task') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-utensils"></i>
                             <p>
                                 訂餐任務
@@ -135,7 +135,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('task') ? 'active' : '' }} ">
                                     <i class="far fa-circle nav-icon"></i>
                                     {{--TODO 這裡的active要修--}}
                                     <p>任務列表</p>

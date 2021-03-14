@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RestaurantPhoto;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
@@ -48,7 +49,9 @@ class RestaurantController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'restaurant_id' => 'required',
         ]);
+        $restaurant_id = $request->get('restaurant_id');
 
         $imageName = time().'.'.$request->image->extension();
 
@@ -57,10 +60,14 @@ class RestaurantController extends Controller
         /* Store $imageName name in DATABASE from HERE */
         $request->image->storeAs('public/images', $imageName);
 
-        return back()->with('success','You have successfully upload image.')
+
+        $restaurantPhoto = new RestaurantPhoto;
+        $restaurantPhoto->restaurant_id = $restaurant_id;
+        $restaurantPhoto->url = '/storage/images/' . $imageName;
+        $restaurantPhoto->save();
+
+        return back()->with('success','成功上傳圖片')
                     ->with('image',$imageName);
-
-
 
     }
 

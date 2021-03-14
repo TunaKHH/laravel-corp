@@ -20,8 +20,19 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label>餐廳名稱</label>
-                            <input type="text" class="form-control" name="restaurant_name" placeholder="備註">
+                            <label>餐廳</label>
+                            <p>
+                                (之後改成若沒有就自動新增並跳出上傳圖片的視窗)
+                            </p>
+                            <div class="form-floating">
+                                <select class="form-select" name="restaurant_id" id="restaurant_id" class="form-select" aria-label="Floating label select example" required>
+                                    <option selected>請選擇</option>
+                                    @foreach($restaurants as $restaurant)
+                                        <option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="restaurant_id">請選擇餐廳</label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>備註</label>
@@ -40,16 +51,59 @@
                     <th scope="col">備註</th>
                     <th scope="col">開單時間</th>
                     <th scope="col">任務狀態</th>
+                    <th scope="col">操作</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 @forelse ($tasks as $task)
                     <tr>
-                        <td>還沒寫</td>
+                        <td>{{ $task->restaurant->name }}</td>
                         <td>{{ $task->remark }}</td>
                         <td>{{ $task->created_at }}</td>
-                        <td class="{{ $task->is_open? 'bg-success':'bg-danger' }}">{{ $task->is_open ? '開啟':'關閉' }}</td>
+                        @switch($task->is_open)
+                            @case(0)
+                            <td class="bg-danger">
+                                已結束
+                            </td>
+                            @break
+
+                            @case(1)
+                            <td class="bg-success">
+                                開啟
+                            </td>
+                            @break
+
+                            @case(2)
+                            <td class="bg-warning">
+                                鎖定中
+                            </td>
+                            @break
+
+                            @default
+                            <td>
+                               未定義
+                            </td>
+                        @endswitch
+
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                                <button type="button" class="btn btn-success">點餐</button>
+                                <form method="post" action="{{ route('task.lock') }}">
+                                    @csrf
+                                    <input type="hidden" value="{{ $task->id }}">
+                                    <input type="submit" value="鎖定" class="btn btn-warning">
+                                </form>
+
+                                <form method="post" action="{{ route('task.destroy', $task->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" value="刪除" class="btn btn-danger">
+                                </form>
+
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <p>沒有資料</p>
@@ -59,7 +113,7 @@
                 <tr>
 
                 </tr>
-                </tfoot>
+                </tfoot>｀
             </table>
         </div>
 

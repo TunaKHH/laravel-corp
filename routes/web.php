@@ -26,6 +26,9 @@ Route::resource('user', UserController::class);
 
 Route::resource('task', TaskController::class);
 
+Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
+
+
 Route::resource('restaurant', RestaurantController::class);
 
 Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');
