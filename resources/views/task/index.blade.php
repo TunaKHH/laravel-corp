@@ -56,78 +56,79 @@
                 </thead>
 
                 <tbody>
-                @forelse ($tasks as $task)
-                    <tr>
-                        <td>{{ $task->restaurant->name }}</td>
-                        <td>{{ $task->remark }}</td>
-                        <td>{{ $task->created_at }}</td>
-                        @switch($task->is_open)
-                            @case(0)
-                            <td class="bg-danger">
-                                已結束
-                            </td>
-                            @break
+                    @forelse ($tasks as $task)
+                        <tr>
+                            <td>{{ $task->restaurant->name }}</td>
+                            <td>{{ $task->remark }}</td>
+                            <td>{{ $task->created_at }}</td>
+                            @switch($task->is_open)
+                                @case(0)
+                                <td class="bg-danger">
+                                    已結束
+                                </td>
+                                @break
 
-                            @case(1)
-                            <td class="bg-success">
-                                開啟
-                            </td>
-                            @break
+                                @case(1)
+                                <td class="bg-success">
+                                    開啟
+                                </td>
+                                @break
 
-                            @case(2)
-                            <td class="bg-warning">
-                                鎖定中
-                            </td>
-                            @break
+                                @case(2)
+                                <td class="bg-warning">
+                                    鎖定中
+                                </td>
+                                @break
 
-                            @default
+                                @default
+                                <td>
+                                   未定義
+                                </td>
+                            @endswitch
+
                             <td>
-                               未定義
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">
+                                        點餐
+                                    </a>
+    {{--                                <button type="button" class="btn btn-success">點餐</button>--}}
+                                    @switch($task->is_open)
+                                        @case(1)
+                                            <form method="post" action="{{ route('task.lock') }}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $task->id }}">
+                                                <input type="submit" value="鎖定" class="btn btn-warning">
+                                            </form>
+                                        @break
+
+                                        @case(2)
+                                            <form method="post" action="{{ route('task.unlock') }}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $task->id }}">
+                                                <input type="submit" value="解除鎖定" class="btn btn-success">
+                                            </form>
+                                        @break
+
+                                        @default
+                                        <td>
+                                            未定義
+                                        </td>
+                                    @endswitch
+
+                                    <form method="post" action="{{ route('task.destroy', $task->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="刪除" class="btn btn-danger">
+                                    </form>
+
+                                </div>
                             </td>
-                        @endswitch
-
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">
-                                    點餐
-                                </a>
-{{--                                <button type="button" class="btn btn-success">點餐</button>--}}
-                                @switch($task->is_open)
-                                    @case(1)
-                                        <form method="post" action="{{ route('task.lock') }}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $task->id }}">
-                                            <input type="submit" value="鎖定" class="btn btn-warning">
-                                        </form>
-                                    @break
-
-                                    @case(2)
-                                        <form method="post" action="{{ route('task.unlock') }}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $task->id }}">
-                                            <input type="submit" value="解除鎖定" class="btn btn-success">
-                                        </form>
-                                    @break
-
-                                    @default
-                                    <td>
-                                        未定義
-                                    </td>
-                                @endswitch
-
-
-                                <form method="post" action="{{ route('task.destroy', $task->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="刪除" class="btn btn-danger">
-                                </form>
-
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <p>沒有資料</p>
-                @endforelse
+                        </tr>
+                    @empty
+                        <tr>
+                            沒有資料
+                        </tr>
+                    @endforelse
                 </tbody>
                 <tfoot>
                     <tr>

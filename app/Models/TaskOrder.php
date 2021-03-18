@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TaskOrder extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'restaurant_id',
+        'user_id',
+        'task_id',
+        'qty',
+    ];
 }

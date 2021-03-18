@@ -7,10 +7,11 @@
 <section class="content">
     <div class="container-fluid">
         <form action="{{ route('taskOrder.store') }}" method="post">
+            @csrf
             <div class="row">
                 <div class="col">
                     <label for="exampleDataList" class="form-label">餐點名稱</label>
-                    <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="自動搜尋">
+                    <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="餐點名稱">
                     <datalist id="datalistOptions">
                         <option value="San Francisco">
                         <option value="New York">
@@ -21,21 +22,15 @@
                 </div>
                 <div class="col">
                     <label for="numList" class="form-label">數量</label>
-                    <input class="form-control" list="numOptions" id="numList" value="1">
-                    <datalist id="numOptions">
-                        <option value="1">
-                        <option value="2">
-                        <option value="3">
-                        <option value="4">
-                        <option value="5">
-                    </datalist>
+                    <input class="form-control" id="numList" value="1">
                 </div>
-
                 <div class="col">
-                    金額
+                    <label for="amount" class="form-label">金額</label>
+                    <input class="form-control" type="number" list="numOptions" id="amount" value="" name="amount" required>
                 </div>
 
             </div>
+            <input type="hidden" name="restaurant_id" value="{{ $task->restaurant_id }}">
             <button type="submit" class="btn btn-primary">點餐</button>
 
         </form>
