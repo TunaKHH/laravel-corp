@@ -53,7 +53,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('task.show', ['task'=>$task]);
     }
 
     /**
@@ -94,12 +94,25 @@ class TaskController extends Controller
 
     }
 
-    public function lock(int $id)
+    public function lock(Request $request)
     {
+        $id = $request->id;
         $task = Task::find($id);
         $task->is_open = 2;
         $task->save();
 
         return  redirect()->route('task.index');
     }
+
+    public function unlock(Request $request)
+    {
+        $id = $request->id;
+        $task = Task::find($id);
+        $task->is_open = 1;
+        $task->save();
+
+        return  redirect()->route('task.index');
+    }
+
+
 }

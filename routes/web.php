@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskOrderController;
 use App\Http\Controllers\RestaurantController;
 
 /*
@@ -26,7 +27,12 @@ Route::resource('user', UserController::class);
 
 Route::resource('task', TaskController::class);
 
+Route::resource('taskOrder', TaskOrderController::class);
+
+
 Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
+Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock');
+
 
 
 Route::resource('restaurant', RestaurantController::class);

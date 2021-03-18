@@ -15,6 +15,11 @@ class CreateTaskOrdersTable extends Migration
     {
         Schema::create('task_orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('task_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('restaurant_meal_id')->constrained();
+            $table->tinyInteger('qty')->constrained();
+
             $table->timestamps();
         });
     }

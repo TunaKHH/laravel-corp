@@ -88,13 +88,33 @@
 
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">
+                                    點餐
+                                </a>
+{{--                                <button type="button" class="btn btn-success">點餐</button>--}}
+                                @switch($task->is_open)
+                                    @case(1)
+                                        <form method="post" action="{{ route('task.lock') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $task->id }}">
+                                            <input type="submit" value="鎖定" class="btn btn-warning">
+                                        </form>
+                                    @break
 
-                                <button type="button" class="btn btn-success">點餐</button>
-                                <form method="post" action="{{ route('task.lock') }}">
-                                    @csrf
-                                    <input type="hidden" value="{{ $task->id }}">
-                                    <input type="submit" value="鎖定" class="btn btn-warning">
-                                </form>
+                                    @case(2)
+                                        <form method="post" action="{{ route('task.unlock') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $task->id }}">
+                                            <input type="submit" value="解除鎖定" class="btn btn-success">
+                                        </form>
+                                    @break
+
+                                    @default
+                                    <td>
+                                        未定義
+                                    </td>
+                                @endswitch
+
 
                                 <form method="post" action="{{ route('task.destroy', $task->id) }}">
                                     @csrf
@@ -110,10 +130,10 @@
                 @endforelse
                 </tbody>
                 <tfoot>
-                <tr>
+                    <tr>
 
-                </tr>
-                </tfoot>｀
+                    </tr>
+                </tfoot>
             </table>
         </div>
 

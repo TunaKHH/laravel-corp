@@ -23,4 +23,10 @@ class Task extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
+    public function taskOrder(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TaskOrder::class);
+    }
+
+
 }

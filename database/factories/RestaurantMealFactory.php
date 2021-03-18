@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\TaskOrder;
+use App\Models\RestaurantMeal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TaskOrderFactory extends Factory
+class RestaurantMealFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = TaskOrder::class;
+    protected $model = RestaurantMeal::class;
 
     /**
      * Define the model's default state.
@@ -23,10 +23,6 @@ class TaskOrderFactory extends Factory
     {
         return [
             //
-        ];
-        return [
-            'name' => $this->faker->name,
-            'deposit' => rand(-99999,99999),
         ];
     }
 }
