@@ -76,10 +76,16 @@ class RestaurantMealController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\RestaurantMeal  $restaurantMeal
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(RestaurantMeal $restaurantMeal)
     {
-        //
+
+        $restaurantMeal = RestaurantMeal::find($restaurantMeal->id);
+//        dd($restaurantMeal);
+        $restaurantMeal->delete();
+//        RestaurantMeal::destroy($restaurantMeal);
+        return redirect()->back();
+
     }
 }

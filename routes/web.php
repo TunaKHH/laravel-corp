@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RestaurantMealController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\UserController;
@@ -36,5 +37,6 @@ Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock'
 
 
 Route::resource('restaurant', RestaurantController::class);
+Route::resource('restaurantMeal', RestaurantMealController::class);
 
 Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');

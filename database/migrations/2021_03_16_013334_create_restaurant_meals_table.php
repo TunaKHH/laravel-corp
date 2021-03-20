@@ -16,7 +16,7 @@ class CreateRestaurantMealsTable extends Migration
         Schema::create('restaurant_meals', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('餐點名稱');
-            $table->integer('amount')->comment('餐點金額');
+            $table->integer('price')->comment('餐點金額');
             $table->foreignId('restaurant_id')->constrained();
             $table->timestamps();
         });

@@ -5,33 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\RestaurantMeal;
 use App\Models\TaskOrder;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isEmpty;
 
 class TaskOrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -45,19 +27,26 @@ class TaskOrderController extends Controller
                                             ->where('restaurant_id',$restaurant_id)
                                             ->first();
 
-        if( $restaurantMeal ){// 菜單中沒有就新增
+        if( isEmpty($restaurantMeal) ){// 菜單中沒有就新增
             $restaurantMeal = RestaurantMeal::create([
                 'name' => $name,
-                'amount' => $amount,
+                'price' => $amount,
                 'restaurant_id' => $restaurant_id,
             ]);
         }
 
         // 寫入這次任務點餐
+
         $taskOrder = new TaskOrder;
-        $taskOrder->restaurant_id = $restaurant_id;
+        $taskOrder->restaurant_meal_id = $restaurantMeal->id;
+        $taskOrder->task_id = $request->task_id;
+        $taskOrder->user_id = $request->user_id;
+        $taskOrder->qty = $request->qty;
 
         $taskOrder->save();
+
+        return redirect()->back();
+
 
     }
 
@@ -100,10 +89,12 @@ class TaskOrderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\TaskOrder  $taskOrder
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(TaskOrder $taskOrder)
     {
         //
+        $taskOrder->delete();
+        return redirect()->back();
     }
 }

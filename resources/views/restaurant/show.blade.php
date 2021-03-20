@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','任務點餐')
+@section('title','餐廳菜單')
 
 @section('main.body')
 <!-- Main content -->
@@ -13,9 +13,11 @@
                     <label for="exampleDataList" class="form-label">餐點名稱</label>
                     <input class="form-control" list="datalistOptions" id="exampleDataList" name="name" placeholder="餐點名稱">
                     <datalist id="datalistOptions">
-                        @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
-                            <option value="{{ $restaurantMeal->name }}">
-                        @endforeach
+                        <option value="San Francisco">
+                        <option value="New York">
+                        <option value="Seattle">
+                        <option value="Los Angeles">
+                        <option value="Chicago">
                     </datalist>
                 </div>
                 <div class="col">
@@ -28,19 +30,14 @@
                 </div>
 
             </div>
-            <input type="hidden" name="restaurant_id" value="{{ $task->restaurant_id }}">
-            <input type="hidden" name="task_id" value="{{ $task->id }}">
+{{--            <input type="hidden" name="restaurant_id" value="{{ $task->restaurant_id }}">--}}
+            <input type="hidden" name="task_id" value="{{ $restaurant->id }}">
             <input type="hidden" name="user_id" value="1">
             <button type="submit" class="btn btn-primary">點餐</button>
 
         </form>
         <div class="row">
-            <div class="col">餐廳名稱{{ $task->restaurant->name }}</div>
-            <div class="col">備註{{ $task->remark }}</div>
-            <div class="col">建立時間{{ $task->created_at }}</div>
-        </div>
-        <div class="row">
-            @forelse($task->restaurant->photos as $photo)
+            @forelse($restaurant->photos as $photo)
                 <img src="{{ $photo->url }}" alt="" class="img-size-64" onclick="選擇菜單(this)">
             @empty
                 此餐廳未上傳圖片
@@ -53,33 +50,23 @@
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">點餐人</th>
                     <th scope="col">餐點</th>
                     <th scope="col">餐點單價</th>
-                    <th scope="col">餐點數量</th>
-                    <th scope="col">餐點金額</th>
-                    <th scope="col">點餐時間</th>
                     <th scope="col">操作</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                @forelse ($task->taskOrder as $order)
+                @forelse ($restaurant->restaurantMeals as $restaurantMeal)
                     <tr>
-                        <td>{{ "還沒寫" }}</td>
-                        <td>{{ $order->restaurantMeal->name }}</td>
-                        <td>{{ $order->restaurantMeal->price }}</td>
-                        <td>{{ $order->qty }}</td>
-                        <td>{{ $order->price }}</td>
-                        <td>{{ $order->created_at }}</td>
-
+                        <td>{{ $restaurantMeal->name }}</td>
+                        <td>{{ $restaurantMeal->price }}</td>
                         <td>
-                            <form method="post" action="{{ route('taskOrder.destroy', $order->id) }}">
+                            <form action="{{ route('restaurantMeal.destroy', $restaurantMeal->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="btn btn-danger">刪除</button>
+                                <button type="submit" class="btn btn-danger" disabled>刪除(外部關聯未處理好)</button>
                             </form>
-
                         </td>
                     </tr>
                 @empty

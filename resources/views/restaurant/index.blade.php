@@ -50,6 +50,7 @@
                     <th scope="col">餐廳名稱</th>
                     <th scope="col">備註</th>
                     <th scope="col">菜單圖片</th>
+                    <th scope="col">菜單連結</th>
                     <th scope="col">建立時間</th>
                     <th scope="col">上傳菜單</th>
                 </tr>
@@ -67,7 +68,9 @@
                                 <span>沒有圖片</span>
                             @endforelse
                         </td>
-
+                        <td>
+                            <a href="{{ route('restaurant.show', $restaurant->id) }}">連結</a>
+                        </td>
                         <td>{{ $restaurant->created_at }}</td>
                         <td>
                             <form method="post" action="{{ route('uploadImage') }}" enctype="multipart/form-data">

@@ -14,4 +14,8 @@ class TaskOrder extends Model
         'task_id',
         'qty',
     ];
+
+    public function restaurantMeal(){
+        return $this->belongsTo(RestaurantMeal::class);
+    }
 }

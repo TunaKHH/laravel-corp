@@ -58,7 +58,11 @@
                 <tbody>
                     @forelse ($tasks as $task)
                         <tr>
-                            <td>{{ $task->restaurant->name }}</td>
+                            <td>
+                                <a href="{{ route('restaurant.show', $task->restaurant->id) }}">
+                                    {{ $task->restaurant->name }}
+                                </a>
+                            </td>
                             <td>{{ $task->remark }}</td>
                             <td>{{ $task->created_at }}</td>
                             @switch($task->is_open)

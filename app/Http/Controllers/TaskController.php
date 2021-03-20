@@ -49,10 +49,11 @@ class TaskController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(Task $task)
     {
+
         return view('task.show', ['task'=>$task]);
     }
 
