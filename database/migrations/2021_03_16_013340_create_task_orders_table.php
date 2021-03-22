@@ -17,8 +17,10 @@ class CreateTaskOrdersTable extends Migration
             $table->id();
             $table->foreignId('task_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('restaurant_meal_id')->constrained();
-            $table->tinyInteger('qty')->constrained();
+            $table->integer('meal_name');
+            $table->integer('meal_price')->default(0);
+            $table->integer('qty')->default(1);
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }

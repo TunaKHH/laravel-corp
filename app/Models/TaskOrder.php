@@ -18,4 +18,8 @@ class TaskOrder extends Model
     public function restaurantMeal(){
         return $this->belongsTo(RestaurantMeal::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

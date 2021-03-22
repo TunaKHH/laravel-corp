@@ -6,12 +6,37 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+        @if ($message = Session::get('no_user'))
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-warning"></i>失敗</h4>
+                {{ $message }}
+            </div>
+        @endif
+
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-success"></i>成功</h4>
+                {{ $message }}
+            </div>
+        @endif
+
         <form action="{{ route('taskOrder.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col">
-                    <label for="exampleDataList" class="form-label">餐點名稱</label>
-                    <input class="form-control" list="datalistOptions" id="exampleDataList" name="name" placeholder="餐點名稱">
+                    <label for="nameList" class="form-label">點餐人</label>
+                    <input class="form-control" list="userListOptions" id="nameList" value="" name="user_name" required>
+                    <datalist id="userListOptions">
+                        @foreach( $users as $user)
+                            <option value="{{ $user->name }}">
+                        @endforeach
+                    </datalist>
+                </div>
+                <div class="col">
+                    <label for="meal_name" class="form-label">餐點名稱</label>
+                    <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required>
                     <datalist id="datalistOptions">
                         @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
                             <option value="{{ $restaurantMeal->name }}">
@@ -20,11 +45,20 @@
                 </div>
                 <div class="col">
                     <label for="numList" class="form-label">數量</label>
-                    <input class="form-control" id="numList" value="1" name="qty">
+                    <input class="form-control" id="numList" value="1" name="qty" required>
                 </div>
                 <div class="col">
-                    <label for="amount" class="form-label">金額</label>
-                    <input class="form-control" type="number" list="numOptions" id="amount" value="0" name="amount" required>
+                    <label for="price" class="form-label">金額</label>
+                    <input class="form-control" list="priceListOptions" type="number" id="meal_price" value="0" name="meal_price" required>
+                    <datalist id="priceListOptions">
+                        @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
+                            <option class="{{ $restaurantMeal->name }}" value="{{ $restaurantMeal->price }}">
+                        @endforeach
+                    </datalist>
+                </div>
+                <div class="col">
+                    <label for="remark" class="form-label">備註</label>
+                    <input class="form-control" type="text" id="remark" name="remark" placeholder="(選填)我是備註">
                 </div>
 
             </div>
@@ -66,7 +100,7 @@
                 <tbody>
                 @forelse ($task->taskOrder as $order)
                     <tr>
-                        <td>{{ "還沒寫" }}</td>
+                        <td>{{ $order->user->name }}</td>
                         <td>{{ $order->restaurantMeal->name }}</td>
                         <td>{{ $order->restaurantMeal->price }}</td>
                         <td>{{ $order->qty }}</td>
@@ -83,7 +117,9 @@
                         </td>
                     </tr>
                 @empty
-                    <tr>沒有資料</tr>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">沒有資料</td>
+                    </tr>
                 @endforelse
                 </tbody>
                 <tfoot>
@@ -101,9 +137,15 @@
 @push('js')
     <script>
         function 選擇菜單(e){
-            console.log(e.src);
             document.getElementById('show_img').src = e.src;
         }
+
+        function autoUpdatePrice(e){
+            let temp_price = $('.'+ e.value).val();
+            $('#meal_price').val(temp_price);
+        }
+
+
 
     </script>
 

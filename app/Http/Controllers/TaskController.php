@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\Restaurant;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 
@@ -53,8 +54,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-
-        return view('task.show', ['task'=>$task]);
+        $users = User::all();
+        return view('task.show', ['task'=>$task, 'users'=>$users]);
     }
 
     /**

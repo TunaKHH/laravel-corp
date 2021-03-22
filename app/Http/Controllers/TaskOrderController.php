@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RestaurantMeal;
 use App\Models\TaskOrder;
+use App\Models\User;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isEmpty;
 
@@ -17,20 +18,25 @@ class TaskOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
         $restaurant_id = $request->restaurant_id;
-        $name = $request->name;
-        $amount = $request->amount;
+        $user_name = $request->user_name;
+        $meal_name = $request->name;
+        $meal_price = $request->meal_price;
 
-        $restaurantMeal = RestaurantMeal::where('name',$name)
+        // 檢查有沒有這個使用者
+        $user = User::where('name', $user_name)->first();
+        if( $user === null ){// 沒有這個使用者就退回
+            return back()->with('no_user','查無此使用者');
+        }
+
+        $restaurantMeal = RestaurantMeal::where('name',$meal_name)
                                             ->where('restaurant_id',$restaurant_id)
                                             ->first();
 
         if( isEmpty($restaurantMeal) ){// 菜單中沒有就新增
             $restaurantMeal = RestaurantMeal::create([
-                'name' => $name,
-                'price' => $amount,
+                'name' => $meal_name,
+                'price' => $meal_price,
                 'restaurant_id' => $restaurant_id,
             ]);
         }
@@ -38,16 +44,15 @@ class TaskOrderController extends Controller
         // 寫入這次任務點餐
 
         $taskOrder = new TaskOrder;
-        $taskOrder->restaurant_meal_id = $restaurantMeal->id;
+        $taskOrder->meal_name = $meal_name;
+        $taskOrder->meal_price = $meal_price;
         $taskOrder->task_id = $request->task_id;
-        $taskOrder->user_id = $request->user_id;
+        $taskOrder->user_id = $user->id;
         $taskOrder->qty = $request->qty;
-
+        $taskOrder->remark = $request->remark;
         $taskOrder->save();
 
-        return redirect()->back();
-
-
+        return back()->with('success','點餐成功');
     }
 
     /**
