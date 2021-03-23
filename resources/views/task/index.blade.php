@@ -92,39 +92,41 @@
 
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">
-                                        點餐
-                                    </a>
-    {{--                                <button type="button" class="btn btn-success">點餐</button>--}}
+                                    @if($task->can_order)
+                                        <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">
+                                            點餐
+                                        </a>
+                                    @endif
+
+                                    {{--                                <button type="button" class="btn btn-success">點餐</button>--}}
                                     @switch($task->is_open)
                                         @case(1)
                                             <form method="post" action="{{ route('task.lock') }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $task->id }}">
-                                                <input type="submit" value="鎖定" class="btn btn-warning">
+                                                <input type="submit" value="鎖定後結單" class="btn btn-warning">
                                             </form>
                                         @break
-
                                         @case(2)
                                             <form method="post" action="{{ route('task.unlock') }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $task->id }}">
                                                 <input type="submit" value="解除鎖定" class="btn btn-success">
                                             </form>
+                                            <a href="{{ route('task.show', $task->id) }}" class="btn btn-dark">
+                                                結單
+                                            </a>
                                         @break
-
                                         @default
-                                        <td>
                                             未定義
-                                        </td>
                                     @endswitch
-
-                                    <form method="post" action="{{ route('task.destroy', $task->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="submit" value="刪除" class="btn btn-danger">
-                                    </form>
-
+                                    @if($task->can_order)
+                                        <form method="post" action="{{ route('task.destroy', $task->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" value="刪除" class="btn btn-danger">
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

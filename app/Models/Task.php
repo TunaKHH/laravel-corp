@@ -28,5 +28,10 @@ class Task extends Model
         return $this->hasMany(TaskOrder::class);
     }
 
+    public function getCanOrderAttribute()
+    {
+        return $this->is_open === 1 ?? false;
+    }
+
 
 }

@@ -54,6 +54,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+//        dd($task->taskOrder());
         $users = User::all();
         return view('task.show', ['task'=>$task, 'users'=>$users]);
     }

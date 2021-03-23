@@ -20,7 +20,7 @@ class TaskOrderController extends Controller
     {
         $restaurant_id = $request->restaurant_id;
         $user_name = $request->user_name;
-        $meal_name = $request->name;
+        $meal_name = $request->meal_name;
         $meal_price = $request->meal_price;
 
         // 檢查有沒有這個使用者
@@ -33,7 +33,7 @@ class TaskOrderController extends Controller
                                             ->where('restaurant_id',$restaurant_id)
                                             ->first();
 
-        if( isEmpty($restaurantMeal) ){// 菜單中沒有就新增
+        if( $restaurantMeal === null ){// 菜單中沒有就新增
             $restaurantMeal = RestaurantMeal::create([
                 'name' => $meal_name,
                 'price' => $meal_price,
