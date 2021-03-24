@@ -96,10 +96,10 @@
                 <tr>
                     <th scope="col">點餐人</th>
                     <th scope="col">餐點</th>
+                    <th scope="col">備註</th>
                     <th scope="col">餐點單價</th>
                     <th scope="col">餐點數量</th>
                     <th scope="col">餐點金額</th>
-                    <th scope="col">備註</th>
                     <th scope="col">點餐時間</th>
                     <th scope="col">
                         操作
@@ -115,10 +115,10 @@
                     <tr>
                         <td>{{ $order->user->name }}</td>
                         <td>{{ $order->meal_name }}</td>
+                        <td>{{ $order->remark }}</td>
                         <td>{{ $order->meal_price }}</td>
                         <td>{{ $order->qty }}</td>
                         <td>{{ $order->total_price }}</td>
-                        <td>{{ $order->remark }}</td>
                         <td>{{ $order->created_at }}</td>
                         <td>
                             <div class="d-none operational_list">
@@ -136,14 +136,50 @@
                     </tr>
                 @endforelse
                 </tbody>
-                <tfoot>
-                    <tr>
-
-                    </tr>
-                </tfoot>
             </table>
         </div>
 
+        <div class="row justify-content-center bg-orange">
+            <h2>下方統整</h2>
+        </div>
+
+        <div class="row">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">餐點</th>
+                    <th scope="col">餐點單價</th>
+                    <th scope="col">餐點數量</th>
+                    <th scope="col">餐點金額</th>
+                    <th scope="col">備註</th>
+                    <th scope="col">點餐時間</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    @forelse ($task->taskOrder as $order)
+                        <tr>
+                            <td>{{ $order->meal_name }}</td>
+                            <td>{{ $order->meal_price }}</td>
+                            <td>{{ $order->qty }}</td>
+                            <td>{{ $order->total_price }}</td>
+                            <td>{{ $order->remark }}</td>
+                            <td>{{ $order->created_at }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" style="text-align: center;">沒有資料</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row justify-content-end mr-4">
+            @if($task->is_open == 2)
+                <button class="btn btn-success">確認並扣款</button>
+            @endif
+        </div>
     </div><!-- /.container-fluid -->
 </section>
 

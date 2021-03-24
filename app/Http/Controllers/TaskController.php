@@ -41,7 +41,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-    {;
+    {
         Task::create($request->all());
         return redirect()->route('task.index');
     }
@@ -56,6 +56,8 @@ class TaskController extends Controller
     {
 //        dd($task->taskOrder());
         $users = User::all();
+
+//        $task_unify = Task::groupBy('');
         return view('task.show', ['task'=>$task, 'users'=>$users]);
     }
 
@@ -116,6 +118,7 @@ class TaskController extends Controller
 
         return  redirect()->route('task.index');
     }
+
 
 
 }
