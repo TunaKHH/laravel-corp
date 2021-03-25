@@ -88,6 +88,7 @@ class TaskOrderController extends Controller
     public function update(Request $request, TaskOrder $taskOrder)
     {
         //
+        dd($request);
     }
 
     /**

@@ -99,7 +99,7 @@
                     <th scope="col">備註</th>
                     <th scope="col">餐點單價</th>
                     <th scope="col">餐點數量</th>
-                    <th scope="col">餐點金額</th>
+                    <th scope="col">金額計算</th>
                     <th scope="col">點餐時間</th>
                     <th scope="col">
                         操作
@@ -111,24 +111,40 @@
 
                 <tbody>
                 @forelse ($task->taskOrder as $order)
-
-                    <tr>
-                        <td>{{ $order->user->name }}</td>
-                        <td>{{ $order->meal_name }}</td>
-                        <td>{{ $order->remark }}</td>
-                        <td>{{ $order->meal_price }}</td>
-                        <td>{{ $order->qty }}</td>
-                        <td>{{ $order->total_price }}</td>
-                        <td>{{ $order->created_at }}</td>
-                        <td>
-                            <div class="d-none operational_list">
-                                <form method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger">刪除</button>
-                                </form>
-                            </div>
-                        </td>
+                    <tr id="order_{{ $loop->index }}">
+                        <form action="{{ route('taskOrder.update', $order) }}" method="post">
+                            @csrf
+                            @method('put')
+                            <td>
+                                <input type="text" class="form-control" value="{{ $order->user->name }}" name="user_name" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value="{{ $order->meal_name }}" name="meal_name" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value="{{ $order->remark }}" name="remark" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value="{{ $order->meal_price }}" name="meal_price" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value="{{ $order->qty }}" name="qty" disabled>
+                            </td>
+                            <td>{{ $order->total_price }}</td>
+                            <td>{{ $order->created_at }}</td>
+                            <td>
+                                <div class="d-none operational_list btn-group">
+                                    <button type="button" class="btn btn-primary" onclick="editOpen({{ $loop->index }})">修改</button>
+                                    <button type="submit" class="btn btn-primary">確認修改</button>
+                                    <form method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger">刪除</button>
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" onclick="editCancel({{ $loop->index }})">取消</button>
+                                </div>
+                            </td>
+                        </form>
                     </tr>
                 @empty
                     <tr>
@@ -150,21 +166,17 @@
                     <th scope="col">餐點</th>
                     <th scope="col">餐點單價</th>
                     <th scope="col">餐點數量</th>
-                    <th scope="col">餐點金額</th>
                     <th scope="col">備註</th>
-                    <th scope="col">點餐時間</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                    @forelse ($task->taskOrder as $order)
+                    @forelse ($task_totals as $task_total)
                         <tr>
-                            <td>{{ $order->meal_name }}</td>
-                            <td>{{ $order->meal_price }}</td>
-                            <td>{{ $order->qty }}</td>
-                            <td>{{ $order->total_price }}</td>
-                            <td>{{ $order->remark }}</td>
-                            <td>{{ $order->created_at }}</td>
+                            <td>{{ $task_total->meal_name }}</td>
+                            <td>{{ $task_total->meal_price }}</td>
+                            <td>{{ $task_total->qty_sum }}</td>
+                            <td>{{ $task_total->remark }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -196,9 +208,15 @@
         }
 
         function operationalToggle(){// 切換控制區顯示
-            $('.operational_list').toggleClass('d-none')
+            $('.operational_list').toggleClass('d-none');
+        }
 
+        function editCancel(id){
+            $('#order_' + id + ' td>input').prop('disabled',true)
+        }
 
+        function editOpen(id){
+            $('#order_' + id + ' td>input').prop('disabled',false)
         }
 
 

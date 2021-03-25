@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class TaskController extends Controller
@@ -54,11 +55,16 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-//        dd($task->taskOrder());
+        $task_id = $task->getAttribute('id');
         $users = User::all();
 
-//        $task_unify = Task::groupBy('');
-        return view('task.show', ['task'=>$task, 'users'=>$users]);
+        $task_totals = DB::table('task_orders')
+                                ->select('meal_name', 'meal_price', 'remark', DB::raw('SUM(qty) as qty_sum'))
+
+                                ->where('task_id',$task_id)
+                                ->groupBy('meal_name', 'meal_price','remark')
+                                ->get();
+        return view('task.show', ['task'=>$task, 'users'=>$users, 'task_totals'=>$task_totals]);
     }
 
     /**
