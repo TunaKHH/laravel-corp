@@ -21,17 +21,13 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>餐廳</label>
-                            <p>
-                                (之後改成若沒有就自動新增並跳出上傳圖片的視窗)
-                            </p>
-                            <div class="form-floating">
-                                <select class="form-select" name="restaurant_id" id="restaurant_id" class="form-select" aria-label="Floating label select example" required>
-                                    <option selected>請選擇</option>
+                            <div class="form-group">
+                                <select class="form-control" name="restaurant_id" id="restaurant_id" aria-label="Floating label select example" required>
+                                    <option selected></option>
                                     @foreach($restaurants as $restaurant)
                                         <option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="restaurant_id">請選擇餐廳</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -39,8 +35,9 @@
                             <input type="text" class="form-control" name="remark" placeholder="這裏可留空">
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">開團</button>
+                    <div class="card-footer row">
+                        <button type="submit" class="btn btn-primary col">開團</button>
+                        <a href="{{ route('restaurant.index') }}" class="btn btn-link">沒有餐廳?點擊這裡新增</a>
                     </div>
                 </div>
             </form>
@@ -68,7 +65,7 @@
                             @switch($task->is_open)
                                 @case(0)
                                 <td class="bg-danger">
-                                    已結束
+                                    已結單
                                 </td>
                                 @break
 
@@ -118,7 +115,9 @@
                                             </a>
                                         @break
                                         @default
-                                            未定義
+                                            <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">
+                                                查看
+                                            </a>
                                     @endswitch
                                     @if($task->can_order)
                                         <form method="post" action="{{ route('task.destroy', $task->id) }}">
@@ -148,5 +147,20 @@
 </section>
 
 @endsection
+
+@push('js')
+    <script>
+        // Swal.fire({
+        //     icon: 'error',
+        //     title: 'Oops...',
+        //     text: 'Something went wrong!',
+        //     footer: '<a href>Why do I have this issue?</a>'
+        // })
+
+        // $('form').on('submit',(e)=>{
+        //     e.preventDefault();
+        // })
+    </script>
+@endpush
 
 

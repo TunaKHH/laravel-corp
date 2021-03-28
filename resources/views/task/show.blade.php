@@ -90,6 +90,10 @@
         <div class="row">
             <img src="" alt="" class="img-fluid" id="show_img">
         </div>
+
+        <div class="row justify-content-center bg-primary">
+            <h2>訂餐明細</h2>
+        </div>
         <div class="row">
             <table class="table">
                 <thead class="thead-dark">
@@ -102,9 +106,10 @@
                     <th scope="col">金額計算</th>
                     <th scope="col">點餐時間</th>
                     <th scope="col">
-                        操作
-                        <span class="badge btn rounded-pill bg-success" onclick="operationalToggle()">切換</span>
-
+                        @if( $task->is_open !== 0 )
+                            操作
+                            <span class="badge btn rounded-pill bg-success" onclick="operationalToggle()">切換</span>
+                        @endif
                     </th>
                 </tr>
                 </thead>
@@ -134,14 +139,19 @@
                             <td>{{ $order->created_at }}</td>
                             <td>
                                 <div class="d-none operational_list btn-group">
-                                    <button type="button" class="btn btn-primary" onclick="editOpen({{ $loop->index }})">修改</button>
-                                    <button type="submit" class="btn btn-primary">確認修改</button>
+                                    <button type="button" class="btn btn-primary btn-edit" id="btn_edit_{{ $loop->index }}" onclick="editOpen({{ $loop->index }})"><i class="fas fa-edit"></i></button>
+                                    <form method="post" action="{{ route('taskOrder.update', $order->id) }}" >
+                                        @csrf
+                                        @method('put')
+                                        <button type="submit" class="btn btn-primary" style="display: none;" id="btn_confirm_{{ $loop->index }}"><i class="fas fa-check"></i></button>
+                                    </form>
+
                                     <form method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-danger">刪除</button>
+                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </form>
-                                    <button type="button" class="btn btn-secondary" onclick="editCancel({{ $loop->index }})">取消</button>
+                                    <button type="button" class="btn btn-secondary btn-cancel" style="display: none;" id="btn_cancel_{{ $loop->index }}" onclick="editCancel({{ $loop->index }})"><i class="fas fa-times"></i></button>
                                 </div>
                             </td>
                         </form>
@@ -164,9 +174,10 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">餐點</th>
+                    <th scope="col">備註</th>
                     <th scope="col">餐點單價</th>
                     <th scope="col">餐點數量</th>
-                    <th scope="col">備註</th>
+                    <th scope="col">金額計算</th>
                 </tr>
                 </thead>
 
@@ -174,22 +185,33 @@
                     @forelse ($task_totals as $task_total)
                         <tr>
                             <td>{{ $task_total->meal_name }}</td>
+                            <td>{{ $task_total->remark }}</td>
                             <td>{{ $task_total->meal_price }}</td>
                             <td>{{ $task_total->qty_sum }}</td>
-                            <td>{{ $task_total->remark }}</td>
+                            <td>{{ $task_total->qty_sum * $task_total->meal_price }}</td>
                         </tr>
+
                     @empty
                         <tr>
-                            <td colspan="7" style="text-align: center;">沒有資料</td>
+                            <td colspan="5" style="text-align: center;">沒有資料</td>
                         </tr>
                     @endforelse
+                    <tr>
+                        <td colspan="4"></td>
+                        <td class="text-bold text-danger">總金額：{{ $sum_money }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="row justify-content-end mr-4">
+        <div>
             @if($task->is_open == 2)
-                <button class="btn btn-success">確認並扣款</button>
+                <form method="post" action="{{ route('task.finish', $task->id) }}" class="row">
+                    @csrf
+                    @method('post')
+                    <button type="submit" class="btn btn-block btn-lg  btn-success">結單</button>
+                </form>
+{{--                TODO 自動扣款功能--}}
             @endif
         </div>
     </div><!-- /.container-fluid -->
@@ -211,12 +233,25 @@
             $('.operational_list').toggleClass('d-none');
         }
 
-        function editCancel(id){
-            $('#order_' + id + ' td>input').prop('disabled',true)
+        function editCancel(id){// 取消修改
+            $('#order_' + id + ' td>input').prop('disabled',true);
+
+            $('#btn_cancel_' + id).hide();
+            $('#btn_edit_' + id).show();
+            $('#btn_confirm_' + id).hide();
+
+
         }
 
-        function editOpen(id){
-            $('#order_' + id + ' td>input').prop('disabled',false)
+        function editOpen(id){// 開啟修改
+            $('#order_' + id + ' td>input').prop('disabled',false);
+
+            $('#btn_confirm_' + id).show();
+            $('#btn_cancel_' + id).show();
+            $('#btn_edit_' + id).hide();
+
+
+
         }
 
 

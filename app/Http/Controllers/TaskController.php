@@ -55,16 +55,21 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $sum_money = 0;
         $task_id = $task->getAttribute('id');
         $users = User::all();
 
         $task_totals = DB::table('task_orders')
                                 ->select('meal_name', 'meal_price', 'remark', DB::raw('SUM(qty) as qty_sum'))
-
                                 ->where('task_id',$task_id)
                                 ->groupBy('meal_name', 'meal_price','remark')
                                 ->get();
-        return view('task.show', ['task'=>$task, 'users'=>$users, 'task_totals'=>$task_totals]);
+
+        foreach ( $task_totals as $task_total ){
+            $sum_money += $task_total->meal_price * $task_total->qty_sum;
+        }
+
+        return view('task.show', ['task'=>$task, 'users'=>$users, 'task_totals'=>$task_totals, 'sum_money'=>$sum_money]);
     }
 
     /**
@@ -112,7 +117,7 @@ class TaskController extends Controller
         $task->is_open = 2;
         $task->save();
 
-        return  redirect()->route('task.index');
+        return  redirect()->route('task.show', $id);
     }
 
     public function unlock(Request $request)
@@ -124,6 +129,14 @@ class TaskController extends Controller
 
         return  redirect()->route('task.index');
     }
+
+    public function finish(Task $task)
+    {
+        $task->is_open = 0;
+        $task->save();
+        return  redirect()->route('task.index');
+    }
+
 
 
 

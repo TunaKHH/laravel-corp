@@ -33,7 +33,9 @@ Route::resource('taskOrder', TaskOrderController::class);
 
 Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
 Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock');
-Route::get('task/finish', [TaskController::class,'finish'])->name('task.finish');
+Route::post('task/finish/{task}', [TaskController::class,'finish'])->name('task.finish');
+
+
 
 
 
