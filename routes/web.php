@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskOrderController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,28 +19,20 @@ use App\Http\Controllers\RestaurantController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/line', [LoginController::class,'pageLine']);
+Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
 
 Route::get('/', [LunchController::class, 'index']);
 Route::get('/record', [LunchController::class, 'record'])->name('record');
 
 Route::resource('lunch', LunchController::class);
-
 Route::resource('user', UserController::class);
-
 Route::resource('task', TaskController::class);
-
 Route::resource('taskOrder', TaskOrderController::class);
-
+Route::resource('restaurant', RestaurantController::class);
+Route::resource('restaurantMeal', RestaurantMealController::class);
 
 Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
 Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock');
 Route::post('task/finish/{task}', [TaskController::class,'finish'])->name('task.finish');
-
-
-
-
-
-Route::resource('restaurant', RestaurantController::class);
-Route::resource('restaurantMeal', RestaurantMealController::class);
-
 Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');

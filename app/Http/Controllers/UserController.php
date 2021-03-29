@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all()->sortBy('deposit')->reverse();
-        return view('lunch.leaderboard', ['users' => $users]);
+        return view('user.index', ['users' => $users]);
     }
 
     /**
@@ -54,11 +54,11 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('user.edit', ['user' => $user]);
     }
 
     /**
@@ -66,11 +66,15 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user->name = $request->name;
+        $user->line_id = $request->line_id;
+        $user->save();
+        $user->fresh();
+        return view('user.edit', ['user' => $user]);
     }
 
     /**

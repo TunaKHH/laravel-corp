@@ -89,14 +89,22 @@
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="{{ route('user.create') }}" class="nav-link {{ request()->is('user/create') ? 'active' : '' }}" disabled>
-                            <i class="nav-icon fas fa-user-plus"></i>
+                            <i class="nav-icon fas fa-users-cog"></i>
                             <p>
                                 增加使用者(未完成)
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is(['user','user/*']) ? 'active' : '' }}" disabled>
+                            <i class="nav-icon fas fa-user-plus"></i>
+                            <p>
+                                管理使用者
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-item menu-open">
-                        <a href="#" class="nav-link active ">
+                        <a href="#" class="nav-link {{ request()->is(['/','record']) ? 'active' : '' }} ">
                             <i class="nav-icon fas fa-utensils"></i>
                             <p>
                                 午餐
@@ -114,12 +122,6 @@
                                 <a href="{{ url('/record') }}" class="nav-link {{ request()->is('record') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>金錢紀錄</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>餘額排行榜</p>
                                 </a>
                             </li>
                         </ul>
@@ -142,14 +144,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/record') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                                <a href="{{ url('/record') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     {{--TODO 這裡的active要修--}}
                                     <p>參加任務</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     {{--TODO 這裡的active要修--}}
                                     <p>任務結算</p>

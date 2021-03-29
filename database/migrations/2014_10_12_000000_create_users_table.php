@@ -16,7 +16,8 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('deposit')->comment('剩餘金額');
+            $table->integer('deposit')->comment('剩餘金額')->default(0);
+            $table->string('line_id')->nullable();
             $table->timestamps();
         });
     }
