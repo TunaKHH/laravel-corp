@@ -15,9 +15,12 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name')->unique()->comment('名字');
+            $table->string('account')->unique()->comment('帳號');
+            $table->string('password');
             $table->integer('deposit')->comment('剩餘金額')->default(0);
             $table->string('line_id')->nullable();
+            $table->string('remember_token', 100)->nullable();
             $table->timestamps();
         });
     }

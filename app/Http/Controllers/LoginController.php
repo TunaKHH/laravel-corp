@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\LineService;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -14,6 +16,38 @@ class LoginController extends Controller
     public function __construct(LineService $lineService)
     {
         $this->lineService = $lineService;
+    }
+
+
+    public function show(){
+        return view('auth.login');
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->only('account', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->route('index');
+        }
+
+        return back()->withErrors([
+            'account' => '帳號或密碼錯誤',
+        ]);
     }
 
     public function pageLine()

@@ -7,7 +7,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <form method="post">
+            <form method="post" id="op_form">
                 @csrf
                 <button type="button" class="btn btn-success float-right" onclick="openSave()">開啟儲值</button>
 
@@ -101,7 +101,7 @@
             $('#sum_save').text(totalSaveAmount());
         });
 
-        $(document).on('submit', 'form', function(e) { //TODO 將表單改為即時更新
+        $('#op_form').on('submit', 'form', function(e) { //TODO 將表單改為即時更新
             e.preventDefault();
             $(window).keydown(function (event) {
                 if (event.keyCode === 13) { // 防止按到enter送出
@@ -143,7 +143,7 @@
         });
 
 
-        $(document).on('submit', 'form', function(e) { //TODO 將表單改為即時更新
+        $('#op_form').on('submit', 'form', function(e) { //TODO 將表單改為即時更新
             e.preventDefault();
             $(window).keydown(function (event) {
                 if (event.keyCode === 13) { // 防止按到enter送出

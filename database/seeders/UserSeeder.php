@@ -22,8 +22,11 @@ class UserSeeder extends Seeder
                 ->create();
 
 //        DB::table('users')->insert([
-//            'name' => Str::random(10),
-//            'deposit' => rand(500,99999),
+//            'name' => "鮪魚",
+//            'account' => "skw001",
+//            'password' => "skw001",
+//
+//            'deposit' => 0,
 //        ]);
     }
 }

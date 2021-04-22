@@ -71,14 +71,14 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" disabled>
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                        </button>
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <div class="img-circle elevation-2">
+
                     </div>
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -215,33 +215,14 @@
                                 </a>
                             </li>
                     </li>
-                    <!--
-                    <li class="nav-header">EXAMPLES</li>
-                    <li class="nav-item">
-                        <a href="pages/calendar.html" class="nav-link">
-                            <i class="nav-icon far fa-calendar-alt"></i>
-                            <p>
-                                Calendar
-                                <span class="badge badge-info right">2</span>
-                            </p>
-                        </a>
+                    <li class="nav-item justify-content-center">
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button class="btn btn-danger btn-lg" type="submit">登出
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                            </button>
+                        </form>
                     </li>
-                    <li class="nav-item">
-                        <a href="pages/gallery.html" class="nav-link">
-                            <i class="nav-icon far fa-image"></i>
-                            <p>
-                                Gallery
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/kanban.html" class="nav-link">
-                            <i class="nav-icon fas fa-columns"></i>
-                            <p>
-                                Kanban Board
-                            </p>
-                        </a>
-                    </li>-->
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
