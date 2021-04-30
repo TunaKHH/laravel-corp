@@ -37,17 +37,20 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+//        dd($request->remember);
         $credentials = $request->only('account', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->route('index');
+        if (!Auth::attempt($credentials,$request->remember)) {
+            return back()->withErrors([
+                'account' => '帳號或密碼錯誤',
+            ]);
         }
 
-        return back()->withErrors([
-            'account' => '帳號或密碼錯誤',
-        ]);
+        $request->session()->regenerate();
+
+        return redirect()->route('index');
+
+
     }
 
     public function pageLine()

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <base href="#" target="_self">
     <title>
         午餐整合平台
     </title>
@@ -88,14 +89,6 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="{{ route('user.create') }}" class="nav-link {{ request()->is('user/create') ? 'active' : '' }}" disabled>
-                            <i class="nav-icon fas fa-users-cog"></i>
-                            <p>
-                                增加使用者(未完成)
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('user.index') }}" class="nav-link {{ request()->is(['user','user/*']) ? 'active' : '' }}" disabled>
                             <i class="nav-icon fas fa-user-plus"></i>
                             <p>
@@ -105,9 +98,9 @@
                     </li>
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link {{ request()->is(['/','record']) ? 'active' : '' }} ">
-                            <i class="nav-icon fas fa-utensils"></i>
+                            <i class="nav-icon fas fa-hand-holding-usd"></i>
                             <p>
-                                午餐
+                                錢錢
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -127,7 +120,7 @@
                         </ul>
                     </li>
                     <li class="nav-item menu-open">
-                        <a href="#" class="nav-link {{ request()->is('task') ? 'active' : '' }}">
+                        <a href="#" class="nav-link {{ request()->is('task','task/*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-utensils"></i>
                             <p>
                                 訂餐任務
@@ -137,35 +130,36 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('task') ? 'active' : '' }} ">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('task','task/*') ? 'active' : '' }} ">
                                     <i class="far fa-circle nav-icon"></i>
                                     {{--TODO 這裡的active要修--}}
                                     <p>任務列表</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ url('/record') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    {{--TODO 這裡的active要修--}}
-                                    <p>參加任務</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    {{--TODO 這裡的active要修--}}
-                                    <p>任務結算</p>
-                                </a>
-                            </li>
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ url('/record') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    --}}{{--TODO 這裡的active要修--}}
+{{--                                    <p>參加任務</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    --}}{{--TODO 這裡的active要修--}}
+{{--                                    <p>任務結算</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
                         </ul>
                     </li>
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-utensils"></i>
+                            <i class="nav-icon fas fa-business-time"></i>
                             <p>
                                 打卡
                                 {{--TODO 這裡的active要修--}}
                                 <i class="right fas fa-angle-left"></i>
+
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
@@ -173,14 +167,14 @@
                                 <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
                                     <i class="far fa-circle nav-icon"></i>
                                     {{--TODO 這裡的active要修--}}
-                                    <p>打卡1</p>
+                                    <p>歷史紀錄</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item menu-open">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-utensils"></i>
+                        <a href="#" class="nav-link {{ request()->is(['restaurant','restaurant/*']) ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-store"></i>
                             <p>
                                 餐廳
                                 {{--TODO 這裡的active要修--}}
@@ -199,9 +193,9 @@
                     </li>
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-utensils"></i>
+                            <i class="nav-icon fas fa-users"></i>
                             <p>
-                                人員
+                                管理
                                 {{--TODO 這裡的active要修--}}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
@@ -214,6 +208,7 @@
                                     <p>人員資產表</p>
                                 </a>
                             </li>
+                        </ul>
                     </li>
                     <li class="nav-item justify-content-center">
                         <form action="{{ route('logout') }}" method="post">
@@ -254,7 +249,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2021 <a href="https://github.com/STUTuna/laravel-corp">Tuna</a>.</strong>
+        <strong>Copyright &copy; 2021 <a href="https://github.com/STUTuna/laravel-corp">帥氣鮪魚</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 0.0.1

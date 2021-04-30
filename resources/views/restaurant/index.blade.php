@@ -47,31 +47,37 @@
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
+                    <th scope="col">操作</th>
                     <th scope="col">餐廳名稱</th>
                     <th scope="col">備註</th>
                     <th scope="col">菜單圖片</th>
-                    <th scope="col">菜單連結</th>
-                    <th scope="col">建立時間</th>
                     <th scope="col">上傳菜單</th>
+                    <th scope="col">建立時間</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 @forelse ($restaurants as $restaurant)
                     <tr>
+                        <td>
+
+                            <a href="{{ route('restaurant.show', $restaurant->id) }}" class="btn btn-warning text-white">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
                         <td>{{ $restaurant->name }}</td>
                         <td>{{ $restaurant->remark }}</td>
                         <td>
                             @forelse ($restaurant->photos as $photo)
-                                <a href="{{ $photo->url }}">連結{{ $loop->index }}</a>
+                                <a href="{{ $photo->url }}">
+                                    連結{{ $loop->index }}
+
+                                </a>
                             @empty
                                 <span>沒有圖片</span>
                             @endforelse
                         </td>
-                        <td>
-                            <a href="{{ route('restaurant.show', $restaurant->id) }}">連結</a>
-                        </td>
-                        <td>{{ $restaurant->created_at }}</td>
+
                         <td>
                             <form method="post" action="{{ route('uploadImage') }}" enctype="multipart/form-data">
                                 @csrf
@@ -81,11 +87,15 @@
                                     <input type="submit" class="btn btn-success" value="上傳">
                                 </div>
                             </form>
-
                         </td>
+                        <td>{{ $restaurant->created_at }}</td>
                     </tr>
                 @empty
-                    <p>沒有資料</p>
+                    <tr>
+                        <td>
+                            沒有資料
+                        </td>
+                    </tr>
                 @endforelse
                 </tbody>
                 <tfoot>

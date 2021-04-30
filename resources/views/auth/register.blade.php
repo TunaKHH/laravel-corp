@@ -24,11 +24,11 @@
 
                     <div class="form-group">
                         <label>邀請碼</label>
-                        <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼">
+                        <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼" required>
                     </div>
                     <hr>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="本名">
+                        <input type="text" class="form-control" name="name" placeholder="本名" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-signature"></span>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="account" placeholder="帳號">
+                        <input type="text" class="form-control" name="account" placeholder="帳號" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password" placeholder="密碼">
+                        <input type="password" class="form-control" name="password" placeholder="密碼" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

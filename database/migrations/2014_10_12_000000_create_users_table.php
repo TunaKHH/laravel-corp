@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('deposit')->comment('剩餘金額')->default(0);
             $table->string('line_id')->nullable();
-            $table->string('remember_token', 100)->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

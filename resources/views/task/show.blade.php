@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','任務點餐')
+@section('title','任務點餐-'.$task->restaurant->name)
 
 @section('main.body')
 <!-- Main content -->
@@ -73,13 +73,6 @@
                 此任務目前不開放點餐
             </div>
         @endif
-
-
-        <div class="row">
-            <div class="col">餐廳名稱{{ $task->restaurant->name }}</div>
-            <div class="col">備註{{ $task->remark }}</div>
-            <div class="col">建立時間{{ $task->created_at }}</div>
-        </div>
         <div class="row">
             @forelse($task->restaurant->photos as $photo)
                 <img src="{{ $photo->url }}" alt="" class="img-size-64" onclick="選擇菜單(this)">
@@ -158,13 +151,12 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" style="text-align: center;">沒有資料</td>
+                        <td colspan="8" style="text-align: center;">沒有資料</td>
                     </tr>
                 @endforelse
                 </tbody>
             </table>
         </div>
-
         <div class="row justify-content-center bg-orange">
             <h2>下方統整</h2>
         </div>
@@ -180,7 +172,6 @@
                     <th scope="col">金額計算</th>
                 </tr>
                 </thead>
-
                 <tbody>
                     @forelse ($task_totals as $task_total)
                         <tr>
@@ -200,9 +191,11 @@
                         <td colspan="4"></td>
                         <td class="text-bold text-danger">總金額：{{ $sum_money }}</td>
                     </tr>
+
                 </tbody>
             </table>
         </div>
+        <a href="{{ route('task.edit',$task->id) }}">餐廳金額有誤?點此統一修改</a>
 
         <div>
             @if($task->is_open == 2)

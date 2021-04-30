@@ -47,8 +47,8 @@ class TaskOrderController extends Controller
         }
 
         // 寫入這次任務點餐
-
         $taskOrder             = new TaskOrder;
+        $taskOrder->meal_id    = $restaurantMeal->id;
         $taskOrder->meal_name  = $meal_name;
         $taskOrder->meal_price = $meal_price;
         $taskOrder->task_id    = $request->task_id;
@@ -81,6 +81,8 @@ class TaskOrderController extends Controller
     public function edit(TaskOrder $taskOrder)
     {
         //
+        dd($taskOrder);
+        $task_totals;
     }
 
     /**

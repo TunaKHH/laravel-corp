@@ -26,14 +26,16 @@ Route::post('login', [LoginController::class,'authenticate'])->name('login.enter
 Route::get('register', [RegisterController::class,'show'])->name('register');
 Route::post('register', [RegisterController::class,'create'])->name('register.enter');
 
+Route::get('/line', [LoginController::class,'pageLine']);
+Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         //
     });
     Route::post('logout', [LoginController::class,'logout'])->name('logout');
 
-    Route::get('/line', [LoginController::class,'pageLine']);
-    Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
+
 
     Route::get('/', [LunchController::class, 'index'])->name('index');
     Route::get('/record', [LunchController::class, 'record'])->name('record');

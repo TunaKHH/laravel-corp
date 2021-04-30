@@ -17,6 +17,7 @@ class CreateTaskOrdersTable extends Migration
             $table->id();
             $table->foreignId('task_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->bigInteger('meal_id')->comment('餐點id,最後確認時用若要修改可統一更改');
             $table->string('meal_name');
             $table->integer('meal_price')->default(0);
             $table->integer('qty')->default(1);

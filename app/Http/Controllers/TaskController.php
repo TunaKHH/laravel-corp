@@ -59,11 +59,7 @@ class TaskController extends Controller
         $task_id = $task->getAttribute('id');
         $users = User::all();
 
-        $task_totals = DB::table('task_orders')
-                                ->select('meal_name', 'meal_price', 'remark', DB::raw('SUM(qty) as qty_sum'))
-                                ->where('task_id',$task_id)
-                                ->groupBy('meal_name', 'meal_price','remark')
-                                ->get();
+        $task_totals = $task->getTaskTotals();
 
         foreach ( $task_totals as $task_total ){
             $sum_money += $task_total->meal_price * $task_total->qty_sum;
@@ -76,11 +72,13 @@ class TaskController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(Task $task)
     {
         //
+        $task_totals = $task->getTaskTotals();
+        return view('task.edit', ['task'=>$task, 'task_totals'=>$task_totals]);
     }
 
     /**
@@ -92,7 +90,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        //改餐廳餐點金額、這次任務餐點金額
     }
 
 
