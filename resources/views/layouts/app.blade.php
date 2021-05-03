@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <base href="#" target="_self">
     <title>
         午餐整合平台
     </title>
@@ -71,14 +72,14 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" disabled>
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                        </button>
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <div class="img-circle elevation-2">
+
                     </div>
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -88,18 +89,18 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="{{ route('user.create') }}" class="nav-link {{ request()->is('user/create') ? 'active' : '' }}" disabled>
+                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is(['user','user/*']) ? 'active' : '' }}" disabled>
                             <i class="nav-icon fas fa-user-plus"></i>
                             <p>
-                                增加使用者(未完成)
+                                管理使用者
                             </p>
                         </a>
                     </li>
                     <li class="nav-item menu-open">
-                        <a href="#" class="nav-link active ">
-                            <i class="nav-icon fas fa-utensils"></i>
+                        <a href="#" class="nav-link {{ request()->is(['/','record']) ? 'active' : '' }} ">
+                            <i class="nav-icon fas fa-hand-holding-usd"></i>
                             <p>
-                                午餐
+                                錢錢
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -116,41 +117,107 @@
                                     <p>金錢紀錄</p>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link {{ request()->is('task','task/*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-utensils"></i>
+                            <p>
+                                訂餐任務
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'active' : '' }}">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('task','task/*') ? 'active' : '' }} ">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>餘額排行榜</p>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>任務列表</p>
+                                </a>
+                            </li>
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ url('/record') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    --}}{{--TODO 這裡的active要修--}}
+{{--                                    <p>參加任務</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('') ? 'active' : '' }}">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    --}}{{--TODO 這裡的active要修--}}
+{{--                                    <p>任務結算</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+                        </ul>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-business-time"></i>
+                            <p>
+                                打卡
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>歷史紀錄</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <!--
-                    <li class="nav-header">EXAMPLES</li>
-                    <li class="nav-item">
-                        <a href="pages/calendar.html" class="nav-link">
-                            <i class="nav-icon far fa-calendar-alt"></i>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link {{ request()->is(['restaurant','restaurant/*']) ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-store"></i>
                             <p>
-                                Calendar
-                                <span class="badge badge-info right">2</span>
+                                餐廳
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('restaurant.index') }}" class="nav-link {{ request()->is('restaurant') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>餐廳列表</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="pages/gallery.html" class="nav-link">
-                            <i class="nav-icon far fa-image"></i>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
                             <p>
-                                Gallery
+                                管理
+                                {{--TODO 這裡的active要修--}}
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    {{--TODO 這裡的active要修--}}
+                                    <p>人員資產表</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="pages/kanban.html" class="nav-link">
-                            <i class="nav-icon fas fa-columns"></i>
-                            <p>
-                                Kanban Board
-                            </p>
-                        </a>
-                    </li>-->
+                    <li class="nav-item justify-content-center">
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button class="btn btn-danger btn-lg" type="submit">登出
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -182,7 +249,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2021 <a href="https://github.com/STUTuna/laravel-corp">Tuna</a>.</strong>
+        <strong>Copyright &copy; 2021 <a href="https://github.com/STUTuna/laravel-corp">帥氣鮪魚</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 0.0.1
@@ -225,5 +292,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js" integrity="sha256-92U7H+uBjYAJfmb+iNPi7DPoj795ZCTY4ZYmplsn/fQ=" crossorigin="anonymous"></script>
 
 @yield('script')
+@stack('js')
 </body>
 </html>

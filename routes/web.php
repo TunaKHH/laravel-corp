@@ -1,8 +1,15 @@
 <?php
 
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RestaurantMealController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskOrderController;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +21,34 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [LunchController::class, 'index']);
-Route::get('/record', [LunchController::class, 'record'])->name('record');
+Route::get('login', [LoginController::class,'show'])->name('login');
+Route::post('login', [LoginController::class,'authenticate'])->name('login.enter');
+Route::get('register', [RegisterController::class,'show'])->name('register');
+Route::post('register', [RegisterController::class,'create'])->name('register.enter');
 
-Route::resource('lunch', LunchController::class);
+Route::get('/line', [LoginController::class,'pageLine']);
+Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
 
-Route::resource('user', UserController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        //
+    });
+    Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
+
+
+    Route::get('/', [LunchController::class, 'index'])->name('index');
+    Route::get('/record', [LunchController::class, 'record'])->name('record');
+
+    Route::resource('user', UserController::class);
+    Route::resource('task', TaskController::class);
+    Route::resource('lunch', LunchController::class);
+    Route::resource('taskOrder', TaskOrderController::class);
+    Route::resource('restaurant', RestaurantController::class);
+    Route::resource('restaurantMeal', RestaurantMealController::class);
+
+    Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
+    Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock');
+    Route::post('task/finish/{task}', [TaskController::class,'finish'])->name('task.finish');
+    Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');
+});
