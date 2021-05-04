@@ -23,51 +23,50 @@
         @endif
         @if( $task->can_order )
             <form action="{{ route('taskOrder.store') }}" method="post">
-                    @csrf
-                    <div class="row">
-                        <div class="col">
-                            <label for="nameList" class="form-label">點餐人</label>
-                            <input class="form-control" list="userListOptions" id="nameList" value="" name="user_name" required>
-                            <datalist id="userListOptions">
-                                @foreach( $users as $user)
-                                    <option value="{{ $user->name }}">
-                                @endforeach
-                            </datalist>
-                        </div>
-                        <div class="col">
-                            <label for="meal_name" class="form-label">餐點名稱</label>
-                            <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required>
-                            <datalist id="datalistOptions">
-                                @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
-                                    <option value="{{ $restaurantMeal->name }}">
-                                @endforeach
-                            </datalist>
-                        </div>
-                        <div class="col">
-                            <label for="numList" class="form-label">數量</label>
-                            <input class="form-control" id="numList" value="1" name="qty" required>
-                        </div>
-                        <div class="col">
-                            <label for="price" class="form-label">金額</label>
-                            <input class="form-control" list="priceListOptions" type="number" id="meal_price" value="0" name="meal_price" required>
-                            <datalist id="priceListOptions">
-                                @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
-                                    <option class="{{ $restaurantMeal->name }}" value="{{ $restaurantMeal->price }}">
-                                @endforeach
-                            </datalist>
-                        </div>
-                        <div class="col">
-                            <label for="remark" class="form-label">備註</label>
-                            <input class="form-control" type="text" id="remark" name="remark" placeholder="(選填)我是備註">
-                        </div>
-
+                @csrf
+                <div class="row">
+                    <div class="col">
+                        <label for="nameList" class="form-label">點餐人</label>
+                        <input class="form-control" list="userListOptions" id="nameList" value="" name="user_name" required>
+                        <datalist id="userListOptions">
+                            @foreach( $users as $user)
+                                <option value="{{ $user->name }}">
+                            @endforeach
+                        </datalist>
                     </div>
-                    <input type="hidden" name="restaurant_id" value="{{ $task->restaurant_id }}">
-                    <input type="hidden" name="task_id" value="{{ $task->id }}">
-                    <input type="hidden" name="user_id" value="1">
-                    <button type="submit" class="btn btn-primary">點餐</button>
+                    <div class="col">
+                        <label for="meal_name" class="form-label">餐點名稱</label>
+                        <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required>
+                        <datalist id="datalistOptions">
+                            @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
+                                <option value="{{ $restaurantMeal->name }}">
+                            @endforeach
+                        </datalist>
+                    </div>
+                    <div class="col">
+                        <label for="numList" class="form-label">數量</label>
+                        <input class="form-control" id="numList" value="1" name="qty" required>
+                    </div>
+                    <div class="col">
+                        <label for="price" class="form-label">金額</label>
+                        <input class="form-control" list="priceListOptions" type="number" id="meal_price" value="0" name="meal_price" required>
+                        <datalist id="priceListOptions">
+                            @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
+                                <option class="{{ $restaurantMeal->name }}" value="{{ $restaurantMeal->price }}">
+                            @endforeach
+                        </datalist>
+                    </div>
+                    <div class="col">
+                        <label for="remark" class="form-label">備註</label>
+                        <input class="form-control" type="text" id="remark" name="remark" placeholder="(選填)我是備註">
+                    </div>
 
-                </form>
+                </div>
+                <input type="hidden" name="restaurant_id" value="{{ $task->restaurant_id }}">
+                <input type="hidden" name="task_id" value="{{ $task->id }}">
+                <input type="hidden" name="user_id" value="1">
+                <button type="submit" class="btn btn-primary">點餐</button>
+            </form>
         @else
             <div class="alert alert-danger" role="alert">
                 此任務目前不開放點餐

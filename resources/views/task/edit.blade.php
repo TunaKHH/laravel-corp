@@ -6,32 +6,37 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            此表單會修改餐廳餐點金額及此任務金額
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">餐點名稱</th>
-                    <th scope="col">餐點單價</th>
-                </tr>
-                </thead>
-                <tbody>
-                    @forelse ($task_totals as $task_total)
-                        <tr>
-                            <td>{{ $task_total->meal_name }}</td>
-                            <td>
-                                <input class="form-control" type="number" value="{{ $task_total->meal_price }}">
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" style="text-align: center;">沒有資料</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-block btn-lg  btn-danger">修改金額</button>
-        </div>
+        <form action="{{ route('task.update', $task->id) }}" method="post">
+            @csrf
+            @method('PATCH')
+            <div class="row">
+                此表單會修改餐廳餐點金額及此任務金額
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">餐點名稱</th>
+                        <th scope="col">餐點單價</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($task_totals as $task_total)
+                            <tr>
+                                <td>{{ $task_total->meal_name }}</td>
+                                <td>
+                                    <input class="form-control" type="number" name="meal_price[]" value="{{ $task_total->meal_price }}">
+                                    <input type="hidden" name="meal_id[]" value="{{ $task_total->meal_id }}">
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" style="text-align: center;">沒有資料</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-block btn-lg  btn-danger">修改金額</button>
+            </div>
+        </form>
     </div><!-- /.container-fluid -->
 </section>
 

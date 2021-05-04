@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RestaurantMeal;
 use App\Models\Task;
 use App\Models\Restaurant;
+use App\Models\TaskOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -86,11 +88,25 @@ class TaskController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Task $task)
     {
-        //改餐廳餐點金額、這次任務餐點金額
+        foreach($request->meal_id as $key => $meal_id){
+            //改餐廳餐點金額
+            $meal = RestaurantMeal::find($meal_id);
+            $meal->price = $request->meal_price[$key];
+            $meal->save();
+
+            //改這次任務餐點金額
+            //改這次任務餐點金額
+            $meal = TaskOrder::where('task_id',$task->id)->where('meal_id',$meal_id)->first();
+//            dd($meal);
+            $meal->meal_price = $request->meal_price[$key];
+            $meal->save();
+        }
+
+        return  redirect()->route('task.show', $task->id);
     }
 
 
