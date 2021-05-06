@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('title','任務點餐-'.$task->restaurant->name)
+@section('first_page')
+    <a href="{{ route('task.index') }}">
+        任務列表
+    </a>
+@endsection
 
 @section('main.body')
 <!-- Main content -->
@@ -194,7 +199,9 @@
                 </tbody>
             </table>
         </div>
-        <a href="{{ route('task.edit',$task->id) }}">餐廳金額有誤?點此統一修改</a>
+        @if($task->is_open != 0)
+            <a href="{{ route('task.edit',$task->id) }}">餐廳金額有誤?點此統一修改</a>
+        @endif
 
         <div>
             @if($task->is_open == 2)

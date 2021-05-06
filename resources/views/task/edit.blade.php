@@ -1,6 +1,13 @@
 @extends('layouts.app')
-
-@section('title','修改餐點金額-'.$task->restaurant->name)
+@section('first_page')
+    <a href="{{ route('task.index') }}">
+        任務列表
+    </a>
+@endsection
+@section('last_page')
+    <a href="{{ route('task.show',$task->id) }}">{{ $task->restaurant->name }}</a>
+@endsection
+@section('title','修改餐點金額')
 
 @section('main.body')
 <!-- Main content -->

@@ -30,9 +30,6 @@ Route::get('/line', [LoginController::class,'pageLine']);
 Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        //
-    });
     Route::post('logout', [LoginController::class,'logout'])->name('logout');
 
 

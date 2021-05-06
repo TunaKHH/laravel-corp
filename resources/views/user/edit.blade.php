@@ -13,7 +13,7 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">修改 <small> (若不會請洽帥哥鮪魚)</small></h3>
+                        <h3 class="card-title">修改 <small> (若不會請洽帥氣鮪魚)</small></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->

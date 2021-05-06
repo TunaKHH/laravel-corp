@@ -213,8 +213,9 @@
                     <li class="nav-item justify-content-center">
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
-                            <button class="btn btn-danger btn-lg" type="submit">登出
+                            <button class="btn btn-danger btn-block" type="submit">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
+                                登出
                             </button>
                         </form>
                     </li>
@@ -237,7 +238,20 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+
+
+                            @hasSection('first_page')
+                                <li class="breadcrumb-item">@yield('first_page')</li>
+                            @endif
+                            @sectionMissing('first_page')
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('index') }}">Home</a>
+                                </li>
+                            @endif
+
+                            @hasSection('last_page')
+                                <li class="breadcrumb-item">@yield('last_page')</li>
+                            @endif
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div><!-- /.col -->
