@@ -95,13 +95,14 @@ class TaskController extends Controller
         foreach($request->meal_id as $key => $meal_id){
             //改餐廳餐點金額
             $meal = RestaurantMeal::find($meal_id);
-            $meal->price = $request->meal_price[$key];
-            $meal->save();
+            if(isset($meal)){
+                $meal->price = $request->meal_price[$key];
+                $meal->save();
+            }
+
 
             //改這次任務餐點金額
-            //改這次任務餐點金額
             $meal = TaskOrder::where('task_id',$task->id)->where('meal_id',$meal_id)->first();
-//            dd($meal);
             $meal->meal_price = $request->meal_price[$key];
             $meal->save();
         }
@@ -114,7 +115,7 @@ class TaskController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {

@@ -32,7 +32,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>餐廳名稱</label>
-                            <input type="text" class="form-control" name="name" placeholder="餐廳名稱" autofocus>
+                            <input type="text" class="form-control" name="name" placeholder="餐廳名稱" autofocus >
+                        </div>
+                        <div class="form-group">
+                            <label>電話</label>
+                            <input type="text" class="form-control" name="phone" placeholder="這裏可留空">
                         </div>
                         <div class="form-group">
                             <label>備註</label>
@@ -60,8 +64,11 @@
                 @forelse ($restaurants as $restaurant)
                     <tr>
                         <td>
+                            <a href="{{ route('restaurant.show', $restaurant->id) }}" class="btn btn-primary text-white">
+                                <i class="fas fa-plus"></i>
+                            </a>
 
-                            <a href="{{ route('restaurant.show', $restaurant->id) }}" class="btn btn-warning text-white">
+                            <a href="{{ route('restaurant.edit', $restaurant->id) }}" class="btn btn-warning text-white">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>
@@ -69,7 +76,7 @@
                         <td>{{ $restaurant->remark }}</td>
                         <td>
                             @forelse ($restaurant->photos as $photo)
-                                <a href="{{ $photo->url }}">
+                                <a href="{{ $photo->url }}" target="_blank">
                                     連結{{ $loop->index }}
 
                                 </a>
@@ -79,7 +86,7 @@
                         </td>
 
                         <td>
-                            <form method="post" action="{{ route('uploadImage') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('restaurantPhoto.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="input-group">
                                     <input type="file" name="image" class="form-control">
