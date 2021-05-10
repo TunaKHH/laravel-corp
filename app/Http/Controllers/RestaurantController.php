@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use App\Models\RestaurantPhoto;
+use Illuminate\Support\Facades\Validator;
 
 class RestaurantController extends Controller
 {
@@ -40,7 +42,20 @@ class RestaurantController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $messages = [
+            'name.required'=>'未填寫名稱',
+            'name.unique'=>'重複的餐廳名稱',
+            'name.max'=>'字數不得超過255',
+        ];
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:restaurants|max:255',
+        ],$messages);
+
+        if( $validator->fails() ){
+            return Redirect::back()->withErrors($validator);
+        }
+
+//        $request->validate();
         Restaurant::create($request->all());
         return redirect()->route('restaurant.index');
     }
@@ -85,12 +100,13 @@ class RestaurantController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Restaurant $restaurant
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
-    public function edit($id)
+    public function edit(Restaurant $restaurant)
     {
-        //
+//        $restaurant = Restaurant::get($id);
+        return view('restaurant.edit', ['restaurant'=>$restaurant]);
     }
 
     /**
@@ -98,11 +114,15 @@ class RestaurantController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+//        dd($request->all());
+        $restaurant->update($request->all());
+        return redirect()->back();
+
     }
 
     /**

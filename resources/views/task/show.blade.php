@@ -30,16 +30,16 @@
             <form action="{{ route('taskOrder.store') }}" method="post">
                 @csrf
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm col-12">
                         <label for="nameList" class="form-label">點餐人</label>
-                        <input class="form-control" list="userListOptions" id="nameList" value="" name="user_name" required>
+                        <input class="form-control" list="userListOptions" id="nameList" value="{{ Auth::user()->name }}" name="user_name" required>
                         <datalist id="userListOptions">
                             @foreach( $users as $user)
                                 <option value="{{ $user->name }}">
                             @endforeach
                         </datalist>
                     </div>
-                    <div class="col">
+                    <div class="col-sm col-12">
                         <label for="meal_name" class="form-label">餐點名稱</label>
                         <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required>
                         <datalist id="datalistOptions">
@@ -48,11 +48,11 @@
                             @endforeach
                         </datalist>
                     </div>
-                    <div class="col">
+                    <div class="col-sm col-12">
                         <label for="numList" class="form-label">數量</label>
                         <input class="form-control" id="numList" value="1" name="qty" required>
                     </div>
-                    <div class="col">
+                    <div class="col-sm col-12">
                         <label for="price" class="form-label">金額</label>
                         <input class="form-control" list="priceListOptions" type="number" id="meal_price" value="0" name="meal_price" required>
                         <datalist id="priceListOptions">
@@ -61,7 +61,7 @@
                             @endforeach
                         </datalist>
                     </div>
-                    <div class="col">
+                    <div class="col-sm col-12">
                         <label for="remark" class="form-label">備註</label>
                         <input class="form-control" type="text" id="remark" name="remark" placeholder="(選填)我是備註">
                     </div>

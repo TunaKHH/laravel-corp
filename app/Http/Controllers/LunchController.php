@@ -11,18 +11,18 @@ class LunchController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        // 扣款操作畫面
         $users = User::all()->sortBy('deposit')->reverse();
         return view('lunch.index',['users'=>$users]);
     }
 
     public function record()
     {
-        //
+        // 扣款紀錄畫面
         $records = Record::all()->sortBy('created_at')->reverse();
         return view('lunch.record',['records'=>$records]);
     }
@@ -42,7 +42,7 @@ class LunchController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -75,9 +75,9 @@ class LunchController extends Controller
                 }
             }
         }
-        return response('200');
+//        return response('200');
 
-//        return redirect()->route('record');
+        return redirect()->route('record');
     }
 
     /**

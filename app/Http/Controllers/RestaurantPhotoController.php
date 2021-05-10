@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Restaurant;
-use App\Models\RestaurantMeal;
+use App\Models\RestaurantPhoto;
 use Illuminate\Http\Request;
 
-class RestaurantMealController extends Controller
+class RestaurantPhotoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,23 +35,37 @@ class RestaurantMealController extends Controller
      */
     public function store(Request $request)
     {
-        // 新增餐點
-        RestaurantMeal::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'restaurant_id' => $request->restaurant_id,
+        //
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'restaurant_id' => 'required',
         ]);
+        $restaurant_id = $request->get('restaurant_id');
 
-        return redirect()->back();
+        $imageName = time().'.'.$request->image->extension();
+
+//        $request->image->move(public_path('images'), $imageName);
+
+        /* Store $imageName name in DATABASE from HERE */
+        $request->image->storeAs('public/images', $imageName);
+
+
+        $restaurantPhoto = new RestaurantPhoto;
+        $restaurantPhoto->restaurant_id = $restaurant_id;
+        $restaurantPhoto->url = '/storage/images/' . $imageName;
+        $restaurantPhoto->save();
+
+        return back()->with('success','成功上傳圖片')
+            ->with('image',$imageName);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\RestaurantMeal  $restaurantMeal
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(RestaurantMeal $restaurantMeal)
+    public function show($id)
     {
         //
     }
@@ -60,10 +73,10 @@ class RestaurantMealController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\RestaurantMeal  $restaurantMeal
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(RestaurantMeal $restaurantMeal)
+    public function edit($id)
     {
         //
     }
@@ -72,10 +85,10 @@ class RestaurantMealController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\RestaurantMeal  $restaurantMeal
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RestaurantMeal $restaurantMeal)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -83,17 +96,12 @@ class RestaurantMealController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\RestaurantMeal  $restaurantMeal
+     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(RestaurantMeal $restaurantMeal)
+    public function destroy($id)
     {
-
-        $restaurantMeal = RestaurantMeal::find($restaurantMeal->id);
-//        dd($restaurantMeal);
-        $restaurantMeal->delete();
-//        RestaurantMeal::destroy($restaurantMeal);
-        return redirect()->back();
-
+        RestaurantPhoto::destroy($id);
+        return  redirect()->back();
     }
 }

@@ -32,7 +32,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>餐廳名稱</label>
-                            <input type="text" class="form-control" name="name" placeholder="餐廳名稱" autofocus>
+                            <input type="text" class="form-control" name="name" placeholder="餐廳名稱" autofocus >
+                        </div>
+                        <div class="form-group">
+                            <label>電話</label>
+                            <input type="text" class="form-control" name="phone" placeholder="這裏可留空">
                         </div>
                         <div class="form-group">
                             <label>備註</label>
@@ -51,6 +55,7 @@
                     <th scope="col">餐廳名稱</th>
                     <th scope="col">備註</th>
                     <th scope="col">菜單圖片</th>
+                    <th scope="col">電話</th>
                     <th scope="col">上傳菜單</th>
                     <th scope="col">建立時間</th>
                 </tr>
@@ -60,16 +65,19 @@
                 @forelse ($restaurants as $restaurant)
                     <tr>
                         <td>
+                            <a href="{{ route('restaurant.show', $restaurant->id) }}" class="btn btn-primary text-white">
+                                <i class="fas fa-plus"></i>
+                            </a>
 
-                            <a href="{{ route('restaurant.show', $restaurant->id) }}" class="btn btn-warning text-white">
+                            <a href="{{ route('restaurant.edit', $restaurant->id) }}" class="btn btn-warning text-white">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>
                         <td>{{ $restaurant->name }}</td>
-                        <td>{{ $restaurant->remark }}</td>
+                        <td>{{ $restaurant->remark??'無' }}</td>
                         <td>
                             @forelse ($restaurant->photos as $photo)
-                                <a href="{{ $photo->url }}">
+                                <a href="{{ $photo->url }}" target="_blank">
                                     連結{{ $loop->index }}
 
                                 </a>
@@ -77,9 +85,12 @@
                                 <span>沒有圖片</span>
                             @endforelse
                         </td>
+                        <td>
+                            {{ $restaurant->phone??'無' }}
+                        </td>
 
                         <td>
-                            <form method="post" action="{{ route('uploadImage') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('restaurantPhoto.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="input-group">
                                     <input type="file" name="image" class="form-control">
