@@ -55,6 +55,7 @@
                     <th scope="col">餐廳名稱</th>
                     <th scope="col">備註</th>
                     <th scope="col">菜單圖片</th>
+                    <th scope="col">電話</th>
                     <th scope="col">上傳菜單</th>
                     <th scope="col">建立時間</th>
                 </tr>
@@ -73,7 +74,7 @@
                             </a>
                         </td>
                         <td>{{ $restaurant->name }}</td>
-                        <td>{{ $restaurant->remark }}</td>
+                        <td>{{ $restaurant->remark??'無' }}</td>
                         <td>
                             @forelse ($restaurant->photos as $photo)
                                 <a href="{{ $photo->url }}" target="_blank">
@@ -83,6 +84,9 @@
                             @empty
                                 <span>沒有圖片</span>
                             @endforelse
+                        </td>
+                        <td>
+                            {{ $restaurant->phone??'無' }}
                         </td>
 
                         <td>

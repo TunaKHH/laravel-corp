@@ -7,7 +7,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <form method="post" id="op_form">
+            <form method="post" class="form-save" action="{{ route('lunch.store') }}">
                 @csrf
                 <button type="button" class="btn btn-success float-right" onclick="openSave()">開啟儲值</button>
 
@@ -49,7 +49,7 @@
                         <td id="sum_deduction">0</td>
                         <td id="sum_save">0</td>
                         <td>
-                            <button type="submit" class="btn btn-dark float-right">儲存</button>
+                            <button type="button" class="btn btn-dark float-right save-confirm">儲存</button>
                         </td>
                     </tr>
                     </tfoot>
@@ -101,60 +101,11 @@
             $('#sum_save').text(totalSaveAmount());
         });
 
-        $('#op_form').on('submit', 'form', function(e) { //TODO 將表單改為即時更新
+
+
+        $('.save-confirm').click(function(e){ //TODO 將表單改為即時更新
+            var form =  $(this).closest("form");
             e.preventDefault();
-            $(window).keydown(function (event) {
-                if (event.keyCode === 13) { // 防止按到enter送出
-                    Swal.fire({
-                        title: '請點擊下方確認按鈕!',
-                        icon: 'error',
-                        confirmButtonText: '好'
-                    })
-                    return false;
-                }
-            });
-
-            Swal.fire({
-                showCloseButton: true,
-                showCancelButton: true,
-                title: '確認要送出嗎!',
-                icon: 'info',
-                confirmButtonText: '確認'
-            })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            method: 'POST',
-                            url: '{{ route('lunch.store') }}',
-                            data:$(this).serialize(),
-                            success: function(code) {
-                                if(code && code === '200'){
-                                    Swal.fire('送出成功!', '', 'success')
-                                        .then(()=>{
-                                            window.location.href = "{{ route('record') }}";
-                                        })
-                                }else{
-                                    Swal.fire('送出失敗!', '', 'error')
-                                }
-                            }
-                        });
-                    }
-                })
-        });
-
-
-        $('#op_form').on('submit', 'form', function(e) { //TODO 將表單改為即時更新
-            e.preventDefault();
-            $(window).keydown(function (event) {
-                if (event.keyCode === 13) { // 防止按到enter送出
-                    Swal.fire({
-                        title: '請點擊下方確認按鈕!',
-                        icon: 'error',
-                        confirmButtonText: '好'
-                    })
-                    return false;
-                }
-            });
 
             Swal.fire({
                 showCloseButton: true,
@@ -165,23 +116,10 @@
             })
             .then((result) => {
                 if (result.isConfirmed) {
-                    $.ajax({
-                        method: 'POST',
-                        url: '{{ route('lunch.store') }}',
-                        data:$(this).serialize(),
-                        success: function(code) {
-                            if(code && code === '200'){
-                                Swal.fire('送出成功!', '', 'success')
-                                    .then(()=>{
-                                        window.location.href = "{{ route('record') }}";
-                                    })
-                            }else{
-                                Swal.fire('送出失敗!', '', 'error')
-                            }
-                        }
-                    });
+                    form.submit();
                 }
             })
+
         });
 
     </script>
