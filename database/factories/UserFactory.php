@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -23,6 +24,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'account' => $this->faker->email,
+            'password' => Hash::make(env('USER_DEFAULT_PASSWORD')),
             'name' => $this->faker->name,
             'deposit' => rand(-99999,99999),
         ];

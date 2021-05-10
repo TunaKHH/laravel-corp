@@ -7,4 +7,18 @@
 - [ ] 紀錄使用datatable
 - [ ] 暫存改用Redis
 ### issue
-- [ ] 修正js錯誤
+- [x] js引入錯誤
+- [x] nav的active顯示錯誤
+
+## v1
+- 正常扣款
+- 交易紀錄
+- 餘額排行榜
+
+## v1.1
+- 修正logo圖片太寬
+- 補上AdminLTE的各種擴充
+- 加入餘額加總
+
+## v1.2
+- [ ] 加入現有line api

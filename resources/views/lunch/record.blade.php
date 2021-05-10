@@ -1,6 +1,28 @@
 @extends('layouts.app')
 
 @section('title','金額紀錄')
+
+@section('css')
+
+    <link rel="stylesheet" type="text/css" href=" {{ url('DataTables/datatables.min.css') }}"/>
+    <style>
+        #DataTables_Table_0_wrapper {
+            width: 100%;
+        }
+        #DataTables_Table_0_wrapper .alert-danger{
+            color: black;
+            background-color: #f8d7da;
+        }
+
+        #DataTables_Table_0_wrapper .alert-success{
+            color: black;
+            background-color: #d4edda;
+        }
+
+    </style>
+@endsection
+
+
 @section('main.body')
 
 
@@ -10,7 +32,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <table class="table">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">姓名</th>
                         <th scope="col">金額</th>
@@ -37,7 +59,20 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
 @endsection
+@section('script')
+    <script src="{{ url('DataTables/datatables.min.js') }}"></script>
 
+    <script>
+        $(document).ready( function () {
+            $('.table').DataTable({
+                // responsive: true,
+
+                "order": [[ 3, "desc" ]]
+            });
+        } );
+
+
+    </script>
+@endsection
 
