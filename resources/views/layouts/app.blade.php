@@ -88,14 +88,14 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
-                    <li class="nav-item">
-                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is(['user','user/*']) ? 'active' : '' }}" disabled>
-                            <i class="nav-icon fas fa-user-plus"></i>
-                            <p>
-                                管理使用者
-                            </p>
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is(['user','user/*']) ? 'active' : '' }}" disabled>--}}
+{{--                            <i class="nav-icon fas fa-user-plus"></i>--}}
+{{--                            <p>--}}
+{{--                                管理使用者--}}
+{{--                            </p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link {{ request()->is(['/','record']) ? 'active' : '' }} ">
                             <i class="nav-icon fas fa-hand-holding-usd"></i>
@@ -152,26 +152,27 @@
 {{--                            </li>--}}
                         </ul>
                     </li>
-                    <li class="nav-item menu-open">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-business-time"></i>
-                            <p>
-                                打卡
-                                {{--TODO 這裡的active要修--}}
-                                <i class="right fas fa-angle-left"></i>
 
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    {{--TODO 這裡的active要修--}}
-                                    <p>歷史紀錄</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+{{--                    <li class="nav-item menu-open">--}}
+{{--                        <a href="#" class="nav-link">--}}
+{{--                            <i class="nav-icon fas fa-business-time"></i>--}}
+{{--                            <p>--}}
+{{--                                打卡--}}
+{{--                                --}}{{--TODO 這裡的active要修--}}
+{{--                                <i class="right fas fa-angle-left"></i>--}}
+
+{{--                            </p>--}}
+{{--                        </a>--}}
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    --}}{{--TODO 這裡的active要修--}}
+{{--                                    <p>歷史紀錄</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link {{ request()->is(['restaurant','restaurant/*']) ? 'active' : '' }}">
                             <i class="nav-icon fas fa-store"></i>
@@ -191,25 +192,28 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item menu-open">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                管理
-                                {{--TODO 這裡的active要修--}}
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    {{--TODO 這裡的active要修--}}
-                                    <p>人員資產表</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
+
+{{--                    <li class="nav-item menu-open">--}}
+{{--                        <a href="#" class="nav-link">--}}
+{{--                            <i class="nav-icon fas fa-users"></i>--}}
+{{--                            <p>--}}
+{{--                                管理--}}
+{{--                                --}}{{--TODO 這裡的active要修--}}
+{{--                                <i class="right fas fa-angle-left"></i>--}}
+{{--                            </p>--}}
+{{--                        </a>--}}
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ route('task.index') }}" class="nav-link {{ request()->is('/task') ? 'active' : '' }} ">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    --}}{{--TODO 這裡的active要修--}}
+{{--                                    <p>人員資產表</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+
                     <li class="nav-item justify-content-center">
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
