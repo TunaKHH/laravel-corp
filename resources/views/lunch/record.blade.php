@@ -10,10 +10,12 @@
             width: 100%;
         }
         #DataTables_Table_0_wrapper .alert-danger{
+            color: black;
             background-color: #f8d7da;
         }
 
         #DataTables_Table_0_wrapper .alert-success{
+            color: black;
             background-color: #d4edda;
         }
 

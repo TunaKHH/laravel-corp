@@ -183,7 +183,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('restaurant.index') }}" class="nav-link {{ request()->is('restaurant') ? 'active' : '' }} ">
+                                <a href="{{ route('restaurant.index') }}" class="nav-link {{ request()->is(['restaurant','restaurant/*']) ? 'active' : '' }} ">
                                     <i class="far fa-circle nav-icon"></i>
                                     {{--TODO 這裡的active要修--}}
                                     <p>餐廳列表</p>

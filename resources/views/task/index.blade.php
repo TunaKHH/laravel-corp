@@ -131,7 +131,9 @@
                         </tr>
                     @empty
                         <tr>
-                            沒有資料
+                            <td>
+                                沒有資料
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

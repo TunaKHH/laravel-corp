@@ -6,7 +6,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <form action="{{ route('restaurantMeal.store',$restaurant->id) }}" method="post">
+        <form action="{{ route('restaurantMeal.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col">
@@ -17,14 +17,12 @@
                     </datalist>
                 </div>
                 <div class="col">
-                    <label for="amount" class="form-label">金額</label>
-                    <input class="form-control" type="number" list="numOptions" id="amount" value="0" name="amount" required>
+                    <label for="price" class="form-label">金額</label>
+                    <input class="form-control" type="number" id="price" value="0" name="price" required>
                 </div>
-
             </div>
-{{--            <input type="hidden" name="restaurant_id" value="{{ $task->restaurant_id }}">--}}
+            <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
 
-            <input type="hidden" name="user_id" value="1">
             <button type="submit" class="btn btn-primary">新增</button>
 
         </form>
@@ -57,7 +55,7 @@
                             <form action="{{ route('restaurantMeal.destroy', $restaurantMeal->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="btn btn-danger" disabled>刪除(外部關聯未處理好)</button>
+                                <button type="submit" class="btn btn-danger">刪除(外部關聯未處理好)</button>
                             </form>
                         </td>
                     </tr>

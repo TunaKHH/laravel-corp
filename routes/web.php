@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RestaurantMealController;
+use App\Http\Controllers\RestaurantPhotoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\UserController;
@@ -43,9 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('taskOrder', TaskOrderController::class);
     Route::resource('restaurant', RestaurantController::class);
     Route::resource('restaurantMeal', RestaurantMealController::class);
+    Route::resource('restaurantPhoto', RestaurantPhotoController::class);
 
     Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
     Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock');
     Route::post('task/finish/{task}', [TaskController::class,'finish'])->name('task.finish');
-    Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');
+//    Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');
 });

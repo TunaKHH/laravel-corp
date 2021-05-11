@@ -15,7 +15,8 @@ class CreateRestaurantsTable extends Migration
     {
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('名字')->nullable();
+            $table->string('name')->comment('名字');
+            $table->string('phone')->comment('電話')->nullable();
             $table->string('remark')->comment('備註')->nullable();
             $table->timestamps();
         });
