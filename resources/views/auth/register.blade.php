@@ -8,7 +8,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">邀請碼若不知道請呼叫帥氣鮪魚</p>
+                <p class="login-box-msg">邀請碼若不知道請呼叫帥氣鮪魚{{ $INVITATION_CODE??'' }}</p>
                 @error('error')
                 <div class="alert alert-danger alert-dismissible">
                     <h5><i class="icon fas fa-ban"></i>
