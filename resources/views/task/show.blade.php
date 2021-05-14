@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','任務點餐-'.$task->restaurant->name)
+@section('title','任務點餐-'.$task->restaurant->name.'('.$task->restaurant->phone.')')
 @section('first_page')
     <a href="{{ route('task.index') }}">
         任務列表
