@@ -11,7 +11,7 @@ class RegisterController extends Controller
 {
     //
     public function show(){
-        return view('auth.register',['INVITATION_CODE'=>env('INVITATION_CODE')]);
+        return view('auth.register');
     }
 
     public function create(Request $request){// 創帳號
