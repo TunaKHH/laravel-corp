@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-sm col-12">
                         <label for="meal_name" class="form-label">餐點名稱</label>
-                        <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required>
+                        <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required autocomplete="off">
                         <datalist id="datalistOptions">
                             @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
                                 <option value="{{ $restaurantMeal->name }}">
