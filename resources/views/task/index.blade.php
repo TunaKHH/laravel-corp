@@ -20,6 +20,15 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible">
+                                    <h5><i class="icon fas fa-ban">失敗</i>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </h5>
+                                </div>
+                            @endif
                             <label>餐廳</label>
                             <div class="form-group">
                                 <select class="form-control" name="restaurant_id" id="restaurant_id" aria-label="Floating label select example" required>
