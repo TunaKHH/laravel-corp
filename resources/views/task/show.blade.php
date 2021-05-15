@@ -11,6 +11,16 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible">
+            <h5><i class="icon fas fa-ban">失敗</i>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </h5>
+        </div>
+        @endif
+
         @if ($message = Session::get('no_user'))
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -41,7 +51,7 @@
                     </div>
                     <div class="col-sm col-12">
                         <label for="meal_name" class="form-label">餐點名稱</label>
-                        <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)" required autocomplete="off">
+                        <input class="form-control" list="datalistOptions" id="meal_name" name="meal_name" placeholder="餐點名稱" onchange="autoUpdatePrice(this)"  autocomplete="off" required>
                         <datalist id="datalistOptions">
                             @foreach( $task->restaurant->restaurantMeals as $restaurantMeal)
                                 <option value="{{ $restaurantMeal->name }}">
@@ -50,7 +60,7 @@
                     </div>
                     <div class="col-sm col-12">
                         <label for="numList" class="form-label">數量</label>
-                        <input class="form-control" id="numList" value="1" name="qty" required>
+                        <input class="form-control" id="numList" value="1" name="qty" type="number" required>
                     </div>
                     <div class="col-sm col-12">
                         <label for="price" class="form-label">金額</label>
