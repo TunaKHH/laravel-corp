@@ -9,12 +9,12 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">登入以操作，若不會請呼叫帥氣鮪魚</p>
-            @error('account')
+            @if($errors->any())
             <div class="alert alert-danger alert-dismissible">
                 <h5><i class="icon fas fa-ban"></i> 帳號或密碼錯誤</h5>
                 請重新再試一次
             </div>
-            @enderror
+            @endif
             <form action="{{ route('login.enter') }}" method="post">
                 @csrf
                 <div class="input-group mb-3">

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\RestaurantMeal;
 use App\Models\TaskOrder;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class TaskOrderController
@@ -23,10 +25,42 @@ class TaskOrderController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'restaurant_id.required'=>'未選擇餐廳',
+            'user_name.required'=>'未輸入使用者',
+            'meal_name.required'=>'親，未輸入餐點名稱',
+            'meal_price.required'=>'未輸入餐點金額',
+            'qty.required'=>'未輸入餐點數量',
+            'task_id.required'=>'未輸入任務id',
+
+            'qty.integer'=>'數量給我乖乖輸入整數',
+            'meal_price.integer'=>'餐點金額給我乖乖輸入整數',
+
+            'user_name.max'=>'你他媽名字有這麼長?字數不得超過255',
+            'remark.max'=>'你他媽備註有這麼長?字數不得超過255',
+        ];
+        $validator = Validator::make($request->all(), [
+            'restaurant_id' => 'required',
+            'task_id' => 'required',
+            'user_name' => 'required|max:255',
+            'remark' => 'max:255',
+            'meal_name' => 'required',
+            'meal_price' => 'required|integer',
+            'qty' => 'required|integer',
+
+        ],$messages);
+
+        if( $validator->fails() ){
+            return back()->withErrors($validator)->withInput();
+        }
+
         $restaurant_id = $request->restaurant_id;
         $user_name     = $request->user_name;
         $meal_name     = $request->meal_name;
         $meal_price    = $request->meal_price;
+        $qty           = $request->qty;
+        $task_id       = $request->task_id;
+        $remark        = $request->remark;
 
         // 檢查有沒有這個使用者
         $user = User::where('name', $user_name)->first();
@@ -51,10 +85,10 @@ class TaskOrderController extends Controller
         $taskOrder->meal_id    = $restaurantMeal->id;
         $taskOrder->meal_name  = $meal_name;
         $taskOrder->meal_price = $meal_price;
-        $taskOrder->task_id    = $request->task_id;
+        $taskOrder->task_id    = $task_id;
         $taskOrder->user_id    = $user->id;
-        $taskOrder->qty        = $request->qty;
-        $taskOrder->remark     = $request->remark;
+        $taskOrder->qty        = $qty;
+        $taskOrder->remark     = $remark;
         $taskOrder->save();
 
         return back()->with('success', '點餐成功');

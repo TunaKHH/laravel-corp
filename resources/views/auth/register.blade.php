@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">邀請碼若不知道請呼叫帥氣鮪魚</p>
-                @error('error')
+                @if($errors->any())
                 <div class="alert alert-danger alert-dismissible">
                     <h5><i class="icon fas fa-ban"></i>
                         @foreach ($errors->all() as $error)
@@ -18,7 +18,7 @@
                     </h5>
                     請重試
                 </div>
-                @enderror
+                @endif
                 <form action="{{ route('register.enter') }}" method="post">
                     @csrf
 

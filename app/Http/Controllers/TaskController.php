@@ -21,8 +21,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all()->sortBy('created_at')->reverse();
-//        dd($tasks->restaurants);
         $restaurants = Restaurant::all();
+//        dd($restaurants);
         return view('task.index', ['tasks'=>$tasks, 'restaurants'=> $restaurants]);
     }
 
@@ -45,6 +45,9 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'restaurant_id' => 'required|exists:restaurants,id',
+        ]);
         Task::create($request->all());
         return redirect()->route('task.index');
     }
