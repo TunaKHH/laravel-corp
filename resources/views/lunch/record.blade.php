@@ -68,7 +68,9 @@
             $('.table').DataTable({
                 // responsive: true,
 
-                "order": [[ 3, "desc" ]]
+                "order": [[ 3, "desc" ]],
+                "lengthMenu": [ [50, 100, -1], [ 50, 100, "All"]]
+
             });
         } );
 

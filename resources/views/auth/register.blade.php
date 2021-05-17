@@ -24,25 +24,30 @@
 
                     <div class="form-group">
                         <label>邀請碼</label>
-                        <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼" required>
+                        <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼" value="{{old('invitation_code')}}" required>
                     </div>
                     <hr>
+
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="本名" required>
+                        <input type="text" class="form-control" name="name" placeholder="本名" value="{{old('name')}}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-signature"></span>
                             </div>
                         </div>
                     </div>
+
+                    <small class="form-text text-muted">帳號必須介於6到30個字元</small>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="account" placeholder="帳號" required>
+                        <input type="text" class="form-control" name="account" placeholder="帳號" value="{{old('account')}}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
                     </div>
+
+                    <small class="form-text text-muted">密碼必須介於8到255個字元</small>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" name="password" placeholder="密碼" required>
                         <div class="input-group-append">
