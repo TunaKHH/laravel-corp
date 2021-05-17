@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LunchController extends Controller
 {
@@ -47,7 +48,7 @@ class LunchController extends Controller
     public function store(Request $request)
     {
         foreach ( $request->user_cost as $key => $cost ){
-            if( is_numeric($cost) && $cost > 0 ){
+            if( is_numeric($cost) && $cost > 0 && $cost < 900000 ){
                 $record = new Record;
                 $record->user_id = $request->user_id[$key];
                 $record->amount = $cost * -1;
@@ -62,7 +63,7 @@ class LunchController extends Controller
 
         if( isset($request->user_save) ){
             foreach ( $request->user_save as $key => $save ){
-                if( is_numeric($save) && $save > 0 ){
+                if( is_numeric($save) && $save > 0 && $cost < 900000 ){
                     $record = new Record;
                     $record->user_id = $request->user_id[$key];
                     $record->amount = $save;

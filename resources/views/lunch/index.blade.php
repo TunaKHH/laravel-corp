@@ -6,11 +6,20 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible">
+                <h5><i class="icon fas fa-ban"></i>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </h5>
+            </div>
+        @endif
+        單個欄位上限$900,000
         <div class="row">
             <form method="post" class="form-save" action="{{ route('lunch.store') }}">
                 @csrf
                 <button type="button" class="btn btn-success float-right" onclick="openSave()">開啟儲值</button>
-
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>
