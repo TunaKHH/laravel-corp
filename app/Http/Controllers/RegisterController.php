@@ -30,8 +30,8 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'invitation_code' => 'required',
             'name' => 'required|max:255',
-            'account' => 'required|max:255',
-            'password' => 'required|max:255',
+            'account' => 'required|min:6|max:255',
+            'password' => 'required|min:8|max:255',
         ],$messages);
 
         if( $validator->fails() ){
@@ -43,14 +43,14 @@ class RegisterController extends Controller
         if( $invitation_code != env('INVITATION_CODE')){// 檢查邀請碼
             return back()->withErrors([
                 'error' => ' 邀請碼錯誤',
-            ]);
+            ])->withInput();
         }
 
         $user = User::where('account', $request->account)->first();
         if( !empty($user) ){// 檢查帳號有無重複
             return back()->withErrors([
                 'error' => ' 帳號重複',
-            ]);
+            ])->withInput();
         }
 
         $user  = new User;
