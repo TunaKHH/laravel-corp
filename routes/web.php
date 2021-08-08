@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LiffController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RestaurantMealController;
 use App\Http\Controllers\RestaurantPhotoController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\LoginController;
 
 
 
+Route::get('/liff/login', [LiffController::class,'login']);
 Route::get('/line', [LoginController::class,'pageLine']);
 Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
 

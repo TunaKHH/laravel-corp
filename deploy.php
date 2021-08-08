@@ -4,7 +4,7 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 // Project name
-set('application', 'my_project');
+set('application', 'deployer.sakawawa.me');
 
 // Project repository
 set('repository', 'git@github.com:STUTuna/laravel-corp.git');
@@ -22,8 +22,16 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('project.com')
-    ->set('deploy_path', '~/{{application}}');
+host('sakawawa.me')
+
+    ->user('root')
+    ->port(22)
+    ->configFile('C://Users/s15113114/.ssh/config')
+//    ->configFile('~/.ssh/config')
+    ->identityFile('C://Users/s15113114/.ssh/id_rsa')
+    ->set('deploy_path', '/www/wwwroot');
+//host('Sakawawa')
+//    ->set('deploy_path', '/www/wwwroot');
 
 // Tasks
 
@@ -33,10 +41,13 @@ task('build', function () {
 task('test', function () {
     writeln('Hello world');
 });
+task('deploy:done', function () {
+    write('Deploy done!');
+});
+before('deploy:symlink', 'artisan:migrate');
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
-
-before('deploy:symlink', 'artisan:migrate');
-
+after('deploy', 'deploy:done');

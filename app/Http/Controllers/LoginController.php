@@ -37,7 +37,6 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-//        dd($request->remember);
         $credentials = $request->only('account', 'password');
 
         if (!Auth::attempt($credentials,$request->remember)) {

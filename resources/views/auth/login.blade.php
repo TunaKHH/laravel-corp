@@ -18,7 +18,7 @@
             <form action="{{ route('login.enter') }}" method="post">
                 @csrf
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="account" placeholder="帳號">
+                    <input type="text" class="form-control" name="account" placeholder="帳號 or Email">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-blind"></span>

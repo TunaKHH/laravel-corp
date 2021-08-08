@@ -1,0 +1,65 @@
+[localhost] > git rev-parse --abbrev-ref HEAD
+[localhost] < feature/加入個人資訊頁面
+[sakawawa.me] > echo $0
+[localhost] > git rev-parse --abbrev-ref HEAD
+[localhost] < feature/加入個人資訊頁面
+[sakawawa.me] > echo $0
+[localhost] > git rev-parse --abbrev-ref HEAD
+[localhost] < feature/加入個人資訊頁面
+[43.224.35.84] > echo $0
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] ControlSocket C:\\Users\\s15113114/.ssh/deployer_root@43.224.35.84:22 already exists, disabling multiplexing
+[43.224.35.84] < bash
+[43.224.35.84] > if [ ! -d /www/wwwroot ]; then mkdir -p /www/wwwroot; fi
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] ControlSocket C:\\Users\\s15113114/.ssh/deployer_root@43.224.35.84:22 already exists, disabling multiplexing
+[43.224.35.84] > if [ ! -L /www/wwwroot/current ] && [ -d /www/wwwroot/current ]; then echo 'true'; fi
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] ControlSocket C:\\Users\\s15113114/.ssh/deployer_root@43.224.35.84:22 already exists, disabling multiplexing
+[43.224.35.84] > cd /www/wwwroot && if [ ! -d .dep ]; then mkdir .dep; fi
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] ControlSocket C:\\Users\\s15113114/.ssh/deployer_root@43.224.35.84:22 already exists, disabling multiplexing
+[43.224.35.84] > cd /www/wwwroot && if [ ! -d releases ]; then mkdir releases; fi
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] ControlSocket C:\\Users\\s15113114/.ssh/deployer_root@43.224.35.84:22 already exists, disabling multiplexing
+[43.224.35.84] > cd /www/wwwroot && if [ ! -d shared ]; then mkdir shared; fi
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] Permission denied, please try again.
+[localhost] > git rev-parse --abbrev-ref HEAD
+[localhost] < feature/加入個人資訊頁面
+[43.224.35.84] > echo $0
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] ControlSocket C:\\Users\\s15113114/.ssh/deployer_root@43.224.35.84:22 already exists, disabling multiplexing
+[43.224.35.84] < bash
+[43.224.35.84] > if [ ! -d /www/wwwroot ]; then mkdir -p /www/wwwroot; fi
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer
+[43.224.35.84] < [error] Failed to connect to new control master
+[Deployer\Exception\RuntimeException] The command "if [ ! -d /www/wwwroot ]; then mkdir -p /www/wwwroot; fi" failed.
+
+Exit Code: -1 (Unknown error)
+
+Host Name: 43.224.35.84
+
+================
+mux_client_request_session: read from master failed: Connection reset by peer
+mux_client_request_session: read from master failed: Connection reset by peer
+Failed to connect to new control master
+
+#0 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\src\functions.php(304): Deployer\Ssh\Client->run(Object(Deployer\Host\Host), 'if [ ! -d /www/...', Array)
+#1 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\recipe\deploy\prepare.php(24): Deployer\run('if [ ! -d /www/...')
+#2 [internal function]: Deployer\Deployer::Deployer\{closure}()
+#3 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\src\Task\Task.php(105): call_user_func(Object(Closure))
+#4 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\src\Executor\SeriesExecutor.php(60): Deployer\Task\Task->run(Object(Deployer\Task\Context))
+#5 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\src\Console\TaskCommand.php(144): Deployer\Executor\SeriesExecutor->run(Array, Array)
+#6 C:\xampp\htdocs\skw\laravel-corp\vendor\symfony\console\Command\Command.php(256): Deployer\Console\TaskCommand->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Deployer\Console\Output\OutputWatcher))
+#7 C:\xampp\htdocs\skw\laravel-corp\vendor\symfony\console\Application.php(971): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Deployer\Console\Output\OutputWatcher))
+#8 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\src\Console\Application.php(133): Symfony\Component\Console\Application->doRunCommand(Object(Deployer\Console\TaskCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Deployer\Console\Output\OutputWatcher))
+#9 C:\xampp\htdocs\skw\laravel-corp\vendor\symfony\console\Application.php(290): Deployer\Console\Application->doRunCommand(Object(Deployer\Console\TaskCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Deployer\Console\Output\OutputWatcher))
+#10 C:\xampp\htdocs\skw\laravel-corp\vendor\symfony\console\Application.php(166): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 C:\xampp\htdocs\skw\laravel-corp\vendor\deployer\deployer\src\Deployer.php(326): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 C:\Users\s15113114\AppData\Roaming\Composer\vendor\bin\dep(21) : eval()'d code(136): Deployer\Deployer::run('v6.8.0', 'C:\\xampp\\htdocs...')
+#13 C:\Users\s15113114\AppData\Roaming\Composer\vendor\bin\dep(21): eval()
+#14 {main}
+[43.224.35.84] > rm -f /www/wwwroot/.dep/deploy.lock
+[43.224.35.84] < [error] mux_client_request_session: read from master failed: Connection reset by peer

@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                    <a href="{{ route('user.edit', Auth::user()->id) }}" class="d-block">{{ Auth::user()->name }}</a>
                 </div>
             </div>
 
