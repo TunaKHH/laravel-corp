@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MoneyRecords;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LunchController extends Controller
@@ -24,7 +26,8 @@ class LunchController extends Controller
     public function record()
     {
         // 扣款紀錄畫面
-        $records = Record::all()->sortBy('created_at')->reverse();
+        $records = MoneyRecords::all()->sortBy('created_at')->reverse();
+//        dd($records);
         return view('lunch.record',['records'=>$records]);
     }
 
@@ -49,30 +52,16 @@ class LunchController extends Controller
     {
         foreach ( $request->user_cost as $key => $cost ){
             if( is_numeric($cost) && $cost > 0 && $cost < 900000 ){
-                $record = new Record;
-                $record->user_id = $request->user_id[$key];
-                $record->amount = $cost * -1;
-                $record->remark = $request->user_remark[$key];
-                $record->save();
-
-                $user = User::find($record->user_id);
-                $user->deposit = ( $user->deposit - $cost );
-                $user->save();
+                $user = User::find($request->user_id[$key]);
+                $user->reduceMoney($cost,$request->user_remark[$key], Auth::id());
             }
         }
 
         if( isset($request->user_save) ){
             foreach ( $request->user_save as $key => $save ){
-                if( is_numeric($save) && $save > 0 && $cost < 900000 ){
-                    $record = new Record;
-                    $record->user_id = $request->user_id[$key];
-                    $record->amount = $save;
-                    $record->remark = $request->user_remark[$key];
-                    $record->save();
-
-                    $user = User::find($record->user_id);
-                    $user->deposit = ( $user->deposit + $save );
-                    $user->save();
+                if( is_numeric($save) && $save > 0 && $save < 900000 ){
+                    $user = User::find($request->user_id[$key]);
+                    $user->addMoney($save,$request->user_remark[$key], Auth::id());
                 }
             }
         }

@@ -47,11 +47,13 @@ class TaskOrder extends Model
         'qty',
     ];
 
-    public function restaurantMeal(){
+    public function restaurantMeal(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(RestaurantMeal::class);
     }
 
-    public function user(){
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 

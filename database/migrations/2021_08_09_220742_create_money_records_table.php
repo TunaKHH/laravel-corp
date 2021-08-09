@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMoneyRecordTable extends Migration
+class CreateMoneyRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateMoneyRecordTable extends Migration
      */
     public function up()
     {
-        Schema::create('money_record', function (Blueprint $table) {
-
+        Schema::create('money_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-
             $table->integer('amount')->comment('花費金額');
-            $table->string('remark')->comment('備註');
+            $table->string('remark')->comment('備註')->nullable();
+            $table->foreignId('operator_id')->comment('操作人員ID')->constrained('users');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreateMoneyRecordTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('money_record');
+        Schema::dropIfExists('money_records');
     }
 }
