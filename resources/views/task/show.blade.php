@@ -218,7 +218,7 @@
                 <form method="post" action="{{ route('task.finish', $task->id) }}" class="row">
                     @csrf
                     @method('post')
-                    <button type="submit" class="btn btn-block btn-lg  btn-success">結單</button>
+                    <button type="submit" class="btn btn-block btn-lg  btn-success">結單並自動扣款</button>
                 </form>
 {{--                TODO 自動扣款功能--}}
             @endif
