@@ -12,8 +12,18 @@
             <div class="col-md-12">
                 <!-- jquery validation -->
                 <div class="card card-primary">
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible">
+                            <h5><i class="icon fas fa-ban"></i>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </h5>
+                            請重試
+                        </div>
+                    @endif
                     <div class="card-header">
-                        <h3 class="card-title">修改 <small> (若不會請洽帥氣鮪魚)</small></h3>
+                        <h3 class="card-title">基本資訊 <small> (若有問題請洽帥氣鮪魚)</small></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -22,12 +32,28 @@
                         @method('put')
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="people_name">姓名</label>
-                                <input type="text" name="name" class="form-control" id="people_name" placeholder="請填入姓名" value="{{ $user->name }}" required>
+                                <label>帳號</label>
+                                <input type="text" class="form-control" value="{{ $user->account }}" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="people_line_id">line id</label>
-                                <input type="text" name="line_id" class="form-control" id="people_line_id" placeholder="請填入line id" value="{{ $user->line_id }}">
+                                <label for="people_name">姓名</label>
+                                <input type="text" name="name" class="form-control" id="people_name" placeholder="請填入姓名" value="{{ $user->name }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="people_nickname">暱稱</label>
+                                <input type="text" name="nickname" class="form-control" id="people_nickname" placeholder="請填入暱稱" value="{{ $user->nickname }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="people_email">E-mail</label>
+                                <input type="email" name="email" class="form-control" id="people_email" placeholder="請填入E-mail" value="{{ $user->email }}" >
+                            </div>
+                            <div class="form-group">
+                                <label for="people_password" disabled>密碼</label>
+                                <input type="password" name="password" class="form-control" id="people_password" >
+                            </div>
+                            <div class="form-group">
+                                <label for="people_password2">再次輸入密碼</label>
+                                <input type="password" name="password2" class="form-control" id="people_password2" >
                             </div>
                         </div>
                         <!-- /.card-body -->
