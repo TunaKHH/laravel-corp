@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,11 +59,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(User $user)
-    {
-        // TODO 加入管理員權限 or 自己才能訪問
+    public function profile(){
+        $user = Auth::user();
+//        dd($user);
         return view('user.edit', ['user' => $user]);
     }
+
+//    public function edit(User $user)
+//    {
+//        // TODO 加入管理員權限 or 自己才能訪問
+//        return view('user.edit', ['user' => $user]);
+//    }
 
     /**
      * Update the specified resource in storage.
