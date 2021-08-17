@@ -45,14 +45,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="people_email">E-mail</label>
-                                <input type="email" name="email" class="form-control" id="people_email" placeholder="請填入E-mail" value="{{ $user->email }}" >
+                                <input type="email" name="email" class="form-control" id="people_email" placeholder="請填入E-mail" value="{{ $user->email }}" autocomplete="off" >
                             </div>
                             <div class="form-group">
-                                <label for="people_password" disabled>密碼</label>
+                                <label disabled>舊密碼</label>
+                                <input type="password" name="old-password" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="people_password" disabled>新密碼</label>
                                 <input type="password" name="password" class="form-control" id="people_password" >
                             </div>
                             <div class="form-group">
-                                <label for="people_password2">再次輸入密碼</label>
+                                <label for="people_password2">再次輸入新密碼</label>
                                 <input type="password" name="password2" class="form-control" id="people_password2" >
                             </div>
                         </div>
