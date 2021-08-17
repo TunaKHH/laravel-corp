@@ -308,7 +308,40 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js" integrity="sha256-92U7H+uBjYAJfmb+iNPi7DPoj795ZCTY4ZYmplsn/fQ=" crossorigin="anonymous"></script>
+<script>
+    $('.form-destroy').on('submit',function (e) {
+        e.preventDefault();
+        Swal.fire({
+            showCloseButton: true,
+            showCancelButton: true,
+            title: '確認要刪除嗎!',
+            icon: 'error',
+            confirmButtonText: '刪除'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                this.submit();// or e.currentTarget.submit();
+            }
+        })
+    })
 
+    $('.form-confirm').on('submit',function (e) {
+        e.preventDefault();
+        Swal.fire({
+            showCloseButton: true,
+            showCancelButton: true,
+            title: '確認要送出嗎!',
+            icon: 'info',
+            confirmButtonText: '確認'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                this.submit();// or e.currentTarget.submit();
+            }
+        })
+    })
+
+</script>
 @yield('script')
 @stack('js')
 </body>

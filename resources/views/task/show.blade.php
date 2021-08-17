@@ -153,7 +153,7 @@
                                         <button type="submit" class="btn btn-primary" style="display: none;" id="btn_confirm_{{ $loop->index }}"><i class="fas fa-check"></i></button>
                                     </form>
 
-                                    <form method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
+                                    <form class="form-destroy" method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
@@ -215,7 +215,7 @@
 
         <div>
             @if($task->is_open == 2)
-                <form method="post" action="{{ route('task.finish', $task->id) }}" class="row">
+                <form method="post" action="{{ route('task.finish', $task->id) }}" class="form-confirm row">
                     @csrf
                     @method('post')
                     <button type="submit" class="btn btn-block btn-lg  btn-success">結單並自動扣款</button>
