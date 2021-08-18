@@ -22,12 +22,19 @@
                             請重試
                         </div>
                     @endif
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fa fa-success"></i>成功</h4>
+                            {{ $message }}
+                        </div>
+                    @endif
                     <div class="card-header">
                         <h3 class="card-title">基本資訊 <small> (若有問題請洽帥氣鮪魚)</small></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="post" action="{{ route('user.update', $user) }}">
+                    <form method="post" action="{{ route('profile.edit') }}">
                         @csrf
                         @method('put')
                         <div class="card-body">
