@@ -78,8 +78,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
+        $user = Auth::user();
 
         $messages = [
             'nickname.max'=>'暱稱字數不得超過255',
@@ -107,7 +108,8 @@ class UserController extends Controller
         $user->nickname = $request->nickname;
         $user->save();
         $user->fresh();
-        return view('user.edit', ['user' => $user]);
+        return back()->with('success', '修改成功');
+//        return view('user.edit', ['user' => $user]);
     }
 
     /**

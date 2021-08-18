@@ -22,12 +22,19 @@
                             請重試
                         </div>
                     @endif
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fa fa-success"></i>成功</h4>
+                            {{ $message }}
+                        </div>
+                    @endif
                     <div class="card-header">
                         <h3 class="card-title">基本資訊 <small> (若有問題請洽帥氣鮪魚)</small></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="post" action="{{ route('user.update', $user) }}">
+                    <form method="post" action="{{ route('profile.edit') }}">
                         @csrf
                         @method('put')
                         <div class="card-body">
@@ -45,14 +52,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="people_email">E-mail</label>
-                                <input type="email" name="email" class="form-control" id="people_email" placeholder="請填入E-mail" value="{{ $user->email }}" >
+                                <input type="email" name="email" class="form-control" id="people_email" placeholder="請填入E-mail" value="{{ $user->email }}" autocomplete="off" >
                             </div>
                             <div class="form-group">
-                                <label for="people_password" disabled>密碼</label>
+                                <label disabled>舊密碼</label>
+                                <input type="password" name="old-password" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="people_password" disabled>新密碼</label>
                                 <input type="password" name="password" class="form-control" id="people_password" >
                             </div>
                             <div class="form-group">
-                                <label for="people_password2">再次輸入密碼</label>
+                                <label for="people_password2">再次輸入新密碼</label>
                                 <input type="password" name="password2" class="form-control" id="people_password2" >
                             </div>
                         </div>

@@ -43,7 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/record', [LunchController::class, 'record'])->name('record');
 
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    Route::resource('user', UserController::class)->except('edit');
+    Route::put('/profile', [UserController::class, 'update'])->name('profile.edit');
+    Route::resource('user', UserController::class)->except(['edit','update']);
     Route::resource('task', TaskController::class);
     Route::resource('lunch', LunchController::class);
     Route::resource('taskOrder', TaskOrderController::class);
