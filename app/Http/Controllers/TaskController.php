@@ -62,7 +62,6 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $sum_money = 0;
-        $task_id = $task->getAttribute('id');
         $users = User::all();
 
         $task_totals = $task->getTaskTotals();
