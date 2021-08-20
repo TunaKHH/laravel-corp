@@ -96,7 +96,7 @@ class UserController extends Controller
         if( $validator->fails() ){
             return back()->withErrors($validator,'errors')->withInput();
         }
-        if( $request->has('password') ){// 有填入密碼欄位
+        if( $request->get('password') && $request->get('password2') ){// 有填入密碼欄位
             if(  $request->password != $request->password2 ){// 檢查密碼是否一致
                 return back()->withErrors([
                     'errors' => ' 兩次密碼不一致',
