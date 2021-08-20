@@ -39,29 +39,13 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-
-//        $credentials = $request->only('account', 'password');# 帳號登入
         $account = $request->get('account');
         $password = $request->get('password');
+        $credentials = $request->only('account', 'password');# 帳號登入
 
-        $user = User::where('account',$account)->get()->first(); // 確認有沒有這個帳號
-
-        if(!$user){// 沒這個帳號 用email查account
-            $user = User::where('email',$account)->get()->first(); // 確認有沒有這個帳號
-            if($user){
-                $account = $user->account;
-            }
-        }
-
-
-        $credentials = ['account'=>$account, 'password'=>$password];
-
-        # 使用email找帳號
-
-        $is_login = false;
 
         # 兩種登入方式
-        if (!$is_login && !Auth::attempt($credentials,$request->remember)) {
+        if (!Auth::attempt($credentials,$request->remember) && !Auth::attempt(['email'=>$account, 'password'=>$password],$request->remember)) {
 
             return back()->withErrors([
                 'account' => '帳號或密碼錯誤',
