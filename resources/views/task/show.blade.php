@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
-@section('title','任務點餐-'.$task->restaurant->name.'('.$task->restaurant->phone.')')
+@section('title')
+    @if(empty($task->restaurant->phone))
+        任務點餐-{{ $task->restaurant->name }} (無電話)
+    @else
+        任務點餐-{{ $task->restaurant->name }} ({{ $phone }})
+    @endif
+@endsection
 @section('first_page')
     <a href="{{ route('task.index') }}">
         任務列表
