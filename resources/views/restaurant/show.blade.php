@@ -52,7 +52,7 @@
                         <td>{{ $restaurantMeal->name }}</td>
                         <td>{{ $restaurantMeal->price }}</td>
                         <td>
-                            <form action="{{ route('restaurantMeal.destroy', $restaurantMeal->id) }}" method="post">
+                            <form class="form-destroy" action="{{ route('restaurantMeal.destroy', $restaurantMeal->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger">刪除(外部關聯未處理好)</button>
