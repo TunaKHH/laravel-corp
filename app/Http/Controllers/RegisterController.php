@@ -20,16 +20,17 @@ class RegisterController extends Controller
             'invitation_code.required'=>'邀請碼必填',
             'name.required'=>'名稱必填',
             'account.required'=>'帳號必填',
-            'password.required'=>'密碼必填',
             'account.unique'=>'帳號重複',
-            'name.max'=>'名字有這麼長?字數不得超過255',
+            'password.required'=>'密碼必填',
+            'name.unique'=>'名稱重複',
+            'name.max'=>'名稱有這麼長?字數不得超過255',
             'account.max'=>'帳號有這麼長?字數不得超過255',
             'password.max'=>'帳號有這麼長?字數不得超過255',
         ];
 
         $validator = Validator::make($request->all(), [
             'invitation_code' => 'required',
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:users',
             'account' => 'required|min:6|max:255|unique:users,email|unique:users,account',
             'password' => 'required|min:8|max:255',
         ],$messages);
@@ -55,7 +56,5 @@ class RegisterController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('index');
-
     }
-
 }
