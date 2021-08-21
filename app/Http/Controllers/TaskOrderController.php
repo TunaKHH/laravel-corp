@@ -34,6 +34,7 @@ class TaskOrderController extends Controller
             'task_id.required'=>'未輸入任務id',
 
             'qty.integer'=>'數量乖乖輸入整數',
+            'qty.min'=>'數量不得低於1',
             'meal_price.integer'=>'餐點金額乖乖輸入整數',
             'meal_price.between'=>'餐點金額不能吃超過900000，也不能吃店家倒貼的',
 
@@ -47,7 +48,7 @@ class TaskOrderController extends Controller
             'remark' => 'max:255',
             'meal_name' => 'required',
             'meal_price' => 'required|integer|between:1,9000000',
-            'qty' => 'required|integer',
+            'qty' => 'required|integer|min:1',
 
         ],$messages);
 
