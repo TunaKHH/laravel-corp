@@ -132,7 +132,7 @@ class TaskOrderController extends Controller
     {
         $user = User::where('name',$request->user_name)->first();
 
-        if ( $user === null ) {// 菜單中沒有就新增
+        if ( $user === null ) {
             return back()->with('no_user', '查無此使用者');
         }
         $taskOrder->user_id    = $user->id;
