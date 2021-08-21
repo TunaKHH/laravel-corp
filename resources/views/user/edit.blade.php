@@ -43,8 +43,8 @@
                                 <input type="text" class="form-control" value="{{ $user->account }}" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="people_name">姓名</label>
-                                <input type="text" name="name" class="form-control" id="people_name" placeholder="請填入姓名" value="{{ $user->name }}" disabled>
+                                <label for="people_name">名稱(識別用)</label>
+                                <input type="text" name="name" class="form-control" id="people_name" placeholder="請填入名稱" value="{{ $user->name }}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="people_nickname">暱稱</label>
