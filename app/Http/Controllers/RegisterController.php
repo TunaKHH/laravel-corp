@@ -18,19 +18,19 @@ class RegisterController extends Controller
     public function create(Request $request){// 創帳號
         $messages = [
             'invitation_code.required'=>'邀請碼必填',
-            'name.required'=>'本名必填',
+            'name.required'=>'名稱必填',
             'account.required'=>'帳號必填',
             'password.required'=>'密碼必填',
-
-            'name.max'=>'你他媽名字有這麼長?字數不得超過255',
-            'account.max'=>'你他媽帳號有這麼長?字數不得超過255',
-            'password.max'=>'你他媽帳號有這麼長?字數不得超過255',
+            'account.unique'=>'帳號重複',
+            'name.max'=>'名字有這麼長?字數不得超過255',
+            'account.max'=>'帳號有這麼長?字數不得超過255',
+            'password.max'=>'帳號有這麼長?字數不得超過255',
         ];
 
         $validator = Validator::make($request->all(), [
             'invitation_code' => 'required',
             'name' => 'required|max:255',
-            'account' => 'required|min:6|max:255',
+            'account' => 'required|min:6|max:255|unique:users,email|unique:users,account',
             'password' => 'required|min:8|max:255',
         ],$messages);
 
@@ -43,13 +43,6 @@ class RegisterController extends Controller
         if( $invitation_code != env('INVITATION_CODE')){// 檢查邀請碼
             return back()->withErrors([
                 'error' => ' 邀請碼錯誤',
-            ])->withInput();
-        }
-
-        $user = User::where('account', $request->account)->first();
-        if( !empty($user) ){// 檢查帳號有無重複
-            return back()->withErrors([
-                'error' => ' 帳號重複',
             ])->withInput();
         }
 

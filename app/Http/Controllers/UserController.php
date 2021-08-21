@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -85,16 +86,20 @@ class UserController extends Controller
         $messages = [
             'nickname.max'=>'暱稱字數不得超過255',
             'email.max'=>'信箱字數不得超過255',
+            'email.email'=>'信箱規則錯誤',
+            'email.unique'=>'信箱重複',
             'password.max'=>'密碼字數不得超過255',
         ];
         $validator = Validator::make($request->all(), [
             'nickname' => 'max:255',
-            'email' => 'max:255',
+            Rule::unique('users', 'account')->ignore(Auth::id()),
+            'email' => 'nullable|email|max:255|unique:users,email',
             'password' => 'max:255',
         ],$messages);
 
         if( $validator->fails() ){
-            return back()->withErrors($validator,'errors')->withInput();
+//            dd($validator->getMessageBag());
+            return back()->withErrors($validator)->withInput();
         }
         if( $request->get('password') && $request->get('password2') ){// 有填入密碼欄位
             if(  $request->password != $request->password2 ){// 檢查密碼是否一致
@@ -109,7 +114,6 @@ class UserController extends Controller
         $user->save();
         $user->fresh();
         return back()->with('success', '修改成功');
-//        return view('user.edit', ['user' => $user]);
     }
 
     /**
