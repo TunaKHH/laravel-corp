@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/task.css') }}">
+@endsection
+
 @section('title')
     @if(empty($task->restaurant->phone))
         任務點餐-{{ $task->restaurant->name }} (無電話)
     @else
-        任務點餐-{{ $task->restaurant->name }} ({{ $phone }})
+        任務點餐-{{ $task->restaurant->name }} ({{ $task->restaurant->phone }})
     @endif
 @endsection
 @section('first_page')
@@ -42,6 +46,32 @@
                 {{ $message }}
             </div>
         @endif
+
+        <form id="msform">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li class="active" id="progress_step1"><strong>開放點餐</strong></li>
+                @if ( $task->step >= 2 )
+                    <li class="active" id="progress_step2"><strong>鎖單/打電話訂餐中</strong></li>
+                @else
+                    <li id="progress_step2"><strong>鎖單/打電話訂餐中</strong></li>
+                @endif
+                @if ( $task->step >= 3 )
+                    <li class="active" id="progress_step3"><strong>餐點送達，金額無誤</strong></li>
+
+                @else
+                    <li id="progress_step3"><strong>餐點送達，金額無誤</strong></li>
+                @endif
+                @if ( $task->step >= 4 )
+                    <li class="active" id="progress_step4"><strong>結單/自動扣款</strong></li>
+                @else
+                    <li id="progress_step4"><strong>結單/自動扣款</strong></li>
+                @endif
+
+
+            </ul>
+        </form>
+
         @if( $task->can_order )
             <form action="{{ route('taskOrder.store') }}" method="post">
                 @csrf
@@ -109,8 +139,6 @@
         <div class="collapse" id="collapseMenu">
             <div class="card card-body" id="collapse_content">
                 圖片載入中
-
-
             </div>
         </div>
 {{--        <div class="row">--}}
@@ -233,7 +261,7 @@
         @endif
 
         <div>
-            @if($task->is_open == 2)
+            @if($task->step == 3)
                 <form method="post" action="{{ route('task.finish', $task->id) }}" class="form-confirm row">
                     @csrf
                     @method('post')
