@@ -105,7 +105,7 @@
                                             <form method="post" action="{{ route('task.lock') }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $task->id }}">
-                                                <input type="submit" value="鎖定後結單" class="btn btn-warning">
+                                                <input type="submit" value="鎖單/打電話" class="btn btn-warning">
                                             </form>
                                         @break
                                         @case(2)
@@ -117,7 +117,7 @@
                                             <form method="post" action="{{ route('task.prefinish', $task->id) }}">
                                                 @csrf
                                                 @method('put')
-                                                <input type="submit" value="結單" class="btn btn-dark">
+                                                <input type="submit" value="結單/自動扣款" class="btn btn-dark">
                                             </form>
                                         @break
                                         @default
