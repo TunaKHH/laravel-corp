@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\LineService;
 use Illuminate\Support\Facades\Auth;
+use function Deployer\get;
 
 
 class LoginController extends Controller
@@ -37,10 +39,14 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-//        dd($request->remember);
-        $credentials = $request->only('account', 'password');
+        $account = $request->get('account');
+        $password = $request->get('password');
+        $credentials = $request->only('account', 'password');# 帳號登入
 
-        if (!Auth::attempt($credentials,$request->remember)) {
+
+        # 兩種登入方式
+        if (!Auth::attempt($credentials,$request->remember) && !Auth::attempt(['email'=>$account, 'password'=>$password],$request->remember)) {
+
             return back()->withErrors([
                 'account' => '帳號或密碼錯誤',
             ]);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LiffController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RestaurantMealController;
 use App\Http\Controllers\RestaurantPhotoController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\LoginController;
 
 
 
+Route::get('/liff/login', [LiffController::class,'login']);
 Route::get('/line', [LoginController::class,'pageLine']);
 Route::get('/callback/login', [LoginController::class,'lineLoginCallBack']);
 
@@ -40,7 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [LunchController::class, 'index'])->name('index');
     Route::get('/record', [LunchController::class, 'record'])->name('record');
 
-    Route::resource('user', UserController::class);
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::put('/profile', [UserController::class, 'update'])->name('profile.edit');
+    Route::resource('user', UserController::class)->except(['edit','update']);
     Route::resource('task', TaskController::class);
     Route::resource('lunch', LunchController::class);
     Route::resource('taskOrder', TaskOrderController::class);
@@ -50,6 +54,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('task/lock', [TaskController::class,'lock'])->name('task.lock');
     Route::post('task/unlock', [TaskController::class,'unlock'])->name('task.unlock');
+    Route::put('task/finish/{task}', [TaskController::class,'prefinish'])->name('task.prefinish');
     Route::post('task/finish/{task}', [TaskController::class,'finish'])->name('task.finish');
+
 //    Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');
 });

@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
@@ -56,25 +60,60 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(User $user)
-    {
+    public function profile(){
+        $user = Auth::user();
+//        dd($user);
         return view('user.edit', ['user' => $user]);
     }
+
+//    public function edit(User $user)
+//    {
+//        // TODO 加入管理員權限 or 自己才能訪問
+//        return view('user.edit', ['user' => $user]);
+//    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        $user->name = $request->name;
-        $user->line_id = $request->line_id;
+        $user = Auth::user();
+
+        $messages = [
+            'nickname.max'=>'暱稱字數不得超過255',
+            'email.max'=>'信箱字數不得超過255',
+            'email.email'=>'信箱規則錯誤',
+            'email.unique'=>'信箱重複',
+            'password.max'=>'密碼字數不得超過255',
+        ];
+        $validator = Validator::make($request->all(), [
+            'nickname' => 'max:255',
+            Rule::unique('users', 'account')->ignore(Auth::id()),
+            'email' => 'nullable|email|max:255|unique:users,email',
+            'password' => 'max:255',
+        ],$messages);
+
+        if( $validator->fails() ){
+//            dd($validator->getMessageBag());
+            return back()->withErrors($validator)->withInput();
+        }
+        if( $request->get('password') && $request->get('password2') ){// 有填入密碼欄位
+            if(  $request->password != $request->password2 ){// 檢查密碼是否一致
+                return back()->withErrors([
+                    'errors' => ' 兩次密碼不一致',
+                ])->withInput();
+            }
+            $user->password = Hash::make($request->password);
+        }
+        $user->email = $request->email;
+        $user->nickname = $request->nickname;
         $user->save();
         $user->fresh();
-        return view('user.edit', ['user' => $user]);
+        return back()->with('success', '修改成功');
     }
 
     /**

@@ -9,6 +9,7 @@
     <title>
         午餐整合平台
     </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -79,7 +80,7 @@
                     </div>
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                    <a href="{{ route('profile') }}" class="d-block">{{ Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -283,6 +284,8 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 <!-- AdminLTE App -->
 <!-- Bootstrap 4 -->
 <script src=" {{ url('/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -308,7 +311,40 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js" integrity="sha256-92U7H+uBjYAJfmb+iNPi7DPoj795ZCTY4ZYmplsn/fQ=" crossorigin="anonymous"></script>
+<script>
+    $('.form-destroy').on('submit',function (e) {
+        e.preventDefault();
+        Swal.fire({
+            showCloseButton: true,
+            showCancelButton: true,
+            title: '確認要刪除嗎!',
+            icon: 'error',
+            confirmButtonText: '刪除'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                this.submit();// or e.currentTarget.submit();
+            }
+        })
+    })
 
+    $('.form-confirm').on('submit',function (e) {
+        e.preventDefault();
+        Swal.fire({
+            showCloseButton: true,
+            showCancelButton: true,
+            title: '確認要送出嗎!',
+            icon: 'info',
+            confirmButtonText: '確認'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                this.submit();// or e.currentTarget.submit();
+            }
+        })
+    })
+
+</script>
 @yield('script')
 @stack('js')
 </body>

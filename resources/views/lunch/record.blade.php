@@ -37,6 +37,7 @@
                         <th scope="col">姓名</th>
                         <th scope="col">金額</th>
                         <th scope="col">備註</th>
+                        <th scope="col">操作人</th>
                         <th scope="col">操作時間</th>
                     </tr>
                 </thead>
@@ -47,6 +48,7 @@
                         <td>{{ $record->user->name }}</td>
                         <td>{{ $record->amount }}</td>
                         <td>{{ $record->remark }}</td>
+                        <td>{{ $record->user->name }}</td>
                         <td>{{ $record->created_at }}</td>
                     </tr>
                     @empty

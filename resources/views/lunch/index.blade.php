@@ -128,7 +128,6 @@
                     form.submit();
                 }
             })
-
         });
 
     </script>

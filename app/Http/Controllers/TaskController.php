@@ -8,6 +8,7 @@ use App\Models\Restaurant;
 use App\Models\TaskOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -61,7 +62,6 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $sum_money = 0;
-        $task_id = $task->getAttribute('id');
         $users = User::all();
 
         $task_totals = $task->getTaskTotals();
@@ -133,6 +133,7 @@ class TaskController extends Controller
         $id = $request->id;
         $task = Task::find($id);
         $task->is_open = 2;
+        $task->step = 2;
         $task->save();
 
         return  redirect()->route('task.show', $id);
@@ -143,19 +144,36 @@ class TaskController extends Controller
         $id = $request->id;
         $task = Task::find($id);
         $task->is_open = 1;
+        $task->step = 1;
         $task->save();
 
         return  redirect()->route('task.index');
     }
 
+    public function prefinish(Task $task){
+        // 結單畫面
+        $task->step = 3;
+        $task->save();
+        return  redirect()->route('task.show', $task->id);
+    }
+
+    // 結單並自動扣款
     public function finish(Task $task)
     {
+        // 自動扣款
+        $task_orders = $task->taskOrder()->get();
+        foreach ($task_orders as $task_order){
+            $remark = '[餐點自動扣款]'.$task_order->meal_name.$task_order->remark;
+            // 找餐點價格
+            // 扣玩家的錢
+            $task_order->user->reduceMoney($task_order->meal_price,$remark,Auth::id());
+        }
+        // 關閉任務
         $task->is_open = 0;
+        $task->step = 4;
         $task->save();
-        return  redirect()->route('task.index');
+
+        return  back();
     }
-
-
-
 
 }

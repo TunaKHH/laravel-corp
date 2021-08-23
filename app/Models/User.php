@@ -39,7 +39,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -70,5 +69,40 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function moneyRecords()
+    {
+        return $this->hasMany(MoneyRecords::class);
+    }
+
+    // 扣這個人的錢
+    public function reduceMoney($amount, $remark='', $operator_id = false){
+        // 寫紀錄
+        $moneyRecord = new MoneyRecords;
+        $moneyRecord->user_id = $this->id;
+        $moneyRecord->amount = $amount * -1;
+        $moneyRecord->remark = $remark;
+        $moneyRecord->operator_id = $operator_id ?? $this->id;
+        $moneyRecord->save();
+
+        // 真正扣錢
+        $this->deposit = $this->deposit - $amount;
+        return $this->save();
+    }
+
+    // 加這個人的錢
+    public function addMoney($amount, $remark='', $operator_id = false){
+        // 寫紀錄
+        $moneyRecord = new MoneyRecords;
+        $moneyRecord->user_id = $this->id;
+        $moneyRecord->amount = $amount;
+        $moneyRecord->remark = $remark;
+        $moneyRecord->operator_id = $operator_id ?? $this->id;
+        $moneyRecord->save();
+
+        // 真正加錢
+        $this->deposit = $this->deposit + $amount;
+        return $this->save();
+    }
 
 }

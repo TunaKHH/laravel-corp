@@ -29,7 +29,7 @@
                     <hr>
 
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="本名" value="{{old('name')}}" required>
+                        <input type="text" class="form-control" name="name" placeholder="名稱" value="{{old('name')}}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-signature"></span>

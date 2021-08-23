@@ -7,14 +7,9 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-
-{{--            <button class="btn btn-success">跟團</button>--}}
-
-        </div>
-        <div class="row">
             <form action="{{ route('task.store') }}" method="post" class="form">
                 @csrf
-                <div class="card card-primary">
+                <div class="col-3 card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">開團標題</h3>
                     </div>
@@ -119,9 +114,11 @@
                                                 <input type="hidden" name="id" value="{{ $task->id }}">
                                                 <input type="submit" value="解除鎖定" class="btn btn-success">
                                             </form>
-                                            <a href="{{ route('task.show', $task->id) }}" class="btn btn-dark">
-                                                結單
-                                            </a>
+                                            <form method="post" action="{{ route('task.prefinish', $task->id) }}">
+                                                @csrf
+                                                @method('put')
+                                                <input type="submit" value="結單" class="btn btn-dark">
+                                            </form>
                                         @break
                                         @default
                                             <a href="{{ route('task.show', $task->id) }}" class="btn btn-primary">

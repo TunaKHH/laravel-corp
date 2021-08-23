@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
-@section('title','任務點餐-'.$task->restaurant->name.'('.$task->restaurant->phone.')')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/task.css') }}">
+@endsection
+
+@section('title')
+    @if(empty($task->restaurant->phone))
+        任務點餐-{{ $task->restaurant->name }} (無電話)
+    @else
+        任務點餐-{{ $task->restaurant->name }} ({{ $task->restaurant->phone }})
+    @endif
+@endsection
 @section('first_page')
     <a href="{{ route('task.index') }}">
         任務列表
@@ -36,6 +46,32 @@
                 {{ $message }}
             </div>
         @endif
+
+        <form id="msform">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li class="active" id="progress_step1"><strong>開放點餐</strong></li>
+                @if ( $task->step >= 2 )
+                    <li class="active" id="progress_step2"><strong>鎖單/打電話訂餐中</strong></li>
+                @else
+                    <li id="progress_step2"><strong>鎖單/打電話訂餐中</strong></li>
+                @endif
+                @if ( $task->step >= 3 )
+                    <li class="active" id="progress_step3"><strong>餐點送達，金額無誤</strong></li>
+
+                @else
+                    <li id="progress_step3"><strong>餐點送達，金額無誤</strong></li>
+                @endif
+                @if ( $task->step >= 4 )
+                    <li class="active" id="progress_step4"><strong>結單/自動扣款</strong></li>
+                @else
+                    <li id="progress_step4"><strong>結單/自動扣款</strong></li>
+                @endif
+
+
+            </ul>
+        </form>
+
         @if( $task->can_order )
             <form action="{{ route('taskOrder.store') }}" method="post">
                 @csrf
@@ -89,17 +125,28 @@
         @endif
         <div class="row">
             @forelse($task->restaurant->photos as $photo)
-                <img src="{{ $photo->url }}" alt="" class="img-size-64" onclick="選擇菜單(this)">
-            @empty
+
+{{--                <img src="{{ $photo->url }}" alt="" class="img-size-64" data-bs-toggle="collapse" data-bs-target="#collapseExample" onclick="選擇菜單(this)">--}}
+                <img src="{{ $photo->url }}" alt="" class="img-size-64" onclick="選擇菜單(this)" data-bs-toggle="collapse" data-bs-target="#collapseMenu">
+{{--                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">--}}
+{{--                    Button with data-bs-target--}}
+{{--                </button>--}}
+
+                @empty
                 此餐廳未上傳圖片
             @endforelse
         </div>
-        <div class="row">
-            <img src="" alt="" class="img-fluid" id="show_img">
+        <div class="collapse" id="collapseMenu">
+            <div class="card card-body" id="collapse_content">
+                圖片載入中
+            </div>
         </div>
+{{--        <div class="row">--}}
+{{--            <img src="" alt="" class="img-fluid" id="show_img">--}}
+{{--        </div>--}}
 
         <div class="row justify-content-center bg-primary">
-            <h2>訂餐明細</h2>
+            <h2 class="text-center">訂餐明細</h2>
         </div>
         <div class="row">
             <table class="table">
@@ -153,7 +200,7 @@
                                         <button type="submit" class="btn btn-primary" style="display: none;" id="btn_confirm_{{ $loop->index }}"><i class="fas fa-check"></i></button>
                                     </form>
 
-                                    <form method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
+                                    <form class="form-destroy" method="post" action="{{ route('taskOrder.destroy', $order->id) }}" >
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
@@ -172,7 +219,7 @@
             </table>
         </div>
         <div class="row justify-content-center bg-orange">
-            <h2>下方統整</h2>
+            <h2 class="text-center">下方統整</h2>
         </div>
 
         <div class="row">
@@ -214,11 +261,11 @@
         @endif
 
         <div>
-            @if($task->is_open == 2)
-                <form method="post" action="{{ route('task.finish', $task->id) }}" class="row">
+            @if($task->step == 3)
+                <form method="post" action="{{ route('task.finish', $task->id) }}" class="form-confirm row">
                     @csrf
                     @method('post')
-                    <button type="submit" class="btn btn-block btn-lg  btn-success">結單</button>
+                    <button type="submit" class="btn btn-block btn-lg  btn-success">結單並自動扣款</button>
                 </form>
 {{--                TODO 自動扣款功能--}}
             @endif
@@ -229,8 +276,15 @@
 @endsection
 @push('js')
     <script>
+        var collapseMenu = document.getElementById('collapseMenu')
+        var collapseContent = document.getElementById('collapse_content')
+
+        collapseMenu.addEventListener('hidden.bs.collapse', function () {
+            collapseContent.innerHTML = '';
+        })
+
         function 選擇菜單(e){
-            document.getElementById('show_img').src = e.src;
+            collapseContent.innerHTML = `<img src="${e.src}" alt="" class="img-fluid" id="show_img">`;
         }
 
         function autoUpdatePrice(e){
@@ -248,8 +302,6 @@
             $('#btn_cancel_' + id).hide();
             $('#btn_edit_' + id).show();
             $('#btn_confirm_' + id).hide();
-
-
         }
 
         function editOpen(id){// 開啟修改
@@ -258,12 +310,7 @@
             $('#btn_confirm_' + id).show();
             $('#btn_cancel_' + id).show();
             $('#btn_edit_' + id).hide();
-
-
-
         }
-
-
 
     </script>
 
