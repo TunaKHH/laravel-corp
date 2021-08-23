@@ -95,17 +95,30 @@
         @endif
         <div class="row">
             @forelse($task->restaurant->photos as $photo)
-                <img src="{{ $photo->url }}" alt="" class="img-size-64" onclick="選擇菜單(this)">
-            @empty
+
+{{--                <img src="{{ $photo->url }}" alt="" class="img-size-64" data-bs-toggle="collapse" data-bs-target="#collapseExample" onclick="選擇菜單(this)">--}}
+                <img src="{{ $photo->url }}" alt="" class="img-size-64" onclick="選擇菜單(this)" data-bs-toggle="collapse" data-bs-target="#collapseMenu">
+{{--                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">--}}
+{{--                    Button with data-bs-target--}}
+{{--                </button>--}}
+
+                @empty
                 此餐廳未上傳圖片
             @endforelse
         </div>
-        <div class="row">
-            <img src="" alt="" class="img-fluid" id="show_img">
+        <div class="collapse" id="collapseMenu">
+            <div class="card card-body" id="collapse_content">
+                圖片載入中
+
+
+            </div>
         </div>
+{{--        <div class="row">--}}
+{{--            <img src="" alt="" class="img-fluid" id="show_img">--}}
+{{--        </div>--}}
 
         <div class="row justify-content-center bg-primary">
-            <h2>訂餐明細</h2>
+            <h2 class="text-center">訂餐明細</h2>
         </div>
         <div class="row">
             <table class="table">
@@ -178,7 +191,7 @@
             </table>
         </div>
         <div class="row justify-content-center bg-orange">
-            <h2>下方統整</h2>
+            <h2 class="text-center">下方統整</h2>
         </div>
 
         <div class="row">
@@ -235,8 +248,15 @@
 @endsection
 @push('js')
     <script>
+        var collapseMenu = document.getElementById('collapseMenu')
+        var collapseContent = document.getElementById('collapse_content')
+
+        collapseMenu.addEventListener('hidden.bs.collapse', function () {
+            collapseContent.innerHTML = '';
+        })
+
         function 選擇菜單(e){
-            document.getElementById('show_img').src = e.src;
+            collapseContent.innerHTML = `<img src="${e.src}" alt="" class="img-fluid" id="show_img">`;
         }
 
         function autoUpdatePrice(e){
@@ -254,8 +274,6 @@
             $('#btn_cancel_' + id).hide();
             $('#btn_edit_' + id).show();
             $('#btn_confirm_' + id).hide();
-
-
         }
 
         function editOpen(id){// 開啟修改
@@ -264,12 +282,7 @@
             $('#btn_confirm_' + id).show();
             $('#btn_cancel_' + id).show();
             $('#btn_edit_' + id).hide();
-
-
-
         }
-
-
 
     </script>
 
