@@ -1,31 +1,17 @@
-# Laravel 8 Corp
-## TODO LIST
-### feature
-- [x] 加入排行榜
-- [ ] 餘額扣除前預顯示扣除後金額
-- [ ] 接入line bot api
-- [x] 紀錄使用datatable
-- [ ] 暫存改用Redis
+# 午餐系統README.md
+https://beta.sakawawa.me/login
 
-### issue
-- [x] js引入錯誤
-- [x] nav的active顯示錯誤
+午餐系統v2.0 - beta 上線啦
+預計下周(8/30)上線正式版~~
 
-## v1.3
-- [ ] 流程優化-加入sweetalert2
+功能:
+- 帳號
+1. Email 與 帳號 皆可登入
+2. 記住我功能
+- 點餐
+1. 點餐狀態顯示![](https://i.imgur.com/VuLvy6m.png)
+2. 點餐自動新增餐廳餐點
+3. 點餐自動補金額
+4. 結單自動扣款
 
-
-## v1.2
-- 自動扣款
-
-## v1.1
-- 修正logo圖片太寬
-- 補上AdminLTE的各種擴充
-- 加入餘額加總
-
-## v1
-- 正常扣款
-- 交易紀錄
-- 餘額排行榜
-
-
+註冊邀請碼 BETACODE
