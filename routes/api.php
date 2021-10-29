@@ -23,5 +23,7 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'dev',
 ], function ($router) {
+    Route::get('/', [TestController::class, 'ping']);
     Route::post('/ping', [TestController::class, 'ping']);
+    Route::post('/line', [TestController::class, 'line']);
 });

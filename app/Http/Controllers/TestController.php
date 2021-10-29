@@ -6,10 +6,23 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+
+    public function line(Request $request)
+    {
+        error_log(json_encode($request,JSON_OBJECT_AS_ARRAY));
+        return response()->json(['message' => 'hi line']);
+    }
+
     public function ping()
     {
         return response()->json(['message' => 'hi']);
     }
+
+    public function get()
+    {
+        return response()->json(['message' => 'hi get']);
+    }
+
 
     /**
      * Display a listing of the resource.
