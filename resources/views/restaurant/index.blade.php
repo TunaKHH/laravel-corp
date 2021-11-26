@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label>餐廳名稱</label>
+                            <label>*餐廳名稱</label>
                             <input type="text" class="form-control" name="name" placeholder="餐廳名稱" autofocus >
                         </div>
                         <div class="form-group">

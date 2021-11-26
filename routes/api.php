@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LineController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'dev',
+    'prefix' => 'line',
 ], function ($router) {
-    Route::get('/', [TestController::class, 'ping']);
-    Route::post('/ping', [TestController::class, 'ping']);
-    Route::post('/line', [TestController::class, 'line']);
+    Route::get('/webhook', [LineController::class, 'webhook']);
+    Route::post('/webhook', [LineController::class, 'webhook']);
 });
