@@ -24,6 +24,5 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'line',
 ], function ($router) {
-    Route::get('/webhook', [LineController::class, 'webhook']);
     Route::post('/webhook', [LineController::class, 'webhook']);
 });

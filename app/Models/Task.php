@@ -60,11 +60,19 @@ class Task extends Model
 
     public function getTaskTotals()
     {
-
         return DB::table('task_orders')
             ->select('meal_id', 'meal_name', 'meal_price', 'remark', DB::raw('SUM(qty) as qty_sum'))
             ->where('task_id',$this->id)
             ->groupBy('meal_id', 'meal_name', 'meal_price','remark')
+            ->get();
+    }
+
+    // 取得最新訂單
+    public function getLast($group_id)
+    {
+        return DB::table('tasks')
+            ->select()
+            ->where('line_group_id',$group_id)
             ->get();
     }
 
