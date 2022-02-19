@@ -33,13 +33,13 @@ class TaskOrderController extends Controller
             'qty.required'=>'未輸入餐點數量',
             'task_id.required'=>'未輸入任務id',
 
-            'qty.integer'=>'數量乖乖輸入整數',
+            'qty.integer'=>'數量請輸入整數',
             'qty.min'=>'數量不得低於1',
             'meal_price.integer'=>'餐點金額乖乖輸入整數',
             'meal_price.between'=>'餐點金額不能吃超過900000，也不能吃店家倒貼的',
 
-            'user_name.max'=>'你他媽名字有這麼長?字數不得超過255',
-            'remark.max'=>'你他媽備註有這麼長?字數不得超過255',
+            'user_name.max'=>'字數不得超過255,你他媽名字有這麼長?',
+            'remark.max'=>'字數不得超過255,你他媽備註有這麼長?',
         ];
         $validator = Validator::make($request->all(), [
             'restaurant_id' => 'required',
