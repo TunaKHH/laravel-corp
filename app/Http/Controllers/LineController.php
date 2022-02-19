@@ -235,8 +235,9 @@ class LineController extends Controller
      */
     public function webhook(Request $request)
     {
+//        return response()->json(['message' => 'hi line', 'request' => $request->all()]);
         logger('hi webhook');
-
+        logger( $request->all() );
         $events = $request->events;
         foreach ($events as $event) {
             switch($event['type']){
@@ -263,6 +264,15 @@ class LineController extends Controller
         return response()->json(['message' => 'hi line']);
     }
 
+    /*
+     * 使用line群組訂餐
+     */
+    public function addOrder(Request $request){
+        // 判斷有無訂單
+        // 若有多個的開啟訂單 回傳只能用網頁下訂
+        // 若是單個開啟訂單 就能成功下訂
+
+    }
     /**
      * Display a listing of the resource.
      *
