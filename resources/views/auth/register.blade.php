@@ -8,7 +8,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">邀請碼若不知道請呼叫帥氣鮪魚</p>
+                <p class="login-box-msg">邀請碼若不知道請呼叫鮪魚</p>
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible">
                         <h5><i class="icon fas fa-ban"></i>
@@ -19,7 +19,7 @@
                         請重試
                     </div>
                 @endif
-                <form action="{{ secure_url(URL::route('register.enter', [], false)) }}" method="post">
+                <form action="{{ url(URL::route('register.enter', [], false)) }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label>邀請碼</label>
