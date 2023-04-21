@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','餐廳修改')
+@section('title', '餐廳修改')
 
 @section('main.body')
     <!-- Main content -->
@@ -9,9 +9,9 @@
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-block">
                     <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>{{ $message.'/name:'.Session::get('image') }}</strong>
+                    <strong>{{ $message . '/name:' . Session::get('image') }}</strong>
                 </div>
-                <img src="{{ asset('storage/images/'.Session::get('image'))  }}">
+                <img src="{{ secure_asset('storage/images/' . Session::get('image')) }}">
             @endif
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -34,15 +34,18 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>餐廳名稱</label>
-                                    <input type="text" class="form-control" name="name" placeholder="餐廳名稱" value="{{ $restaurant->name }}" autofocus required>
+                                    <input type="text" class="form-control" name="name" placeholder="餐廳名稱"
+                                        value="{{ $restaurant->name }}" autofocus required>
                                 </div>
                                 <div class="form-group">
                                     <label>電話</label>
-                                    <input type="text" class="form-control" name="phone" placeholder="電話" value="{{ $restaurant->phone }}">
+                                    <input type="text" class="form-control" name="phone" placeholder="電話"
+                                        value="{{ $restaurant->phone }}">
                                 </div>
                                 <div class="form-group">
                                     <label>備註</label>
-                                    <input type="text" class="form-control" name="remark" value="{{ $restaurant->remark }}" placeholder="這裏可留空">
+                                    <input type="text" class="form-control" name="remark"
+                                        value="{{ $restaurant->remark }}" placeholder="這裏可留空">
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -56,39 +59,40 @@
                 <div class="col-md-12">
                     <table class="table">
                         <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">縮圖</th>
-                            <th scope="col">全圖</th>
-                            <th scope="col"></th>
-                        </tr>
+                            <tr>
+                                <th scope="col">縮圖</th>
+                                <th scope="col">全圖</th>
+                                <th scope="col"></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @forelse ($restaurant->photos as $photo)
-                            <tr>
-                                <td>
-                                    <img src="{{ $photo->url }}" alt="" class="img-thumbnail img-size-64">
+                            @forelse ($restaurant->photos as $photo)
+                                <tr>
+                                    <td>
+                                        <img src="{{ $photo->url }}" alt="" class="img-thumbnail img-size-64">
 
-                                </td>
-                                <td>
-                                    <a href="{{ $photo->url }}" target="_blank">
-                                        連結{{ $loop->index }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <form method="post" action="{{ route('restaurantPhoto.destroy', $photo->id) }}" >
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td>
-                                    <span>沒有圖片</span>
-                                </td>
-                            </tr>
-                        @endforelse
+                                    </td>
+                                    <td>
+                                        <a href="{{ $photo->url }}" target="_blank">
+                                            連結{{ $loop->index }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{{ route('restaurantPhoto.destroy', $photo->id) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger"><i
+                                                    class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td>
+                                        <span>沒有圖片</span>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -100,5 +104,3 @@
     </section>
 
 @endsection
-
-

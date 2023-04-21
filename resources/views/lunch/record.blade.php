@@ -4,7 +4,7 @@
 
 @section('css')
 
-    <link rel="stylesheet" type="text/css" href=" {{ secure_url('DataTables/datatables.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href=" {{ url('DataTables/datatables.min.css') }}" />
     <style>
         #DataTables_Table_0_wrapper {
             width: 100%;
@@ -62,7 +62,7 @@
     <!-- /.content -->
 @endsection
 @section('script')
-    <script src="{{ secure_url('DataTables/datatables.min.js') }}"></script>
+    <script src="{{ url('DataTables/datatables.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
