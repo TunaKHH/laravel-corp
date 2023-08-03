@@ -16,8 +16,10 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "linecorp/line-bot-sdk": "^7.2",
         "livewire/livewire": "^2.4",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+      "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
