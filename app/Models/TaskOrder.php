@@ -47,6 +47,11 @@ class TaskOrder extends Model
         'qty',
     ];
 
+    protected $attributes = [
+        'user_id' => 11,
+        'qty' => 1,
+    ];
+
     public function restaurantMeal(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(RestaurantMeal::class);
@@ -57,9 +62,9 @@ class TaskOrder extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getTotalPriceAttribute(){
+    public function getTotalPriceAttribute()
+    {
         return $this->qty * $this->meal_price;
     }
-
 
 }
