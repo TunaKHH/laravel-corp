@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Restaurant;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -36,11 +38,9 @@ class Task extends Model
 
     protected $fillable = [
         'restaurant_id',
+        'line_group_id',
         'remark',
-    ];
-
-    protected $guarded = [
-        '_token',
+        'is_open',
     ];
 
     public function restaurant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -58,25 +58,30 @@ class Task extends Model
         return $this->is_open === 1 ?? false;
     }
 
+    public function getRestaurantAttribute()
+    {
+        return $this->restaurant ?? new Restaurant(['name' => 'Line群']);
+    }
+
     public function getTaskTotals()
     {
         return DB::table('task_orders')
             ->select('meal_id', 'meal_name', 'meal_price', 'remark', DB::raw('SUM(qty) as qty_sum'))
-            ->where('task_id',$this->id)
-            ->groupBy('meal_id', 'meal_name', 'meal_price','remark')
+            ->where('task_id', $this->id)
+            ->groupBy('meal_id', 'meal_name', 'meal_price', 'remark')
             ->get();
     }
 
-    // 取得最新訂單
-    public function getLast($group_id)
+    /* 取得最新訂單
+     * @param int $group_id
+     * @return Task
+     */
+    public static function getLast($group_id): Task
     {
-        return DB::table('tasks')
-            ->select()
-            ->where('line_group_id',$group_id)
-            ->get();
+        // 查詢最後一筆的訂單
+        return Task::where('line_group_id', $group_id)
+            ->orderBy('id', 'desc')
+            ->first();
     }
-
-
-
 
 }

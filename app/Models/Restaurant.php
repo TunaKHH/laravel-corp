@@ -31,8 +31,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     use HasFactory;
-    protected $attributes = array(
-    );
+    protected $attributes = array();
 
     protected $guarded = [
         '_token',
@@ -42,7 +41,8 @@ class Restaurant extends Model
     {
         return $this->hasMany(RestaurantPhoto::class);
     }
-    public function restaurantMeals(){
+    public function restaurantMeals()
+    {
         return $this->hasMany(RestaurantMeal::class);
     }
 
