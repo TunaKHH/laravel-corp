@@ -26,20 +26,36 @@ class LineController extends Controller
      */
     public function webhook(Request $request)
     {
+        try {
+            $parsedArr = $this->parseLineMessage($request);
+            if ($this->isMessageProcessable($parsedArr)) {
+                $this->processLineMessage($parsedArr);
+            }
+            return response()->json(['message' => 'hi line']);
+        } catch (\Exception $e) {
+            // Log the exception and return an error response
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
+    }
+
+    private function parseLineMessage(Request $request)
+    {
         // 解析出要用的資料
-        $parsedArr = $this->lineService->parseTextBy($request);
+        return $this->lineService->parseLineWebhookText($request);
+    }
 
-        // TODO 判斷文字格式是否為需要處理的指令 若不需要處理就直接回傳200成功訊息
+    private function isMessageProcessable($parsedArr)
+    {
+        // TODO: Add logic to determine if the message should be processed
+        return true;
+    }
 
-        // 直接丟給lineService處理
+    private function processLineMessage($parsedArr)
+    {
         // 設定user的line id
         $this->lineService->setUserLineId($parsedArr['userId']);
-        $responseText = $this->lineService->preProcessMsg($parsedArr['message'], $parsedArr['userId']);
+        $responseText = $this->lineService->handleCommands($parsedArr['message'], $parsedArr['userId']);
         $this->bot->replyText($parsedArr['replyToken'], $responseText);
-        // $response_text = $this->preProcessMsg($event['message']['text'], $event['source']['groupId']);
-
-        // 回傳200成功訊息
-        return response()->json(['message' => 'hi line']);
     }
 
     /*
