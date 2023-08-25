@@ -48,7 +48,6 @@ class TaskOrder extends Model
     ];
 
     protected $attributes = [
-        'user_id' => 11,
         'qty' => 1,
     ];
 

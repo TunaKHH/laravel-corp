@@ -60,7 +60,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function profile(){
+    public function profile()
+    {
         $user = Auth::user();
 //        dd($user);
         return view('user.edit', ['user' => $user]);
@@ -84,33 +85,37 @@ class UserController extends Controller
         $user = Auth::user();
 
         $messages = [
-            'nickname.max'=>'暱稱字數不得超過255',
-            'email.max'=>'信箱字數不得超過255',
-            'email.email'=>'信箱規則錯誤',
-            'email.unique'=>'信箱重複',
-            'password.max'=>'密碼字數不得超過255',
+            'nickname.max' => '暱稱字數不得超過255',
+            'email.max' => '信箱字數不得超過255',
+            'email.email' => '信箱規則錯誤',
+            'email.unique' => '信箱重複',
+            'password.max' => '密碼字數不得超過255',
         ];
         $validator = Validator::make($request->all(), [
             'nickname' => 'max:255',
             Rule::unique('users', 'account')->ignore(Auth::id()),
             'email' => 'nullable|email|max:255|unique:users,email',
             'password' => 'max:255',
-        ],$messages);
+        ], $messages);
 
-        if( $validator->fails() ){
+        if ($validator->fails()) {
 //            dd($validator->getMessageBag());
             return back()->withErrors($validator)->withInput();
         }
-        if( $request->get('password') && $request->get('password2') ){// 有填入密碼欄位
-            if(  $request->password != $request->password2 ){// 檢查密碼是否一致
+        if ($request->get('password') && $request->get('password2')) { // 有填入密碼欄位
+            if ($request->password != $request->password2) { // 檢查密碼是否一致
                 return back()->withErrors([
                     'errors' => ' 兩次密碼不一致',
                 ])->withInput();
             }
             $user->password = Hash::make($request->password);
         }
-        $user->email = $request->email;
+        // 如果原本沒有設定信箱，就設定
+        if (!isset($user->email)) {
+            $user->email = $request->email;
+        }
         $user->nickname = $request->nickname;
+        $user->line_id = $request->line_id;
         $user->save();
         $user->fresh();
         return back()->with('success', '修改成功');

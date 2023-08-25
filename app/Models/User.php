@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -76,8 +75,15 @@ class User extends Authenticatable
         return $this->hasMany(MoneyRecords::class);
     }
 
+    public static function getUserByLineId($lineId)
+    {
+        return User::where('line_id', $lineId)
+            ->first();
+    }
+
     // 取得所有人的餘額
-    public function getAllDeposit(){
+    public function getAllDeposit()
+    {
         return DB::table('users')
             ->select('name', 'deposit')
             ->orderBy('deposit', 'DESC')
@@ -85,7 +91,8 @@ class User extends Authenticatable
     }
 
     // 扣這個人的錢
-    public function reduceMoney($amount, $remark='', $operator_id = false){
+    public function reduceMoney($amount, $remark = '', $operator_id = false)
+    {
         // 寫紀錄
         $moneyRecord = new MoneyRecords;
         $moneyRecord->user_id = $this->id;
@@ -100,7 +107,8 @@ class User extends Authenticatable
     }
 
     // 加這個人的錢
-    public function addMoney($amount, $remark='', $operator_id = false){
+    public function addMoney($amount, $remark = '', $operator_id = false)
+    {
         // 寫紀錄
         $moneyRecord = new MoneyRecords;
         $moneyRecord->user_id = $this->id;
