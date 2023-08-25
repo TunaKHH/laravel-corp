@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class LineService
 {
+    private $userLineId;
+
+    public function setUserLineId($userLineId)
+    {
+        $this->userLineId = $userLineId;
+    }
     /**
      * 解析 Line Webhook 資料
      *
@@ -126,6 +132,8 @@ class LineService
 
         $text = $this->nf_to_wf($text, 'wf_to_nf');
         switch ($text) {
+            case '取得我的lineId':
+                return $this->userLineId;
             case '!$':
                 $balance_list = User::getAllDeposit();
                 $res = '帳號餘額' . $wrap_str;
@@ -180,7 +188,7 @@ class LineService
                     // 點餐列表
                     $oneLine = [];
                     array_push($oneLine, $info->id);
-                    array_push($oneLine, $info->user->name);
+                    array_push($oneLine, $info->user->nickname ?? $info->user->name);
                     array_push($oneLine, $info->meal_name);
                     array_push($oneLine, $info->meal_price);
                     array_push($oneLine, '數量:' . $info->qty);
@@ -219,12 +227,21 @@ class LineService
                 }
             default:
                 if ($is_order) { // 是點餐
+                    // 根據lineId取得user
+                    $user = User::getUserByLineId($this->userLineId);
+                    // 判斷user是否存在
+                    if (!$user) {
+                        return '請先在訂餐網頁綁定Line帳號';
+                    }
+
+                    // 新增點餐
                     $OrderTask = new TaskOrder;
-                    $OrderTask->task_id = $last_order->id;
-                    $OrderTask->meal_name = explode(" ", $text)[1];
-                    $OrderTask->meal_price = explode("$", explode(" ", $text)[2])[1];
-                    $OrderTask->qty = 1;
-                    $OrderTask->remark = explode(" ", $text)[3] ?? '';
+                    $OrderTask->user_id = $user->id; // 設定user_id
+                    $OrderTask->task_id = $last_order->id; // 設定task_id
+                    $OrderTask->meal_name = explode(" ", $text)[1]; // 設定餐點名稱
+                    $OrderTask->meal_price = explode("$", explode(" ", $text)[2])[1]; // 設定餐點價格
+                    $OrderTask->qty = 1; // 設定餐點數量
+                    $OrderTask->remark = explode(" ", $text)[3] ?? ''; // 設定餐點備註
                     if ($OrderTask->save()) {
                         return '收';
                     }

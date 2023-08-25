@@ -53,9 +53,17 @@
                                         placeholder="請填入暱稱" value="{{ $user->nickname }}">
                                 </div>
                                 <div class="form-group">
+                                    <label for="people_line_id">Line Id(需在群組內和line bot對話：「取得我的lineId」)</label>
+                                    <input type="text" name="line_id" class="form-control" id="people_line_id"
+                                        placeholder="請填入Line Id" value="{{ $user->line_id }}">
+                                </div>
+                                <div class="form-group">
                                     <label for="people_email">E-mail</label>
                                     <input type="email" name="email" class="form-control" id="people_email"
-                                        placeholder="請填入E-mail" value="{{ $user->email }}" autocomplete="off">
+                                        placeholder="請填入E-mail" value="{{ $user->email }}" autocomplete="off"
+                                        @isset($user->email)
+                                            disabled
+                                        @endisset>
                                 </div>
                                 <div class="form-group">
                                     <label disabled>舊密碼</label>

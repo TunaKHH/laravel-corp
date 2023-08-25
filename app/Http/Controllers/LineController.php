@@ -32,6 +32,8 @@ class LineController extends Controller
         // TODO 判斷文字格式是否為需要處理的指令 若不需要處理就直接回傳200成功訊息
 
         // 直接丟給lineService處理
+        // 設定user的line id
+        $this->lineService->setUserLineId($parsedArr['userId']);
         $responseText = $this->lineService->preProcessMsg($parsedArr['message'], $parsedArr['userId']);
         $this->bot->replyText($parsedArr['replyToken'], $responseText);
         // $response_text = $this->preProcessMsg($event['message']['text'], $event['source']['groupId']);
