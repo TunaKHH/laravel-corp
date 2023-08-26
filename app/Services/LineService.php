@@ -41,10 +41,12 @@ class LineService
         $normalizedCommand = $this->normalizeCommand($command);
         $commandHelper = new CommandHelper($normalizedCommand); // Helper class to manage commands
 
+        // 如果是確認點餐指令 則回傳訂單資訊
         if ($commandHelper->matches(CommandHelper::CONFIRM_COMMANDS)) {
             return $this->confirmOrder($lastTask);
         }
 
+        // 如果是查看帳號餘額指令 則回傳帳號餘額
         if ($commandHelper->matches(CommandHelper::CHECK_BALANCE_COMMANDS)) {
             return $this->checkBalance();
         }
@@ -190,7 +192,7 @@ class LineService
 
         $user_str = "";
         foreach ($balance_list as $user) {
-            $user_str .= $user['name'] . ':' . $user['balance'] . self::WRAP_STR;
+            $user_str .= $user->name . ':' . $user->deposit . self::WRAP_STR;
         }
         $res .= $user_str;
         return $res;

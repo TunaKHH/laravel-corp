@@ -82,7 +82,7 @@ class User extends Authenticatable
     }
 
     // 取得所有人的餘額
-    public function getAllDeposit()
+    public static function getAllDeposit()
     {
         return DB::table('users')
             ->select('name', 'deposit')
