@@ -21,8 +21,6 @@ class LineService
     const CHECK_BALANCE_COMMANDS = ['!$'];
     // 查看餐點指令
     const CONFIRM_COMMANDS = ['!!', '確認', '確認餐點', '確認點餐', '查看', '查看餐點', '查看點餐'];
-    // 刪除餐點指令
-    const DEL_COMMANDS = ['刪除', '刪除餐點'];
     // 換行符號
     const WRAP_STR = "\n";
     private $taskService;
@@ -54,9 +52,6 @@ class LineService
         }
         if ($this->isACommand($normalizedCommand, self::CLOSE_ORDER_COMMANDS)) {
             return $this->closeOrder($last_task);
-        }
-        if ($this->isACommand($normalizedCommand, self::DEL_COMMANDS)) {
-            return $this->delOrder($normalizedCommand);
         }
         if ($this->isACommand($normalizedCommand, self::GET_MY_LINE_ID_COMMANDS)) {
             return $this->getMyLineId();
@@ -261,12 +256,13 @@ class LineService
         return $OrderTask;
     }
 
+    // 炒麵 $100 不要蔥
     private function parseOrderCommand($command)
     {
         $parts = explode(" ", $command);
-        $meal_name = $parts[1];
-        $meal_price = explode("$", $parts[2])[1];
-        $remark = $parts[3] ?? '';
+        $meal_name = $parts[0];
+        $meal_price = explode("$", $parts[1])[1];
+        $remark = $parts[2] ?? '';
         return [$meal_name, $meal_price, $remark];
     }
 
@@ -343,8 +339,10 @@ class LineService
     {
         $res = false;
         $inarr = explode(" ", $text);
-        if (isset($inarr[2]) && $inarr[2]) {
-            if (substr($inarr[2], 0, 1) === '$') {
+        $meal_price = $inarr[1] ?? null;
+        if (isset($meal_price)) {
+            // 判斷價格是否為有帶錢號
+            if (substr($meal_price, 0, 1) === '$') {
                 $res = true;
             }
         }
