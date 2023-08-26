@@ -23,8 +23,10 @@ class LineController extends Controller
 
     /*
      * line 傳回時會經過這裡
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function webhook(Request $request)
+    public function webhook(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $parsedArr = $this->parseLineMessage($request);
@@ -33,23 +35,38 @@ class LineController extends Controller
             }
             return response()->json(['message' => 'hi line']);
         } catch (\Exception $e) {
-            // Log the exception and return an error response
+            logger()->error($e);
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
+    /*
+     * 解析line傳回的訊息
+     * @param Request $request
+     * @return array
+     */
     private function parseLineMessage(Request $request)
     {
         // 解析出要用的資料
         return $this->lineService->parseLineWebhookText($request);
     }
 
+    /*
+     * 判斷訊息是否要處理
+     * @param $parsedArr
+     * @return bool
+     */
     private function isMessageProcessable($parsedArr)
     {
         // TODO: Add logic to determine if the message should be processed
         return true;
     }
 
+    /*
+     * 處理line傳回的訊息
+     * @param $parsedArr
+     * @return void
+     */
     private function processLineMessage($parsedArr)
     {
         // 設定user的line id

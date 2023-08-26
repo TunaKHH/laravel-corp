@@ -25,57 +25,101 @@ class LineService
     const DEL_COMMANDS = ['刪除', '刪除餐點'];
     // 換行符號
     const WRAP_STR = "\n";
+    private $taskService;
+    private $taskOrderService;
+    private $userService;
+
+    public function __construct(TaskService $taskService, TaskOrderService $taskOrderService, UserService $userService)
+    {
+        $this->taskService = $taskService;
+        $this->taskOrderService = $taskOrderService;
+        $this->userService = $userService;
+    }
 
     public function handleCommands($command, $groupId)
     {
         // 取得最新的訂單
         $last_task = Task::getLast($groupId);
-        // 判斷文字指令是否為點餐
-        $is_order = $this->isOrderInfo($command);
-        // 判斷文字指令是否為刪除
-        $is_del = $this->isDelInfoBy($command);
-        $command = nf_to_wf($command, 'wf_to_nf');
-        if (in_array($command, self::CONFIRM_COMMANDS)) {
+        // 轉換全行指令
+        $normalizedCommand = $this->normalizeCommand($command);
+
+        if ($this->isACommand($normalizedCommand, self::CONFIRM_COMMANDS)) {
             return $this->confirmOrder($last_task);
-        } elseif (in_array($command, self::CHECK_BALANCE_COMMANDS)) {
-            return $this->checkBalance();
-        } elseif (in_array($command, self::OPEN_ORDER_COMMANDS)) {
-            return $this->openOrder($last_task, $groupId);
-        } elseif (in_array($command, self::CLOSE_ORDER_COMMANDS)) {
-            return $this->closeOrder($last_task);
-        } elseif (in_array($command, self::DEL_COMMANDS)) {
-            return $this->delOrder($command);
-        } elseif (in_array($command, self::GET_MY_LINE_ID_COMMANDS)) {
-            return $this->getMyLineId();
-        } elseif ($is_order) {
-            return $this->orderMeal($command, $last_task, $groupId);
-        } elseif ($is_del) {
-            return $this->delOrder($command);
         }
+        if ($this->isACommand($normalizedCommand, self::CHECK_BALANCE_COMMANDS)) {
+            return $this->checkBalance();
+        }
+        if ($this->isACommand($normalizedCommand, self::OPEN_ORDER_COMMANDS)) {
+            return $this->openOrder($last_task, $groupId);
+        }
+        if ($this->isACommand($normalizedCommand, self::CLOSE_ORDER_COMMANDS)) {
+            return $this->closeOrder($last_task);
+        }
+        if ($this->isACommand($normalizedCommand, self::DEL_COMMANDS)) {
+            return $this->delOrder($normalizedCommand);
+        }
+        if ($this->isACommand($normalizedCommand, self::GET_MY_LINE_ID_COMMANDS)) {
+            return $this->getMyLineId();
+        }
+        // 判斷文字格式是否為點餐
+        if ($this->isOrderInfo($normalizedCommand)) {
+            return $this->orderMeal($normalizedCommand, $last_task, $groupId);
+        }
+        // 判斷文字格式是否為刪除
+        if ($this->isDelInfoBy($normalizedCommand)) {
+            return $this->delOrder($normalizedCommand);
+        }
+    }
+
+    /**
+     * 判斷是否為對應指令
+     * @param string $input
+     * @param array $commandsArray
+     * @return boolean
+     */
+    private function isACommand($input, $commandsArray): bool
+    {
+        return in_array($input, $commandsArray);
+    }
+
+    /**
+     * 轉換全行指令 to 半形指令
+     *
+     * @param string $command
+     * @return string
+     */
+    private function normalizeCommand($command)
+    {
+        return nf_to_wf($command, 'wf_to_nf');
     }
 
     /* 確認點餐
      * @param Task $last_task
      * @return string
      */
-    private function confirmOrder(Task $last_task)
+    private function confirmOrder(Task $lastTask)
     {
-        $order_list = $last_task->taskOrder()->get();
-        if ($order_list->isEmpty()) {
+        if (!$lastTask) {
             return '尚無點餐';
         }
-
+        $order_list = $lastTask->taskOrder()->get();
         $info_list = $this->formatOrderList($order_list);
         $money = $this->calculateTotalMoney($order_list);
         $order_processed = $this->processOrderGroupByFood($order_list);
 
-        $res = '訂單建立時間:' . self::WRAP_STR . $last_task->create_time . self::WRAP_STR;
+        $res = '訂單建立時間:' . self::WRAP_STR . $lastTask->create_time . self::WRAP_STR;
         $res .= $info_list . self::WRAP_STR . '----訂單整理----' . self::WRAP_STR;
         $res .= $order_processed . self::WRAP_STR . '總金額：' . $money;
 
         return $res;
     }
 
+    /**
+     * 格式化訂單
+     *
+     * @param
+     * @return string
+     */
     private function formatOrderList($order_list)
     {
         $info_list = '';
@@ -122,6 +166,7 @@ class LineService
             $meal_name = $info['meal_name'];
             $groupby_foodname[$meal_name] = ($groupby_foodname[$meal_name] ?? 0) + $info->qty;
         }
+        // 根據餐點名稱排序
         ksort($groupby_foodname);
 
         $order_processed = '';
@@ -139,7 +184,7 @@ class LineService
     private function openOrder(Task $last_task, $groupId)
     {
         // 判斷是否有開啟的訂單
-        if ($last_task->isEmpty() &&
+        if (isset($last_task) &&
             $last_task->is_open === 1) {
             return '已有開啟的訂單,請直接點餐(EX:鮪 炒飯 $100 不要蔥)';
         }
@@ -195,6 +240,14 @@ class LineService
         return $OrderTask->save() ? '收' : '點餐失敗';
     }
 
+    /**
+     * 建立訂單
+     *
+     * @param string $command
+     * @param Task $last_task
+     * @param User $user
+     * @return TaskOrder
+     */
     private function createTaskOrder($command, Task $last_task, $user)
     {
         $OrderTask = new TaskOrder;

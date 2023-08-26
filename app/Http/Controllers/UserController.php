@@ -99,7 +99,6 @@ class UserController extends Controller
         ], $messages);
 
         if ($validator->fails()) {
-//            dd($validator->getMessageBag());
             return back()->withErrors($validator)->withInput();
         }
         if ($request->get('password') && $request->get('password2')) { // 有填入密碼欄位
