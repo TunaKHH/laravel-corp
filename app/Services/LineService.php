@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\CommandHelper;
 use App\Models\Task;
 use App\Models\TaskOrder;
 use App\Models\User;
@@ -36,49 +37,41 @@ class LineService
 
     public function handleCommands($command, $groupId)
     {
-        // 取得最新的訂單
-        $last_task = Task::getLast($groupId);
-        // 轉換全行指令
+        $lastTask = Task::getLast($groupId);
         $normalizedCommand = $this->normalizeCommand($command);
+        $commandHelper = new CommandHelper($normalizedCommand); // Helper class to manage commands
 
-        if ($this->isACommand($normalizedCommand, self::CONFIRM_COMMANDS)) {
-            return $this->confirmOrder($last_task);
+        if ($commandHelper->matches(CommandHelper::CONFIRM_COMMANDS)) {
+            return $this->confirmOrder($lastTask);
         }
-        if ($this->isACommand($normalizedCommand, self::CHECK_BALANCE_COMMANDS)) {
+
+        if ($commandHelper->matches(CommandHelper::CHECK_BALANCE_COMMANDS)) {
             return $this->checkBalance();
         }
-        if ($this->isACommand($normalizedCommand, self::OPEN_ORDER_COMMANDS)) {
-            return $this->openOrder($last_task, $groupId);
+
+        if ($commandHelper->matches(CommandHelper::OPEN_ORDER_COMMANDS)) {
+            return $this->openOrder($lastTask, $groupId);
         }
-        if ($this->isACommand($normalizedCommand, self::CLOSE_ORDER_COMMANDS)) {
-            return $this->closeOrder($last_task);
+
+        if ($commandHelper->matches(CommandHelper::CLOSE_ORDER_COMMANDS)) {
+            return $this->closeOrder($lastTask);
         }
-        if ($this->isACommand($normalizedCommand, self::GET_MY_LINE_ID_COMMANDS)) {
+
+        if ($commandHelper->matches(CommandHelper::GET_MY_LINE_ID_COMMANDS)) {
             return $this->getMyLineId();
         }
-        // 判斷文字格式是否為點餐
-        if ($this->isOrderInfo($normalizedCommand)) {
-            return $this->orderMeal($normalizedCommand, $last_task, $groupId);
+
+        if ($commandHelper->isOrderInfo()) {
+            return $this->orderMeal($normalizedCommand, $lastTask, $groupId);
         }
-        // 判斷文字格式是否為刪除
-        if ($this->isDelInfoBy($normalizedCommand)) {
+
+        if ($commandHelper->isDelInfo()) {
             return $this->delOrder($normalizedCommand);
         }
     }
 
     /**
-     * 判斷是否為對應指令
-     * @param string $input
-     * @param array $commandsArray
-     * @return boolean
-     */
-    private function isACommand($input, $commandsArray): bool
-    {
-        return in_array($input, $commandsArray);
-    }
-
-    /**
-     * 轉換全行指令 to 半形指令
+     * 轉為標準化指令 (轉換全行指令 to 半形指令)
      *
      * @param string $command
      * @return string
