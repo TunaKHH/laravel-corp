@@ -24,7 +24,7 @@ class LineController extends Controller
     /**
      * @OA\Post(
      *   path="/webhook",
-     *   summary="Webhook for Line bot",
+     *   summary="處理Line bot的webhook",
      *   tags={"Webhook"},
      *   @OA\RequestBody(
      *       description="Request data from Line",

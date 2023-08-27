@@ -14,7 +14,7 @@ paths:
     post:
       tags:
         - Webhook
-      summary: 'Webhook for Line bot'
+      summary: '處理Line bot的webhook'
       operationId: 1edd6d23b8dd704d1bd7dc4328a8ea6f
       requestBody:
         description: 'Request data from Line'
