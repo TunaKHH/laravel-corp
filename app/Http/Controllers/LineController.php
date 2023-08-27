@@ -21,10 +21,26 @@ class LineController extends Controller
         $this->bot = new LINEBot($httpClient, ['channelSecret' => env('LINE_BOT_CHANNEL_SECRET')]);
     }
 
-    /*
-     * line 傳回時會經過這裡
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+    /**
+     * @OA\Post(
+     *   path="/webhook",
+     *   summary="Webhook for Line bot",
+     *   tags={"Webhook"},
+     *   @OA\RequestBody(
+     *       description="Request data from Line",
+     *       required=true
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(type="object", @OA\Property(property="message", type="string", description="Response message"))
+     *   ),
+     *   @OA\Response(
+     *     response=500,
+     *     description="Server error",
+     *     @OA\JsonContent(type="object", @OA\Property(property="error", type="string", description="Error message"))
+     *   )
+     * )
      */
     public function webhook(Request $request): \Illuminate\Http\JsonResponse
     {
