@@ -45,11 +45,15 @@ class LineController extends Controller
     public function webhook(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
+            // 解析line傳來的訊息
             $parsedArr = $this->parseLineMessage($request);
+            // 判斷訊息是否要處理
             if ($this->isMessageProcessable($parsedArr)) {
+                // 處理line傳回的訊息
                 $this->processLineMessage($parsedArr);
             }
-            return response()->json(['message' => 'hi line']);
+            // 回傳200訊息
+            return response()->json();
         } catch (\Exception $e) {
             logger()->error($e);
             return response()->json(['error' => 'An error occurred'], 500);
@@ -85,9 +89,11 @@ class LineController extends Controller
      */
     private function processLineMessage($parsedArr)
     {
-        // 設定user的line id
+        // 設定user的line id到service
         $this->lineService->setUserLineId($parsedArr['userId']);
+        // 處理訊息
         $responseText = $this->lineService->handleCommands($parsedArr['message'], $parsedArr['userId']);
+        // 回傳訊息
         $this->bot->replyText($parsedArr['replyToken'], $responseText);
     }
 

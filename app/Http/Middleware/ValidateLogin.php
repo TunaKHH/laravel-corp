@@ -17,22 +17,12 @@ class ValidateLogin
     {
         $account = $request->input('account');
         $password = $request->input('password');
-        logger('in ValidateLogin');
-        logger(var_dump($account));
-        logger(var_dump($password));
-        logger('in ValidateLogin 2');
 
-        if (empty($account) ||
-            empty($password)
-        ) {
-            logger('in ValidateLogin 3');
-
+        if (empty($account) || empty($password)) {
             return back()->withErrors([
                 'message' => '帳號或密碼不可為空',
             ])->withInput();
         }
-        logger('in ValidateLogin 4');
-
         return $next($request);
     }
 }
