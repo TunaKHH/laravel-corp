@@ -34,7 +34,6 @@ class SocialiteController extends Controller
             // 處理沒有email的情況，可能重定向回登入頁面並顯示錯誤信息
             return redirect()->route('login')->with('error', 'Google帳戶沒有提供郵箱');
         }
-        // dd($googleUser->email);
         // 檢查是否有帳號
         // 沒有就建立帳號
         // 有就登入並更新token
@@ -57,15 +56,6 @@ class SocialiteController extends Controller
         $user->google_refresh_token = $googleUser->refreshToken;
         $user->save();
 
-        // $user = User::updateOrCreate([
-        //     'account' => $googleUser->email,
-        // ], [
-        //     'google_id' => $googleUser->id, // 檢查是否有google帳號
-        //     'name' => $googleUser->name,
-        //     'nickname' => $googleUser->nickname,
-        //     'google_token' => $googleUser->token,
-        //     'google_refresh_token' => $googleUser->refreshToken,
-        // ]);
         // 登入
         Auth::login($user);
         // 導回首頁
