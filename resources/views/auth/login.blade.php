@@ -34,19 +34,20 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember" name="remember">
-                                <label for="remember">
-                                    記住我
-                                </label>
+                        <div class="col-12 d-flex justify-content-between">
+                            <div>
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="remember" name="remember">
+                                    <label for="remember">
+                                        記住我
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="">
+                                <a href="{{ route('google.auth') }}"class="btn btn-danger">Google</a>
+                                <button type="submit" class="btn btn-primary ">登入</button>
                             </div>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">登入</button>
-                        </div>
-                        <!-- /.col -->
                     </div>
                 </form>
                 <!-- /.social-auth-links -->
