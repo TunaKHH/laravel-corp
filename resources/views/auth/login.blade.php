@@ -3,7 +3,7 @@
 @section('main')
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>SKW</b>CORP</a>
+            <a href="#"><b>Tuna</b>CORP</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -43,12 +43,32 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="">
-                                <a href="{{ route('google.auth') }}"class="btn btn-danger">Google</a>
+                            <div>
                                 <button type="submit" class="btn btn-primary ">登入</button>
                             </div>
                         </div>
-                    </div>
+                        {{-- 分隔線 --}}
+                        <div class="col-12">
+                            <hr>
+                        </div>
+                        {{-- 第三方登入 --}}
+                        <div class="col-12">
+                            <div class="social-auth-links text-center mb-3">
+                                <a href="{{ route('google.auth') }}">
+                                    {{-- 圖片連結  --}}
+                                    <img class="w-50"
+                                        src="{{ url('/images/google/2x/btn_google_signin_dark_normal_web@2x.png') }}"
+                                        alt="" srcset="">
+
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+
                 </form>
                 <!-- /.social-auth-links -->
             </div>
