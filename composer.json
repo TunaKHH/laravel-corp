@@ -13,6 +13,7 @@
         "darkaonline/l5-swagger": "^8.5",
         "guzzlehttp/guzzle": "~7.0",
         "laravel/framework": "^10.0",
+        "laravel/socialite": "^5.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^4",
         "linecorp/line-bot-sdk": "^7.2",
