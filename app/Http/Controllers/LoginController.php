@@ -33,24 +33,46 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    /**
+     * @OA\Post(
+     *   tags={"User"},
+     *   path="/login",
+     *   summary="登入",
+     *   @OA\RequestBody(
+     *     required=true,
+     *     description="登入資料",
+     *     @OA\JsonContent(
+     *       required={"account","password"},
+     *       @OA\Property(property="account", type="string", example="test"),
+     *       @OA\Property(property="password", type="string", example="test"),
+     *       @OA\Property(property="remember", type="boolean", example="true"),
+     *     ),
+     *     @OA\MediaType(
+     *       mediaType="application/x-www-form-urlencoded",
+     *       @OA\Schema(
+     *         required={"account","password"},
+     *         @OA\Property(property="account", type="string", example="test"),
+     *         @OA\Property(property="password", type="string", example="test"),
+     *         @OA\Property(property="remember", type="boolean", example="true"),
+     *         )
+     *       )
+     *     ),
+     *     @OA\Response(response=200, description="OK")
+     *   )
+     * )
+     */
     public function authenticate(Request $request)
     {
-        $account = $request->get('account');
-        $password = $request->get('password');
         $credentials = $request->only('account', 'password'); # 帳號登入
 
         # 兩種登入方式
-        if (!Auth::attempt($credentials, $request->remember) && !Auth::attempt(['email' => $account, 'password' => $password], $request->remember)) {
-
+        if (!Auth::attempt($credentials, $request->remember)) {
             return back()->withErrors([
                 'account' => '帳號或密碼錯誤',
             ]);
         }
-
         $request->session()->regenerate();
-
         return redirect()->route('index');
-
     }
 
     public function pageLine()

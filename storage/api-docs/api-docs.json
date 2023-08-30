@@ -62,6 +62,90 @@
                 }
             }
         },
+        "/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "登入",
+                "operationId": "ce5ef90f2ad7d4ab966397fd8ddd231d",
+                "requestBody": {
+                    "description": "登入資料",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "account",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "account": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "remember": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "account",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "account": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "remember": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "註冊帳號",
+                "operationId": "674465ee14b3f752ca9c69ed9763f70e",
+                "requestBody": {
+                    "description": "註冊資料",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -72,7 +156,23 @@
                 "operationId": "c457726701591d1183b53aa71fc13441",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "users": {
+                                            "description": "List of users sorted by deposit",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

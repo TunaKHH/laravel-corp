@@ -11,7 +11,11 @@
                 <p class="login-box-msg">登入以操作，若不會請呼叫鮪魚</p>
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible">
-                        <h5><i class="icon fas fa-ban"></i> 帳號或密碼錯誤</h5>
+                        <p>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </p>
                         請重新再試一次
                     </div>
                 @endif

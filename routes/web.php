@@ -11,6 +11,8 @@ use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskOrderController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ValidateLogin;
+use App\Http\Middleware\ValidateRegistration;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +35,9 @@ Route::get('/callback/login', [LoginController::class, 'lineLoginCallBack']);
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'show'])->name('login');
-    Route::post('login', [LoginController::class, 'authenticate'])->name('login.enter');
+    Route::post('login', [LoginController::class, 'authenticate'])->name('login.enter')->middleware(ValidateLogin::class);
     Route::get('register', [RegisterController::class, 'show'])->name('register');
-    Route::post('register', [RegisterController::class, 'create'])->name('register.enter');
+    Route::post('register', [RegisterController::class, 'create'])->name('register.enter')->middleware(ValidateRegistration::class);
 });
 
 Route::middleware('auth')->group(function () {

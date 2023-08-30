@@ -9,6 +9,12 @@ class UserService
     {
     }
 
+    // register
+    public function register($data)
+    {
+        return User::create($data);
+    }
+
     public function getUserList()
     {
         return User::all();
