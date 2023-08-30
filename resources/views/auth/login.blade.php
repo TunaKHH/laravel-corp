@@ -59,16 +59,9 @@
                                     <img class="w-50"
                                         src="{{ url('/images/google/2x/btn_google_signin_dark_normal_web@2x.png') }}"
                                         alt="" srcset="">
-
-
                                 </a>
-
                             </div>
-
-
                         </div>
-
-
                 </form>
                 <!-- /.social-auth-links -->
             </div>
