@@ -8,14 +8,32 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use OpenApi\Annotations as OA;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @OA\Get(
+     *   tags={"User"},
+     *   path="/api/users",
+     *   summary="Get list of users sorted by deposit",
+     *   description="Returns all users sorted in descending order by their deposit",
+     *   @OA\Response(
+     *     response=200,
+     *     description="OK",
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(
+     *         property="users",
+     *         type="array",
+     *         description="List of users sorted by deposit",
+     *         @OA\Items(ref="#/components/schemas/UserResource")
+     *       )
+     *     )
+     *   )
+     * )
      */
+
     public function index()
     {
         $users = User::all()->sortBy('deposit')->reverse();

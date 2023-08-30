@@ -23,6 +23,31 @@ class SwaggerServiceProvider extends ServiceProvider
      *     )
      * )
      * @OA\Server(url="http://localhost:8000/api")
+     *    @OA\Schema(
+     *   schema="UserResource",
+     *   type="object",
+     *   @OA\Property(
+     *     property="id",
+     *     type="integer",
+     *     description="The user ID"
+     *   ),
+     *   @OA\Property(
+     *     property="name",
+     *     type="string",
+     *     description="The name of the user"
+     *   ),
+     *   @OA\Property(
+     *     property="email",
+     *     type="string",
+     *     description="The email of the user"
+     *   ),
+     *   @OA\Property(
+     *     property="deposit",
+     *     type="number",
+     *     format="float",
+     *     description="The deposit amount for the user"
+     *   )
+     * )
      */
     public function boot()
     {

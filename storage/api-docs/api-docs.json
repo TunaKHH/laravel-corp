@@ -61,6 +61,47 @@
                     }
                 }
             }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get list of users sorted by deposit",
+                "description": "Returns all users sorted in descending order by their deposit",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "description": "The user ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "The name of the user",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "The email of the user",
+                        "type": "string"
+                    },
+                    "deposit": {
+                        "description": "The deposit amount for the user",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            }
         }
     }
 }
