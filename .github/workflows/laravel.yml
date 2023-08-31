@@ -39,9 +39,10 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_rsa
           chmod 600 ~/.ssh/deploy_rsa
+          ssh-keyscan -t rsa ${{ secrets.VPS_DEPLOY_HOST }} >> ~/.ssh/known_hosts  # 將 VPS 的 Host 加入 known_hosts
       - name: Deploy to VPS
         run: |
-          ssh -i ~/.ssh/deploy_rsa ${{ secrets.VPS_DEPLOY_USER }}@${{ secrets.VPS_DEPLOY_HOST }} << "ENDSSH"
+          ssh -T -i ~/.ssh/deploy_rsa ${{ secrets.VPS_DEPLOY_USER }}@${{ secrets.VPS_DEPLOY_HOST }} << "ENDSSH"
           echo "1. SSH 登入成功"
           cd ${{ secrets.VPS_DEPLOY_PATH }}
           echo "2. 進入專案目錄成功"
