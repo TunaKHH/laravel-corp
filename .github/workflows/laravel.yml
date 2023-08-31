@@ -33,10 +33,6 @@ jobs:
   deploy:
     needs: laravel-tests
     runs-on: ubuntu-latest
-    env:
-      VPS_DEPLOY_USER: ${{ secrets.VPS_DEPLOY_USER }}
-      VPS_DEPLOY_HOST: ${{ secrets.VPS_DEPLOY_HOST }}
-      VPS_DEPLOY_PATH: ${{ secrets.VPS_DEPLOY_PATH }}
     steps:
       - name: Setup SSH Key
         run: |
@@ -45,9 +41,9 @@ jobs:
           chmod 600 ~/.ssh/deploy_rsa
       - name: Deploy to VPS
         run: |
-          ssh -i ~/.ssh/deploy_rsa $VPS_DEPLOY_USER@$VPS_DEPLOY_HOST << "ENDSSH"
+          ssh -i ~/.ssh/deploy_rsa ${{ secrets.VPS_DEPLOY_USER }}@${{ secrets.VPS_DEPLOY_HOST }} << "ENDSSH"
           echo "1. SSH 登入成功"
-          cd $VPS_DEPLOY_PATH
+          cd ${{ secrets.VPS_DEPLOY_PATH }}
           echo "2. 進入專案目錄成功"
           git pull origin master
           composer install --no-dev
