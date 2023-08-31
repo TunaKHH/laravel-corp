@@ -12,6 +12,8 @@ class UserService
     // register
     public function register($data)
     {
+        // 密碼加密
+        $data['password'] = bcrypt($data['password']);
         return User::create($data);
     }
 
