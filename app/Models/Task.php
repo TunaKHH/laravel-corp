@@ -76,7 +76,7 @@ class Task extends Model
      * @param int $group_id
      * @return Task
      */
-    public static function getLast($group_id): Task
+    public static function getLast($group_id): Task | null
     {
         // 查詢最後一筆的訂單
         return Task::where('line_group_id', $group_id)

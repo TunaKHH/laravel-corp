@@ -91,8 +91,14 @@ class LineController extends Controller
     {
         // 設定user的line id到service
         $this->lineService->setUserLineId($parsedArr['userId']);
+
         // 處理訊息
-        $responseText = $this->lineService->handleCommands($parsedArr['message'], $parsedArr['userId']);
+        try {
+            $responseText = $this->lineService->handleCommands($parsedArr['message'], $parsedArr['userId']);
+        } catch (\Exception $e) {
+            logger()->error($e);
+            $responseText = '發生錯誤，請稍後再試';
+        }
         // 回傳訊息
         $this->bot->replyText($parsedArr['replyToken'], $responseText);
     }
