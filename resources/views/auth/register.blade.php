@@ -23,8 +23,14 @@
                     @csrf
                     <div class="form-group">
                         <label>邀請碼</label>
-                        <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼"
-                            value="{{ old('invitation_code') }}" required>
+                        {{-- 如果是debug模式就直接填入邀請碼 --}}
+                        @if (env('APP_DEBUG') === true)
+                            <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼"
+                                value="{{ env('INVITATION_CODE') }}" required>
+                        @else
+                            <input type="text" class="form-control" name="invitation_code" placeholder="請輸入邀請碼"
+                                value="{{ old('invitation_code') }}" required>
+                        @endif
                     </div>
                     <hr>
 
