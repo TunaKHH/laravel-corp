@@ -171,7 +171,7 @@ class LineService
      * @param int $groupId
      * @return string
      */
-    private function openOrder(Task $last_task, $groupId)
+    private function openOrder(Task | null $last_task, $groupId)
     {
         // 判斷是否有開啟的訂單
         if (isset($last_task) &&
@@ -201,9 +201,10 @@ class LineService
     /* 關閉點餐
      * @return string
      */
-    private function closeOrder(Task $last_task)
+    private function closeOrder(Task | null $last_task)
     {
-        if (isset($last_task) && $last_task->is_open !== 1) { // 確認最新訂單是否已關閉(上次的)
+        if (!isset($last_task) || // 沒有開啟的訂單
+            (isset($last_task) && $last_task->is_open !== 1)) { // 確認最新訂單是否已關閉(上次的)
             return '已經結束過';
         }
         // 關閉訂單
