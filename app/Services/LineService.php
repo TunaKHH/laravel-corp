@@ -87,9 +87,9 @@ class LineService
      * @param Task $last_task
      * @return string
      */
-    private function confirmOrder(Task $lastTask)
+    private function confirmOrder(Task | null $lastTask)
     {
-        if (!$lastTask) {
+        if (!isset($lastTask)) {
             return '尚無點餐';
         }
         $order_list = $lastTask->taskOrder()->get();
