@@ -38,6 +38,6 @@ class RegisterController extends Controller
         // 重新生成 session id
         $request->session()->regenerate();
         // 跳轉到首頁
-        return redirect()->route('index');
+        return redirect()->route('index')->with('success', '註冊成功');
     }
 }

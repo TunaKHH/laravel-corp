@@ -65,12 +65,13 @@ class LoginController extends Controller
     {
         $credentials = $request->only('account', 'password'); # 帳號登入
 
-        # 兩種登入方式
+        // 驗證帳號密碼
         if (!Auth::attempt($credentials, $request->remember)) {
             return back()->withErrors([
                 'account' => '帳號或密碼錯誤',
             ]);
         }
+        // 重新生成 session id
         $request->session()->regenerate();
         return redirect()->route('index');
     }
