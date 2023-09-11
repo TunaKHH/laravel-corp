@@ -26,13 +26,11 @@ class TaskOrderController extends Controller
     public function store(Request $request)
     {
         $messages = [
-            // 'restaurant_id.required'=>'未選擇餐廳',
             'user_name.required' => '未輸入使用者',
             'meal_name.required' => '親，未輸入餐點名稱',
             'meal_price.required' => '未輸入餐點金額',
             'qty.required' => '未輸入餐點數量',
             'task_id.required' => '未輸入任務id',
-
             'qty.integer' => '數量請輸入整數',
             'qty.min' => '數量不得低於1',
             'meal_price.integer' => '餐點金額乖乖輸入整數',
