@@ -18,8 +18,7 @@ use Illuminate\Support\Facades\Validator;
 class TaskOrderController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
-     *
+     * 新增點餐 // TODO 這邊要重構改成line點餐可能無餐廳的情形
      * @param Request $request
      * @return RedirectResponse
      */
@@ -27,14 +26,14 @@ class TaskOrderController extends Controller
     {
         $messages = [
             'user_name.required' => '未輸入使用者',
-            'meal_name.required' => '親，未輸入餐點名稱',
+            'meal_name.required' => '未輸入餐點名稱',
             'meal_price.required' => '未輸入餐點金額',
             'qty.required' => '未輸入餐點數量',
             'task_id.required' => '未輸入任務id',
             'qty.integer' => '數量請輸入整數',
             'qty.min' => '數量不得低於1',
-            'meal_price.integer' => '餐點金額乖乖輸入整數',
-            'meal_price.between' => '餐點金額不能吃超過900000，也不能吃店家倒貼的',
+            'meal_price.integer' => '餐點金額請輸入整數',
+            'meal_price.between' => '餐點金額最低為1元，上限為900000',
             'user_name.max' => '字數不得超過255',
             'remark.max' => '字數不得超過255',
         ];
@@ -51,7 +50,7 @@ class TaskOrderController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $restaurant_id = $request->restaurant_id;
+        $restaurant_id = $request->restaurant_id ?? null; // 如果沒有餐廳id就是null
         $user_name = $request->user_name;
         $meal_name = $request->meal_name;
         $meal_price = $request->meal_price;
@@ -65,21 +64,25 @@ class TaskOrderController extends Controller
             return back()->with('no_user', '查無此使用者');
         }
 
-        $restaurantMeal = RestaurantMeal::where('name', $meal_name)
-            ->where('restaurant_id', $restaurant_id)
-            ->first();
-
-        if ($restaurantMeal === null) { // 菜單中沒有就新增
-            $restaurantMeal = RestaurantMeal::create([
-                'name' => $meal_name,
-                'price' => $meal_price,
-                'restaurant_id' => $restaurant_id,
-            ]);
+        // 檢查有沒有這個餐廳的菜單
+        if (isset($restaurant_id)) {
+            $restaurantMeal = RestaurantMeal::where('name', $meal_name)
+                ->where('restaurant_id', $restaurant_id)
+                ->first();
+            if ($restaurantMeal === null) { // 菜單中沒有就新增
+                $restaurantMeal = RestaurantMeal::create([
+                    'name' => $meal_name,
+                    'price' => $meal_price,
+                    'restaurant_id' => $restaurant_id,
+                ]);
+            }
         }
 
         // 寫入這次任務點餐
         $taskOrder = new TaskOrder;
-        $taskOrder->meal_id = $restaurantMeal->id;
+        if (isset($restaurantMeal)) { // 如果有餐廳id就寫入餐廳id
+            $taskOrder->meal_id = $restaurantMeal->id;
+        }
         $taskOrder->meal_name = $meal_name;
         $taskOrder->meal_price = $meal_price;
         $taskOrder->task_id = $task_id;
