@@ -52,11 +52,11 @@ class LineController extends Controller
                 // 處理line傳回的訊息
                 $this->processLineMessage($parsedArr);
             }
-            // 回傳200訊息
-            return response()->json();
         } catch (\Exception $e) {
             logger()->error($e);
-            return response()->json(['error' => 'An error occurred'], 500);
+        } finally {
+            // 回傳200 確認訊息已收到
+            return response()->json();
         }
     }
 
