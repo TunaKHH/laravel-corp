@@ -62,12 +62,12 @@
                             <tr>
                                 <td>
                                     @if (isset($task->restaurant->id))
-                                        <a href="{{ route('restaurant.show', $task->restaurant->id) }}">
+                                        <a href="{{ route('restaurant.show', [$task->restaurant->id]) }}">
                                             {{ $task->restaurant->name }}
                                         </a>
                                     @else
                                         <span>
-                                            Line群
+                                            {{ $task->restaurant->name }}
                                         </span>
                                     @endif
                                 </td>
