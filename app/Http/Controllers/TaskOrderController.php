@@ -115,8 +115,6 @@ class TaskOrderController extends Controller
     public function edit(TaskOrder $taskOrder)
     {
         //
-        dd($taskOrder);
-        $task_totals;
     }
 
     /**
