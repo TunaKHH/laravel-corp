@@ -294,6 +294,10 @@ class LineService
      */
     public function parseLineWebhookText(Request $request)
     {
+        // 如果是line的verify 可能沒有events
+        if (!isset($request->events[0])) {
+            throw new \Exception('No events');
+        }
         $event = $request->events[0];
         $messageType = $event['message']['type'];
         $message = $event['message']['text'];
