@@ -45,7 +45,9 @@ class Task extends Model
 
     public function restaurant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(Restaurant::class, 'restaurant_id', 'id')->withDefault([
+            'name' => 'Line群',
+        ]);
     }
 
     public function taskOrder(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -58,11 +60,7 @@ class Task extends Model
         return $this->is_open === 1 ?? false;
     }
 
-    public function getRestaurantAttribute()
-    {
-        return $this->restaurant ?? new Restaurant(['name' => 'Line群']);
-    }
-
+    // 取得任務的餐點清單
     public function getTaskTotals()
     {
         return DB::table('task_orders')
