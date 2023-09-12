@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Restaurant;
 use App\Models\RestaurantMeal;
 use App\Models\Task;
-use App\Models\Restaurant;
 use App\Models\TaskOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
 
 class TaskController extends Controller
 {
@@ -23,8 +21,7 @@ class TaskController extends Controller
     {
         $tasks = Task::all()->sortBy('created_at')->reverse();
         $restaurants = Restaurant::all();
-//        dd($restaurants);
-        return view('task.index', ['tasks'=>$tasks, 'restaurants'=> $restaurants]);
+        return view('task.index', ['tasks' => $tasks, 'restaurants' => $restaurants]);
     }
 
     /**
@@ -66,11 +63,11 @@ class TaskController extends Controller
 
         $task_totals = $task->getTaskTotals();
 
-        foreach ( $task_totals as $task_total ){
+        foreach ($task_totals as $task_total) {
             $sum_money += $task_total->meal_price * $task_total->qty_sum;
         }
 
-        return view('task.show', ['task'=>$task, 'users'=>$users, 'task_totals'=>$task_totals, 'sum_money'=>$sum_money]);
+        return view('task.show', ['task' => $task, 'users' => $users, 'task_totals' => $task_totals, 'sum_money' => $sum_money]);
     }
 
     /**
@@ -83,7 +80,7 @@ class TaskController extends Controller
     {
         //
         $task_totals = $task->getTaskTotals();
-        return view('task.edit', ['task'=>$task, 'task_totals'=>$task_totals]);
+        return view('task.edit', ['task' => $task, 'task_totals' => $task_totals]);
     }
 
     /**
@@ -95,24 +92,22 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        foreach($request->meal_id as $key => $meal_id){
+        foreach ($request->meal_id as $key => $meal_id) {
             //改餐廳餐點金額
             $meal = RestaurantMeal::find($meal_id);
-            if(isset($meal)){
+            if (isset($meal)) {
                 $meal->price = $request->meal_price[$key];
                 $meal->save();
             }
 
-
             //改這次任務餐點金額
-            $meal = TaskOrder::where('task_id',$task->id)->where('meal_id',$meal_id)->first();
+            $meal = TaskOrder::where('task_id', $task->id)->where('meal_id', $meal_id)->first();
             $meal->meal_price = $request->meal_price[$key];
             $meal->save();
         }
 
-        return  redirect()->route('task.show', $task->id);
+        return redirect()->route('task.show', $task->id);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -124,7 +119,7 @@ class TaskController extends Controller
     {
         //
         Task::destroy($id);
-        return  redirect()->route('task.index');
+        return redirect()->route('task.index');
 
     }
 
@@ -136,7 +131,7 @@ class TaskController extends Controller
         $task->step = 2;
         $task->save();
 
-        return  redirect()->route('task.show', $id);
+        return redirect()->route('task.show', $id);
     }
 
     public function unlock(Request $request)
@@ -147,14 +142,15 @@ class TaskController extends Controller
         $task->step = 1;
         $task->save();
 
-        return  redirect()->route('task.index');
+        return redirect()->route('task.index');
     }
 
-    public function prefinish(Task $task){
+    public function prefinish(Task $task)
+    {
         // 結單畫面
         $task->step = 3;
         $task->save();
-        return  redirect()->route('task.show', $task->id);
+        return redirect()->route('task.show', $task->id);
     }
 
     // 結單並自動扣款
@@ -162,18 +158,18 @@ class TaskController extends Controller
     {
         // 自動扣款
         $task_orders = $task->taskOrder()->get();
-        foreach ($task_orders as $task_order){
-            $remark = '[餐點自動扣款]'.$task_order->meal_name.$task_order->remark;
+        foreach ($task_orders as $task_order) {
+            $remark = '[餐點自動扣款]' . $task_order->meal_name . $task_order->remark;
             // 找餐點價格
             // 扣玩家的錢
-            $task_order->user->reduceMoney($task_order->meal_price,$remark,Auth::id());
+            $task_order->user->reduceMoney($task_order->meal_price, $remark, Auth::id());
         }
         // 關閉任務
         $task->is_open = 0;
         $task->step = 4;
         $task->save();
 
-        return  back();
+        return back();
     }
 
 }
