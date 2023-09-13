@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Restaurant;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
-use App\Models\Restaurant;
-use App\Models\RestaurantPhoto;
 use Illuminate\Support\Facades\Validator;
 
 class RestaurantController extends Controller
@@ -42,6 +40,7 @@ class RestaurantController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
+        // 驗證
         $messages = [
             'name.required' => '未填寫餐廳名稱',
             'name.unique' => '重複的餐廳名稱',
@@ -51,9 +50,11 @@ class RestaurantController extends Controller
             'name' => 'required|unique:restaurants|max:255',
         ], $messages);
 
+        // 驗證失敗回傳錯誤訊息
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
+        // 新增餐廳
         Restaurant::create($request->all());
         return redirect()->route('restaurant.index');
     }
