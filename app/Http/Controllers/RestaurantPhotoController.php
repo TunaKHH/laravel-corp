@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\RestaurantPhoto;
+use App\Services\RestaurantService;
 use Illuminate\Http\Request;
 
 class RestaurantPhotoController extends Controller
 {
+    protected $restaurantService;
+    public function __construct(RestaurantService $restaurantService)
+    {
+        $this->restaurantService = $restaurantService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,22 +47,11 @@ class RestaurantPhotoController extends Controller
             'restaurant_id' => 'required',
         ]);
         $restaurant_id = $request->get('restaurant_id');
+        // 上傳圖片
+        $imageName = $this->restaurantService->uploadImage($restaurant_id, $request->file('image'));
 
-        $imageName = time().'.'.$request->image->extension();
-
-//        $request->image->move(public_path('images'), $imageName);
-
-        /* Store $imageName name in DATABASE from HERE */
-        $request->image->storeAs('public/images', $imageName);
-
-
-        $restaurantPhoto = new RestaurantPhoto;
-        $restaurantPhoto->restaurant_id = $restaurant_id;
-        $restaurantPhoto->url = '/storage/images/' . $imageName;
-        $restaurantPhoto->save();
-
-        return back()->with('success','成功上傳圖片')
-            ->with('image',$imageName);
+        return back()->with('success', '成功上傳圖片')
+            ->with('image', $imageName);
     }
 
     /**
@@ -102,6 +97,6 @@ class RestaurantPhotoController extends Controller
     public function destroy($id)
     {
         RestaurantPhoto::destroy($id);
-        return  redirect()->back();
+        return redirect()->back();
     }
 }
