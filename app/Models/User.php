@@ -80,6 +80,12 @@ class User extends Authenticatable
         return $this->hasMany(UserSocialAccount::class);
     }
 
+    public function getLineIdAttribute()
+    {
+        $lineAccount = $this->socialAccounts->where('provider', 'line')->first();
+        return $lineAccount ? $lineAccount->provider_id : null;
+    }
+
     public static function getUserByLineId($lineId)
     {
         return User::where('line_id', $lineId)
