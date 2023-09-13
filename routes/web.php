@@ -61,6 +61,4 @@ Route::middleware('auth')->group(function () {
     Route::post('task/unlock', [TaskController::class, 'unlock'])->name('task.unlock');
     Route::put('task/finish/{task}', [TaskController::class, 'prefinish'])->name('task.prefinish');
     Route::post('task/finish/{task}', [TaskController::class, 'finish'])->name('task.finish');
-
-//    Route::post('/uploadImage', [RestaurantController::class, 'uploadImage'])->name('uploadImage');
 });
