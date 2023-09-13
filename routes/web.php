@@ -31,9 +31,6 @@ Route::get('/google/auth/callback', [SocialiteController::class, 'handleGoogleLo
 Route::get('/line/auth', [SocialiteController::class, 'redirectToLineAuthPage'])->name('line.auth');
 Route::get('/line/auth/callback', [SocialiteController::class, 'handleLineLoginCallback']);
 
-Route::get('/line', [LoginController::class, 'pageLine']);
-Route::get('/callback/login', [LoginController::class, 'lineLoginCallBack']);
-
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'show'])->name('login');
     Route::post('login', [LoginController::class, 'authenticate'])->name('login.enter')->middleware(ValidateLogin::class);

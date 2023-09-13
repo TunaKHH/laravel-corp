@@ -75,10 +75,4 @@ class LoginController extends Controller
         return redirect()->route('index');
     }
 
-    public function pageLine()
-    {
-        $url = $this->lineService->getLoginBaseUrl();
-        return view('line')->with('url', $url);
-    }
-
 }
