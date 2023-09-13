@@ -43,47 +43,19 @@ class RestaurantController extends Controller
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $messages = [
-            'name.required'=>'未填寫名稱',
-            'name.unique'=>'重複的餐廳名稱',
-            'name.max'=>'字數不得超過255',
+            'name.required' => '未填寫餐廳名稱',
+            'name.unique' => '重複的餐廳名稱',
+            'name.max' => '字數不得超過255',
         ];
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:restaurants|max:255',
-        ],$messages);
+        ], $messages);
 
-        if( $validator->fails() ){
+        if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
-
-//        $request->validate();
         Restaurant::create($request->all());
         return redirect()->route('restaurant.index');
-    }
-
-    public function uploadImage(Request $request): \Illuminate\Http\RedirectResponse
-    {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'restaurant_id' => 'required',
-        ]);
-        $restaurant_id = $request->get('restaurant_id');
-
-        $imageName = time().'.'.$request->image->extension();
-
-//        $request->image->move(public_path('images'), $imageName);
-
-        /* Store $imageName name in DATABASE from HERE */
-        $request->image->storeAs('public/images', $imageName);
-
-
-        $restaurantPhoto = new RestaurantPhoto;
-        $restaurantPhoto->restaurant_id = $restaurant_id;
-        $restaurantPhoto->url = '/storage/images/' . $imageName;
-        $restaurantPhoto->save();
-
-        return back()->with('success','成功上傳圖片')
-                    ->with('image',$imageName);
-
     }
 
     /**
@@ -94,7 +66,7 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        return view('restaurant.show', ['restaurant'=>$restaurant]);
+        return view('restaurant.show', ['restaurant' => $restaurant]);
     }
 
     /**
@@ -105,8 +77,7 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-//        $restaurant = Restaurant::get($id);
-        return view('restaurant.edit', ['restaurant'=>$restaurant]);
+        return view('restaurant.edit', ['restaurant' => $restaurant]);
     }
 
     /**
@@ -119,7 +90,6 @@ class RestaurantController extends Controller
     public function update(Request $request, $id)
     {
         $restaurant = Restaurant::find($id);
-//        dd($request->all());
         $restaurant->update($request->all());
         return redirect()->back();
 
