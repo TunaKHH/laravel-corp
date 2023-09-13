@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\LineWebhookResponseInterface;
 use App\Services\LineService;
 use Illuminate\Http\Request;
 use \LINE\LINEBot;
@@ -63,9 +64,9 @@ class LineController extends Controller
     /*
      * 解析line傳回的訊息
      * @param Request $request
-     * @return array
+     * @return LineWebhookResponseInterface
      */
-    private function parseLineMessage(Request $request)
+    private function parseLineMessage(Request $request): LineWebhookResponseInterface
     {
         // 解析出要用的資料
         return $this->lineService->parseLineWebhookText($request);
@@ -73,10 +74,10 @@ class LineController extends Controller
 
     /*
      * 判斷訊息是否要處理
-     * @param $parsedArr
+     * @param LineWebhookResponseInterface $parsedArr
      * @return bool
      */
-    private function isMessageProcessable($parsedArr)
+    private function isMessageProcessable(LineWebhookResponseInterface $parsedArr)
     {
         // TODO: Add logic to determine if the message should be processed
         return true;
@@ -87,31 +88,20 @@ class LineController extends Controller
      * @param $parsedArr
      * @return void
      */
-    private function processLineMessage($parsedArr)
+    private function processLineMessage(LineWebhookResponseInterface $parsedArr)
     {
         // 設定user的line id到service
-        $this->lineService->setUserLineId($parsedArr['userId']);
+        $this->lineService->setUserLineId($parsedArr->getUserId());
 
         // 處理訊息
         try {
-            $responseText = $this->lineService->handleCommands($parsedArr['message'], $parsedArr['userId']);
+            $responseText = $this->lineService->handleCommands($parsedArr->getMessage(), $parsedArr->getUserId());
         } catch (\Exception $e) {
             logger()->error($e);
             $responseText = '發生錯誤，請稍後再試';
         }
         // 回傳訊息
-        $this->bot->replyText($parsedArr['replyToken'], $responseText);
-    }
-
-    /*
-     * 使用line群組訂餐
-     */
-    public function addOrder(Request $request)
-    {
-        // 判斷有無訂單
-        // 若有多個的開啟訂單 回傳只能用網頁下訂
-        // 若是單個開啟訂單 就能成功下訂
-
+        $this->bot->replyText($parsedArr->getReplyToken(), $responseText);
     }
 
 }

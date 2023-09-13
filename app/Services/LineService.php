@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Contracts\LineWebhookResponseInterface;
 use App\Helpers\CommandHelper;
 use App\Models\Task;
 use App\Models\TaskOrder;
 use App\Models\User;
+use App\Services\Line\LineWebhookResponse;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -290,26 +292,26 @@ class LineService
      * 解析 Line Webhook 資料
      *
      * @param Request $request
-     * @return array
+     * @return LineWebhookResponseInterface
      */
-    public function parseLineWebhookText(Request $request)
+    public function parseLineWebhookText(Request $request): LineWebhookResponseInterface
     {
         // 如果是line的verify 可能沒有events
         if (!isset($request->events[0])) {
             throw new \Exception('No events');
         }
         $event = $request->events[0];
+
+        // 取得訊息類型
         $messageType = $event['message']['type'];
+        // 取得訊息內容
         $message = $event['message']['text'];
+        // 取得回覆token
         $replyToken = $event['replyToken'];
+        // 取得使用者line id
         $userId = $event['source']['userId'];
 
-        return [
-            'messageType' => $messageType,
-            'message' => $message,
-            'replyToken' => $replyToken,
-            'userId' => $userId,
-        ];
+        return new LineWebhookResponse($messageType, $message, $replyToken, $userId);
     }
 
     /* 確認文字是否為刪除
