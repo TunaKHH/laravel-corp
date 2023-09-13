@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/google/auth', [SocialiteController::class, 'redirectToProvider'])->name('google.auth');
 Route::get('/google/auth/callback', [SocialiteController::class, 'handleProviderCallback']);
 
-Route::get('/liff/login', [LiffController::class, 'login']);
+Route::get('/liff/login', [LiffController::class, 'login'])->name('line.auth');
 Route::get('/line', [LoginController::class, 'pageLine']);
 Route::get('/callback/login', [LoginController::class, 'lineLoginCallBack']);
 
