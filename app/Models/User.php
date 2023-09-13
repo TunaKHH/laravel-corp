@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $this->hasMany(MoneyRecords::class);
     }
 
+    public function socialAccounts()
+    {
+        return $this->hasMany(UserSocialAccount::class);
+    }
+
     public static function getUserByLineId($lineId)
     {
         return User::where('line_id', $lineId)

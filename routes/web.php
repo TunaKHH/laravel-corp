@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\LiffController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\RegisterController;
@@ -26,10 +25,12 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/google/auth', [SocialiteController::class, 'redirectToProvider'])->name('google.auth');
-Route::get('/google/auth/callback', [SocialiteController::class, 'handleProviderCallback']);
+Route::get('/google/auth', [SocialiteController::class, 'redirectToGoogleAuthPage'])->name('google.auth');
+Route::get('/google/auth/callback', [SocialiteController::class, 'handleGoogleLoginCallback']);
 
-Route::get('/liff/login', [LiffController::class, 'login'])->name('line.auth');
+Route::get('/line/auth', [SocialiteController::class, 'redirectToLineAuthPage'])->name('line.auth');
+Route::get('/line/auth/callback', [SocialiteController::class, 'handleLineLoginCallback']);
+
 Route::get('/line', [LoginController::class, 'pageLine']);
 Route::get('/callback/login', [LoginController::class, 'lineLoginCallBack']);
 
