@@ -67,7 +67,7 @@ class LoginController extends Controller
         // 驗證帳號密碼
         if (!Auth::attempt($credentials, $request->remember)) {
             return back()->withErrors([
-                'account' => '帳號或密碼錯誤',
+                'message' => '帳號或密碼錯誤',
             ]);
         }
         // 重新生成 session id
