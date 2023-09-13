@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ secure_asset('css/task.css') }}">
+    <link rel="stylesheet" href="{{ url('css/task.css') }}">
 @endsection
 
 @section('title')

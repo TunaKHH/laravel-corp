@@ -11,7 +11,7 @@
                     <button type="button" class="close" data-dismiss="alert">×</button>
                     <strong>{{ $message . '/name:' . Session::get('image') }}</strong>
                 </div>
-                <img src="{{ secure_asset('storage/images/' . Session::get('image')) }}">
+                <img src="{{ url('storage/images/' . Session::get('image')) }}">
             @endif
             @if ($errors->any())
                 <div class="alert alert-danger">

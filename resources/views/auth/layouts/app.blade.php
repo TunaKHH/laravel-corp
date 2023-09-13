@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="{{ url('/AdminLTE/plugins/summernote/summernote-bs4.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
-    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('css/app.css') }}" rel="stylesheet">
     @yield('css')
 </head>
 
