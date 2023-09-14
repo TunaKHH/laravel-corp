@@ -65,7 +65,7 @@
                                             disabled
                                         @endisset>
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label disabled>舊密碼</label>
                                     <input type="password" name="old-password" class="form-control">
                                 </div>
@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     <label for="people_password2">再次輸入新密碼</label>
                                     <input type="password" name="password2" class="form-control" id="people_password2">
-                                </div>
+                                </div> --}}
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
