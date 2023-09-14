@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use OpenApi\Annotations as OA;
 
 class UserController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * @OA\Get(
      *   tags={"User"},
@@ -35,116 +40,53 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->sortBy('deposit')->reverse();
+        $users = $this->userService->getAllUsersSortedByDeposit();
         return view('user.index', ['users' => $users]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return redirect()->route('lunch.index');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
     public function profile()
     {
         $user = Auth::user();
-//        dd($user);
         return view('user.edit', ['user' => $user]);
     }
 
-//    public function edit(User $user)
-//    {
-//        // TODO 加入管理員權限 or 自己才能訪問
-//        return view('user.edit', ['user' => $user]);
-//    }
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @OA\Put(
+     *   tags={"User"},
+     *   path="/profile",
+     *   summary="更新使用者個人資料",
+     *   description="更新使用者個人資料",
+     *   @OA\RequestBody(
+     *     required=false,
+     *     description="使用者資料",
+     *     @OA\JsonContent(
+     *       required={},
+     *       @OA\Property(property="nickname", type="string", example="test"),
+     *       @OA\Property(property="email", type="string", example="test@test.com"),
+     *       @OA\Property(property="password", type="string", example="test"),
+     *       @OA\Property(property="password2", type="string", example="test"),
+     *     ),
+     *   ),
+     *   @OA\Response(response=302, description="重新導向到 /profile, 並帶上 success 訊息"),
+     * )
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
     {
         $user = Auth::user();
+        $result = $this->userService->updateUserProfile($user, $request->all());
 
-        $messages = [
-            'nickname.max' => '暱稱字數不得超過255',
-            'email.max' => '信箱字數不得超過255',
-            'email.email' => '信箱規則錯誤',
-            'email.unique' => '信箱重複',
-            'password.max' => '密碼字數不得超過255',
-        ];
-        $validator = Validator::make($request->all(), [
-            'nickname' => 'max:255',
-            Rule::unique('users', 'account')->ignore(Auth::id()),
-            'email' => 'nullable|email|max:255|unique:users,email',
-            'password' => 'max:255',
-        ], $messages);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        if ($result->isSuccess()) {
+            return back()->with('success', '修改成功');
+        } else {
+            return back()->withErrors($result->getErrors())->withInput();
         }
-        if ($request->get('password') && $request->get('password2')) { // 有填入密碼欄位
-            if ($request->password != $request->password2) { // 檢查密碼是否一致
-                return back()->withErrors([
-                    'errors' => ' 兩次密碼不一致',
-                ])->withInput();
-            }
-            $user->password = Hash::make($request->password);
-        }
-        // 如果原本沒有設定信箱，就設定
-        if (!isset($user->email)) {
-            $user->email = $request->email;
-        }
-        $user->nickname = $request->nickname;
-        $user->line_id = $request->line_id;
-        $user->save();
-        $user->fresh();
-        return back()->with('success', '修改成功');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
