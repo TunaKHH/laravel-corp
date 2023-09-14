@@ -86,6 +86,22 @@ class User extends Authenticatable
         return $lineAccount ? $lineAccount->provider_id : null;
     }
 
+    public function setLineIdAttribute($value)
+    {
+        $lineAccount = $this->socialAccounts->where('provider', 'line')->first();
+        if ($lineAccount) {
+            $lineAccount->provider_id = $value;
+            $lineAccount->save();
+        } else {
+            $lineAccount = new UserSocialAccount;
+            $lineAccount->user_id = $this->id;
+            $lineAccount->provider = 'line';
+            $lineAccount->provider_id = $value;
+            $lineAccount->save();
+        }
+        return $this;
+    }
+
     public static function getUserByLineId($lineId)
     {
         return User::where('line_id', $lineId)
