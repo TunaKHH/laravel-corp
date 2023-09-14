@@ -41,6 +41,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('/ecpay', [ECPayController::class, 'redirectToECPay'])->name('ecpay.index');
+
     Route::get('/', [LunchController::class, 'index'])->name('index');
     Route::get('/record', [LunchController::class, 'record'])->name('record');
 
