@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->hasMany(UserSocialAccount::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function getLineIdAttribute()
     {
         $lineAccount = $this->socialAccounts->where('provider', 'line')->first();
