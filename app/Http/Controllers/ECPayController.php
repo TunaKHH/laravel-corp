@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Services\ECPayService;
+use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
 class ECPayController extends Controller
 {
     protected $ecpayService;
-    public function __construct(ECPayService $ecpayService)
-    {
+    protected $transactionService;
+    public function __construct(ECPayService $ecpayService,
+        TransactionService $transactionService) {
         $this->ecpayService = $ecpayService;
+        $this->transactionService = $transactionService;
     }
 
     /**
@@ -20,10 +23,33 @@ class ECPayController extends Controller
      */
     public function redirectToECPay()
     {
+        $order = $this->ecpayService->generateOrderData();
         // 本系統建立自身金流訂單 記錄訂單資訊, 訂單資訊包含(操作者, 金額, 訂單編號, 訂單狀態, 訂單建立時間, 訂單更新時間)
-
+        $this->transactionService->createTransaction($order);
         // 產生假的訂單資料並導向至金流平台
-        return $this->ecpayService->redirectToPaymentGateway($this->ecpayService->generateOrderData());
+        return $this->ecpayService->redirectToPaymentGateway($order);
+    }
+
+    /**
+     * 接收金流平台回傳的訂單資訊
+     *
+     * @param Request $request
+     * @return  \Illuminate\Http\RedirectResponse
+     */
+    public function handleECPayCallback(Request $request)
+    {
+        logger()->info('handleECPayCallback');
+        logger()->info(json_encode($request->all(), JSON_OBJECT_AS_ARRAY));
+        // 接收金流平台回傳的訂單資訊
+        $order = $this->ecpayService->getOrderDataFromCallback($request);
+        // 更新訂單狀態
+        $this->transactionService->updateTransactionStatus($order);
+        // 根據訂單資訊取得使用者資訊
+        $user = $this->transactionService->getUserFromTransaction($order);
+        // 更新使用者儲值金額
+        $this->transactionService->updateUserMoney($user, $order);
+        // 導向至訂單結果頁面
+        return redirect()->route('lunch.index');
     }
 
     /**

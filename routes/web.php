@@ -43,7 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/ecpay/pay', [ECPayController::class, 'redirectToECPay'])->name('ecpay.redirect');
-    Route::get('/ecpay/callback', [ECPayController::class, 'handleECPayCallback'])->name('ecpay.callback');
 
     Route::get('/', [LunchController::class, 'index'])->name('index');
     Route::get('/record', [LunchController::class, 'record'])->name('record');

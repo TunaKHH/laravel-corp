@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ECPayController;
 use App\Http\Controllers\LineController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,11 @@ Route::group([
 ], function ($router) {
     Route::post('/webhook', [LineController::class, 'webhook']);
     Route::post('/addOrder', [LineController::class, 'addOrder']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'ecpay',
+], function ($router) {
+    Route::post('/callback', [ECPayController::class, 'handleECPayCallback'])->name('ecpay.callback');
 });
