@@ -2,34 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ECPay;
+use App\Services\ECPayService;
 use Illuminate\Http\Request;
 
 class ECPayController extends Controller
 {
+    protected $ecpayService;
+    public function __construct(ECPayService $ecpayService)
+    {
+        $this->ecpayService = $ecpayService;
+    }
+
+    /**
+     * 建立系統訂單資訊後導向至金流平台
+     *
+     * @return string
+     */
     public function redirectToECPay()
     {
-        $order = [
-            'MerchantTradeNo' => 'Test' . time(),
-            'MerchantTradeDate' => date('Y/m/d H:i:s'),
-            'TotalAmount' => 100,
-            'TradeDesc' => '測試交易描述',
-            'Items' => [
-                [
-                    'Name' => '商品名稱',
-                    'Price' => 100,
-                    'Currency' => '元',
-                    'Quantity' => 1,
-                    'URL' => 'https://www.ecpay.com.tw/',
-                ],
-            ],
-        ];
+        // 本系統建立自身金流訂單 記錄訂單資訊, 訂單資訊包含(操作者, 金額, 訂單編號, 訂單狀態, 訂單建立時間, 訂單更新時間)
 
-        $ecpay = new ECPay;
-        $html = $ecpay->createOrder($order);
-
-        return $html;
+        // 產生假的訂單資料並導向至金流平台
+        return $this->ecpayService->redirectToPaymentGateway($this->ecpayService->generateOrderData());
     }
+
     /**
      * Display a listing of the resource.
      */
