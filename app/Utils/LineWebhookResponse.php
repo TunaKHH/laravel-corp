@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Line;
+namespace App\Utils;
 
 use App\Contracts\LineWebhookResponseInterface;
 
