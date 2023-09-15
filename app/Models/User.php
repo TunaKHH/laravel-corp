@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
  * @property int $deposit 剩餘金額
  * @property string|null $line_id
  * @property string|null $remember_token
+ * @property string|null $depositButton 儲值按鈕
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
