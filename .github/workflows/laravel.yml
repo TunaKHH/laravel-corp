@@ -40,12 +40,6 @@ jobs:
           echo "${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_rsa
           chmod 600 ~/.ssh/deploy_rsa
           ssh-keyscan -t rsa ${{ secrets.VPS_DEPLOY_HOST }} >> ~/.ssh/known_hosts  # 將 VPS 的 Host 加入 known_hosts
-      - name: Set Remote Directory Permissions
-        run: |
-          ssh -T -i ~/.ssh/deploy_rsa ${{ secrets.VPS_DEPLOY_USER }}@${{ secrets.VPS_DEPLOY_HOST }} << "ENDSSH"
-          cd ${{ secrets.VPS_DEPLOY_PATH }}
-          chmod -R 777 storage bootstrap/cache
-          ENDSSH
       - name: Deploy to VPS
         run: |
           ssh -T -i ~/.ssh/deploy_rsa ${{ secrets.VPS_DEPLOY_USER }}@${{ secrets.VPS_DEPLOY_HOST }} << "ENDSSH"
