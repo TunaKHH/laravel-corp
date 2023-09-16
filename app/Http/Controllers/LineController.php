@@ -107,7 +107,9 @@ class LineController extends Controller
         logger('$responseText: ' . $responseText);
         logger('$parsedArr->getReplyToken(): ' . $parsedArr->getReplyToken());
         // 回傳訊息
-        $this->bot->replyText($parsedArr->getReplyToken(), $responseText);
+        $response = $this->bot->replyText($parsedArr->getReplyToken(), $responseText);
+        logger('line webhook processLineMessage replyText');
+        logger('$response: ' . $response->getJSONDecodedBody());
     }
 
 }
