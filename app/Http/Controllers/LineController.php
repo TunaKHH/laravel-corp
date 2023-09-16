@@ -104,6 +104,8 @@ class LineController extends Controller
             $responseText = '發生錯誤，請稍後再試';
         }
         logger('line webhook processLineMessage handleCommands');
+        logger('$responseText: ' . $responseText);
+        logger('$parsedArr->getReplyToken(): ' . $parsedArr->getReplyToken());
         // 回傳訊息
         $this->bot->replyText($parsedArr->getReplyToken(), $responseText);
     }
