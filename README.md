@@ -1,6 +1,7 @@
 # 餐點整合系統
 - 網址：https://demo.tunagood.site/
 
+註冊邀請碼：DEMOCODE
 ## 功能:
 ### 帳號
 1. 支援記住我功能
@@ -14,7 +15,9 @@
 5. 結單自動扣款
 6. 支援line bot點餐(需綁定line id才可點餐)
 
-註冊邀請碼：DEMOCODE
+#### Line 點餐截圖
+![Alt text](resources/assets/images/line-1.png)
+![Alt text](resources/assets/images/line-2.png)
 
 ### 綠界儲值
 1. [x] 支援綠界儲值
@@ -23,6 +26,7 @@
 
 ![Alt text](resources/assets/images/ecpay-1.png)
 ![Alt text](resources/assets/images/ecpay-2.png)
+
 ## 參考資料
 - Laravel最佳實踐 - https://github.com/alexeymezenin/laravel-best-practices/blob/master/traditional-chinese.md#%E4%BD%BF-controller-%E7%B0%A1%E6%BD%94model-%E8%82%A5%E5%A4%A7
 -
