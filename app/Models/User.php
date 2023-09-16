@@ -107,12 +107,6 @@ class User extends Authenticatable
         return $this;
     }
 
-    public static function getUserByLineId($lineId)
-    {
-        return User::where('line_id', $lineId)
-            ->first();
-    }
-
     // 取得所有人的餘額
     public static function getAllDeposit()
     {

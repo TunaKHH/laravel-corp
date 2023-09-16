@@ -7,6 +7,7 @@ use App\Helpers\CommandHelper;
 use App\Models\Task;
 use App\Models\TaskOrder;
 use App\Models\User;
+use App\Models\UserSocialAccount;
 use App\Utils\LineWebhookResponse;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -224,7 +225,7 @@ class LineService
     // 訂餐
     public function orderMeal($command, Task $last_task, $groupId)
     {
-        $user = User::getUserByLineId($this->userLineId);
+        $user = UserSocialAccount::getUserByLineId($this->userLineId);
         if (!$user) {
             return '請先在訂餐網頁綁定Line帳號';
         }
@@ -241,7 +242,7 @@ class LineService
      * @param User $user
      * @return TaskOrder
      */
-    private function createTaskOrder($command, Task $last_task, $user)
+    private function createTaskOrder($command, Task $last_task, User $user)
     {
         $OrderTask = new TaskOrder;
         $OrderTask->user_id = $user->id;
