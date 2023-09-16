@@ -50,5 +50,6 @@ jobs:
           composer install --no-dev
           php artisan migrate
           php artisan cache:clear
+          php artisan config:clear
           php artisan optimize
           ENDSSH
