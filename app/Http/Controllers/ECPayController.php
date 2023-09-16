@@ -34,7 +34,7 @@ class ECPayController extends Controller
      * 接收金流平台回傳的訂單資訊
      *
      * @param Request $request
-     * @return  \Illuminate\Http\RedirectResponse
+     * @return void
      */
     public function handleECPayCallback(Request $request)
     {
@@ -42,14 +42,19 @@ class ECPayController extends Controller
         logger()->info(json_encode($request->all(), JSON_OBJECT_AS_ARRAY));
         // 接收金流平台回傳的訂單資訊
         $order = $this->ecpayService->getOrderDataFromCallback($request);
-        // 更新訂單狀態
-        $this->transactionService->updateTransactionStatus($order);
-        // 根據訂單資訊取得使用者資訊
-        $user = $this->transactionService->getUserFromTransaction($order);
-        // 更新使用者儲值金額
-        $this->transactionService->updateUserMoney($user, $order);
-        // 導向至訂單結果頁面
-        return redirect()->route('lunch.index');
+        try {
+            // todo 向ecpay驗證訂單資訊
+            // $this->ecpayService->validateOrderData($order->merchantID, $order->merchantTradeNo);
+            // 更新訂單狀態
+            $this->transactionService->updateTransactionStatus($order);
+            // 根據訂單資訊取得使用者資訊
+            $user = $this->transactionService->getUserFromTransaction($order);
+            // 更新使用者儲值金額
+            $this->transactionService->updateUserMoney($user, $order);
+        } catch (\Throwable $th) {
+            logger()->error($th->getMessage());
+        }
+
     }
 
     /**
