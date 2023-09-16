@@ -7,7 +7,6 @@ use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class LunchController extends Controller
 {
@@ -20,7 +19,7 @@ class LunchController extends Controller
     {
         // 扣款操作畫面
         $users = User::all()->sortBy('deposit')->reverse();
-        return view('lunch.index',['users'=>$users]);
+        return view('lunch.index', ['users' => $users]);
     }
 
     public function record()
@@ -28,7 +27,7 @@ class LunchController extends Controller
         // 扣款紀錄畫面
         $records = MoneyRecords::all()->sortBy('created_at')->reverse();
 //        dd($records);
-        return view('lunch.record',['records'=>$records]);
+        return view('lunch.record', ['records' => $records]);
     }
 
     /**
@@ -50,18 +49,18 @@ class LunchController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ( $request->user_cost as $key => $cost ){
-            if( is_numeric($cost) && $cost > 0 && $cost < 900000 ){
+        foreach ($request->user_cost as $key => $cost) {
+            if (is_numeric($cost) && $cost > 0 && $cost < 900000) {
                 $user = User::find($request->user_id[$key]);
-                $user->reduceMoney($cost,$request->user_remark[$key], Auth::id());
+                $user->reduceMoney($cost, $request->user_remark[$key], Auth::id());
             }
         }
 
-        if( isset($request->user_save) ){
-            foreach ( $request->user_save as $key => $save ){
-                if( is_numeric($save) && $save > 0 && $save < 900000 ){
+        if (isset($request->user_save)) {
+            foreach ($request->user_save as $key => $save) {
+                if (is_numeric($save) && $save > 0 && $save < 900000) {
                     $user = User::find($request->user_id[$key]);
-                    $user->addMoney($save,$request->user_remark[$key], Auth::id());
+                    $user->addMoneyAndRecord($save, $request->user_remark[$key], Auth::id());
                 }
             }
         }
