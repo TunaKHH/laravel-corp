@@ -109,7 +109,7 @@ class LineController extends Controller
         // 回傳訊息
         $response = $this->bot->replyText($parsedArr->getReplyToken(), $responseText);
         logger('line webhook processLineMessage replyText');
-        logger('$response: ' . $response->getJSONDecodedBody());
+        logger('$response: ' . $response->getRawBody());
     }
 
 }
