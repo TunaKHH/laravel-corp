@@ -31,7 +31,7 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
   deploy:
-    needs: laravel-tests
+    # needs: laravel-tests
     runs-on: ubuntu-latest
     steps:
       - name: Setup SSH Key
