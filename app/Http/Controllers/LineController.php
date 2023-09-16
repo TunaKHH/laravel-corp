@@ -18,6 +18,9 @@ class LineController extends Controller
     public function __construct(LineService $lineService)
     {
         $this->lineService = $lineService;
+        logger('line webhook construct');
+        logger('env1: ' . env('LINE_BOT_CHANNEL_ACCESS_TOKEN'));
+        logger('env2: ' . env('LINE_BOT_CHANNEL_SECRET'));
         $httpClient = new LINEBot\HTTPClient\CurlHTTPClient(env('LINE_BOT_CHANNEL_ACCESS_TOKEN'));
         $this->bot = new LINEBot($httpClient, ['channelSecret' => env('LINE_BOT_CHANNEL_SECRET')]);
     }
