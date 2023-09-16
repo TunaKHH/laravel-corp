@@ -54,10 +54,8 @@ jobs:
           echo "2. 進入專案目錄成功"
           git pull origin master
           composer install --no-dev
-          chmod -R 775 storage bootstrap/cache
-          echo "3. 修改快取權限成功"
           php artisan migrate
-          php artisan cache:clear
           php artisan config:clear
+          php artisan cache:clear
           php artisan optimize
           ENDSSH
