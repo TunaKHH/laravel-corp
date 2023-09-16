@@ -107,7 +107,9 @@ class UserService
             $user->password = Hash::make($data['password']);
         }
 
-        $user->email = $data['email'];
+        if (!empty($data['email'])) {
+            $user->email = $data['email'];
+        }
         $user->nickname = $data['nickname'];
         $user->line_id = $data['line_id'];
         $user->save();
