@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\ECPayService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,10 +12,12 @@ use OpenApi\Annotations as OA;
 class UserController extends Controller
 {
     protected $userService;
+    protected $ecpayService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, ECPayService $ecpayService)
     {
         $this->userService = $userService;
+        $this->ecpayService = $ecpayService;
     }
 
     /**

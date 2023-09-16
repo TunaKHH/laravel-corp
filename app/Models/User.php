@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->hasMany(UserSocialAccount::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function getLineIdAttribute()
     {
         $lineAccount = $this->socialAccounts->where('provider', 'line')->first();
@@ -133,8 +138,8 @@ class User extends Authenticatable
         return $this->save();
     }
 
-    // 加這個人的錢
-    public function addMoney($amount, $remark = '', $operator_id = false)
+    // 加這個人的錢並寫紀錄
+    public function addMoneyAndRecord($amount, $remark = '', $operator_id = false)
     {
         // 寫紀錄
         $moneyRecord = new MoneyRecords;
@@ -144,7 +149,7 @@ class User extends Authenticatable
         $moneyRecord->operator_id = $operator_id ?? $this->id;
         $moneyRecord->save();
 
-        // 真正加錢
+        // 加錢
         $this->deposit = $this->deposit + $amount;
         return $this->save();
     }

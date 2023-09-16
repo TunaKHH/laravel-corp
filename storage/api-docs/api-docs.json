@@ -176,6 +176,51 @@
                     }
                 }
             }
+        },
+        "/profile": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "更新使用者個人資料",
+                "description": "更新使用者個人資料",
+                "operationId": "252f2e8313e0796f97867101fe16c080",
+                "requestBody": {
+                    "description": "使用者資料",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "nickname": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "test@test.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "password2": {
+                                        "type": "string",
+                                        "example": "test"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "重新導向到 /profile, 並帶上 success 訊息"
+                    }
+                }
+            }
         }
     },
     "components": {

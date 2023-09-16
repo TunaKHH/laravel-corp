@@ -11,6 +11,7 @@
         "php": "^8.1",
         "ext-json": "*",
         "darkaonline/l5-swagger": "^8.5",
+        "ecpay/sdk": "^1.2",
         "guzzlehttp/guzzle": "~7.0",
         "laravel/framework": "^10.0",
         "laravel/socialite": "^5.8",

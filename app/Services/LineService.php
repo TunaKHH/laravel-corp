@@ -7,7 +7,7 @@ use App\Helpers\CommandHelper;
 use App\Models\Task;
 use App\Models\TaskOrder;
 use App\Models\User;
-use App\Services\Line\LineWebhookResponse;
+use App\Utils\LineWebhookResponse;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ECPayController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LunchController;
 use App\Http\Controllers\RegisterController;
@@ -40,6 +41,8 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/ecpay/pay', [ECPayController::class, 'redirectToECPay'])->name('ecpay.redirect');
 
     Route::get('/', [LunchController::class, 'index'])->name('index');
     Route::get('/record', [LunchController::class, 'record'])->name('record');
