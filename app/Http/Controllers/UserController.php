@@ -55,8 +55,6 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        // 增加儲值按鈕
-        $user->depositButton = $this->ecpayService->redirectToPaymentGateway($this->ecpayService->generateOrderData());
         return view('user.edit', ['user' => $user]);
     }
 
